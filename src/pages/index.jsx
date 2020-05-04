@@ -25,6 +25,7 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     flexFlow: 'column',
     flexWrap: 'nowrap',
+    justifyContent: 'space-between',
   },
   filePanel: {
     flexGrow: 0,
@@ -35,6 +36,10 @@ const useStyles = makeStyles(() => ({
     flexGrow: 0,
     flexShrink: 0,
     marginBottom: '1rem',
+  },
+  coordinatePanel: {
+    flexGrow: 1,
+    flexShrink: 1,
   },
   title: {
     padding: '1rem',
@@ -59,7 +64,7 @@ const HomePage = () => {
       </section>
       <Box className={classes.actionPanel}>
         <Typography className={classes.title} variant="h1" component="h1">
-          <Typography>Bike.me</Typography>
+          Trail.me
         </Typography>
         <div className={classes.filePanel}>
           <Panel>
