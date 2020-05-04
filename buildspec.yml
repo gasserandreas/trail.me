@@ -14,22 +14,22 @@ phases:
   pre_build:
     commands:
       - echo Installing npm dependencies
-      - yarn install
+      - npm install
       # disabled for now
       # - echo Copy .env.* files into project
       # - aws s3 cp $S3_UTILS_BUCKET$ENV_VAR ./
   build:
     commands:
       - echo "Start linting"
-      - yarn run lint
+      - npm run lint
       - echo "Start test"
-      - CI=true yarn test
+      - CI=true npm test
       - echo "Start coverage"
-      - CI=true yarn run test:coverage
+      - CI=true npm run test:coverage
       - echo "Run Semantic Release"
       - GH_TOKEN="$GH_ACCESS_TOKEN" npx semantic-release
       - echo "Build started on $CODEBUILD_START_TIME"
-      - yarn run build
+      - npm run build
   post_build:
     commands:
       - echo Updating S3 Hosting
