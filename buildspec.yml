@@ -1,0 +1,68 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Entered the install phase...
+      - ls -a
+      - echo Close git repo to get .git folder
+      - git clone https://github.com/gasserandreas/trail.me.git
+      - rm -rf .git
+      - mv ./trail.me/.git ./
+      - echo Delete trail.me
+      - rm -rf trail.me
+  pre_build:
+    commands:
+      - echo Installing npm dependencies
+      - npm install
+      # disabled for now
+      # - echo Copy .env.* files into project
+      # - aws s3 cp $S3_UTILS_BUCKET$ENV_VAR ./
+  build:
+    commands:
+      - echo "Start linting"
+      - npm run lint
+      - echo "Start test"
+      - CI=true npm test
+      - echo "Start coverage"
+      - CI=true npm run test:coverage
+      - echo "Run Semantic Release"
+      - GH_TOKEN="$GH_ACCESS_TOKEN" npx semantic-release
+      - echo "Build started on $CODEBUILD_START_TIME"
+      - npm run build
+  post_build:
+    commands:
+      - echo Updating S3 Hosting
+      # copy files
+      - aws s3 sync --delete ./build $S3_DEPLOY_BUCKET
+      # set the cache-control headers for service-worker.js to prevent
+      # browser caching
+      - >
+        aws s3 cp --acl public-read 
+        --cache-control="max-age=0, no-cache, no-store, must-revalidate" 
+        ./build/service-worker.js ${S3_DEPLOY_BUCKET}/
+      # set the cache-control headers for index.html to prevent
+      # browser caching
+      - >
+        aws s3 cp --acl public-read 
+        --cache-control="max-age=0, no-cache, no-store, must-revalidate" 
+        ./build/index.html ${S3_DEPLOY_BUCKET}/
+      # invalidate the CloudFront cache for index.html and service-worker.js
+      # to force CloudFront to update its edge locations with the new versions
+      # - >
+        # aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} 
+        # --paths /index.html /service-worker.js
+      # archive production build only
+      # - "NEW_PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F= \"{ print $2 }\" | sed 's/[version:,\\\",]//g' | tr -d '[[:space:]]')"
+      # - echo $NEW_PACKAGE_VERSION
+      # - echo Create build package zip
+      # - cd ./build
+      # - FILE_NAME="${APP_NAME}.${NEW_PACKAGE_VERSION}.zip"
+      # - "zip -r ../${FILE_NAME} ./"
+      # - |
+      #   if [ "${BUILD_ENVIRONMENT}" = "production" ]; then
+      #     echo Copy package to S3 storage
+      #     cd ../
+      #     aws s3 cp $FILE_NAME $S3_ARTEFACTS_BUCKET
+      #   fi
+      - echo Finished build job

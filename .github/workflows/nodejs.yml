@@ -5,9 +5,15 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ develop ]
+    branches:
+      - '*'         # matches every branch
+      - '*/*'       # matches every branch containing a single '/'
+      - '!master'   # excludes master
   pull_request:
-    branches: [ develop ]
+    branches:
+      - '*'         # matches every branch
+      - '*/*'       # matches every branch containing a single '/'
+      - '!master'   # excludes master
 
 jobs:
   build:
