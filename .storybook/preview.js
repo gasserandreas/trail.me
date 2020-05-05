@@ -13,8 +13,9 @@ import {
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { name } from '../package.json';
+import bikeMeTheme from '../src/theme';
 
-const theme = createMuiTheme({});
+const theme = createMuiTheme(bikeMeTheme);
 
 addDecorator(withKnobs);
 
