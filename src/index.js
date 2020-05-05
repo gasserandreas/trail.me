@@ -19,6 +19,10 @@ const store = configureStore();
 
 const theme = createMuiTheme(bikeMeTheme);
 
+if (process.env.NODE_ENV === 'development') {
+  console.log(theme); // eslint-disable-line no-console
+}
+
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>

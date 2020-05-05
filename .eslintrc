@@ -29,7 +29,8 @@
     "react/destructuring-assignment": "off",
     "eslint/no-plus-plus": "off",
     "comma-dangle": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "react/no-array-index-key": "off"
   },
   "overrides": [
     {
@@ -40,10 +41,11 @@
       }
     },
     {
-      "files": ["**/*.stories.js", ".storybook/**/*"],
+      "files": ["**/*.stories.jsx", ".storybook/**/*"],
       "rules": {
         "import/no-extraneous-dependencies": 0,
-        "react/jsx-filename-extension": 0
+        "react/jsx-filename-extension": 0,
+        "import/no-named-as-default": 0
       }
     }
   ]
