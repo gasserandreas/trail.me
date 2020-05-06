@@ -8,8 +8,8 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Panel, { PanelContent } from '../../ui/Panels/Panel';
-// import SwissGeoMap, { FRICK_VIEWPORT } from '../../ui/Map/SwissGeoMap';
 import ConnectedMap from './ConnectedMap';
+import ConnectedFilePanel from './ConnectedFilePanel';
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -59,29 +59,9 @@ const useStyles = makeStyles(() => ({
 const HomePage = () => {
   const classes = useStyles();
 
-  // const [viewport, setViewport] = useState(FRICK_VIEWPORT);
-
-  // const [center, setCenter] = useState(FRICK_VIEWPORT.center);
-  // const [zoom, setZoom] = useState(FRICK_VIEWPORT.zoom);
-
-  // const viewport = {
-  //   center,
-  //   zoom,
-  // };
-
-  // const handleOnViewportChange = (newViewport) => {
-  //   // setViewport(newViewport);
-  // };
-
   return (
     <div className={classes.page}>
       <section className={classes.map}>
-        {/* <SwissGeoMap
-          // {...props}
-          onViewportChanged={handleOnViewportChange}
-          viewport={viewport}
-          // onClick={handleMapClick}
-        /> */}
         <ConnectedMap />
       </section>
       <Box className={classes.actionPanel}>
@@ -89,11 +69,7 @@ const HomePage = () => {
           Trail.me
         </Typography>
         <div className={classes.filePanel}>
-          <Panel>
-            <PanelContent>
-              <Typography>File Panel</Typography>
-            </PanelContent>
-          </Panel>
+          <ConnectedFilePanel />
         </div>
         <div className={classes.mapPanel}>
           <Panel>
