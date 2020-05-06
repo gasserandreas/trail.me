@@ -7,8 +7,8 @@ export const AppStatus = {
 };
 
 // action types
-export const APPLICATION_USER_SET = 'APPLICATION_USER_SET';
-export const APPLICATION_STATUS_SET = 'APPLICATION_STATUS_SET';
+export const APPLICATION_USER_SET = 'application/setUser';
+export const APPLICATION_STATUS_SET = 'application/setStatus';
 
 // simple actions
 export const applicationWillLoad = () => ({
