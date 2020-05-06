@@ -12,10 +12,9 @@ import { loadApplication } from './entities/application';
 
 import { INDEX, USER } from './paths';
 
-import IndexPage from './pages/index';
+import IndexPage from './pages/index/index';
 import UserPage from './pages/user/index';
 import NotFound from './pages/not-found';
-
 
 const useStyles = makeStyles(() => ({
   root: {

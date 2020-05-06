@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { action } from '@storybook/addon-actions'; // eslint-disable-line import/no-extraneous-dependencies
 
 import SwissGeoMap, { FRICK_VIEWPORT } from '../SwissGeoMap';
 
@@ -16,7 +17,12 @@ export const SimpleExample = ({ initalViewport, ...props }) => {
   };
 
   return (
-    <SwissGeoMap {...props} onViewportChanged={handleOnViewportChanged} viewport={viewport} />
+    <SwissGeoMap
+      {...props}
+      onViewportChanged={handleOnViewportChanged}
+      viewport={viewport}
+      onClick={action('onClick')}
+    />
   );
 };
 
