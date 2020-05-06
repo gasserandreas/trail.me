@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import Box from '@material-ui/core/Box';
@@ -7,8 +7,9 @@ import Link from '@material-ui/core/Link';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import Panel, { PanelContent } from '../ui/Panels/Panel';
-import SwissGeoMap, { FRICK_VIEWPORT } from '../ui/Map/SwissGeoMap';
+import Panel, { PanelContent } from '../../ui/Panels/Panel';
+// import SwissGeoMap, { FRICK_VIEWPORT } from '../../ui/Map/SwissGeoMap';
+import ConnectedMap from './ConnectedMap';
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -58,7 +59,7 @@ const useStyles = makeStyles(() => ({
 const HomePage = () => {
   const classes = useStyles();
 
-  const [viewport, setViewport] = useState(FRICK_VIEWPORT);
+  // const [viewport, setViewport] = useState(FRICK_VIEWPORT);
 
   // const [center, setCenter] = useState(FRICK_VIEWPORT.center);
   // const [zoom, setZoom] = useState(FRICK_VIEWPORT.zoom);
@@ -68,19 +69,20 @@ const HomePage = () => {
   //   zoom,
   // };
 
-  const handleOnViewportChange = (newViewport) => {
-    setViewport(newViewport);
-  };
+  // const handleOnViewportChange = (newViewport) => {
+  //   // setViewport(newViewport);
+  // };
 
   return (
     <div className={classes.page}>
       <section className={classes.map}>
-        <SwissGeoMap
+        {/* <SwissGeoMap
           // {...props}
           onViewportChanged={handleOnViewportChange}
           viewport={viewport}
           // onClick={handleMapClick}
-        />
+        /> */}
+        <ConnectedMap />
       </section>
       <Box className={classes.actionPanel}>
         <Typography className={classes.title} variant="h1" component="h1">

@@ -37,15 +37,15 @@
       "files": ["**/__tests__/**.js", "**/*.test.js", "**/src/setupTests.js"],
       "env": { "jest": true },
       "rules": {
-        "react/jsx-filename-extension": 0
+        "react/jsx-filename-extension": "off"
       }
     },
     {
       "files": ["**/*.stories.jsx", ".storybook/**/*"],
       "rules": {
-        "import/no-extraneous-dependencies": 0,
-        "react/jsx-filename-extension": 0,
-        "import/no-named-as-default": 0
+        "import/no-extraneous-dependencies": "off",
+        "react/jsx-filename-extension": "off",
+        "import/no-named-as-default": "off"
       }
     }
   ]
