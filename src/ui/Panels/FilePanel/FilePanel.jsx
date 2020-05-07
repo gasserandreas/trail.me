@@ -43,8 +43,10 @@ const useStyles = makeStyles(() => ({
 const FilePanel = ({
   filename,
   filetype,
+  error,
   onFilenameChange,
   onFiletypeChange,
+  onError,
   onClickReset,
   onClickUpload,
   onClickDownload,
@@ -55,19 +57,18 @@ const FilePanel = ({
   const classes = useStyles();
 
   const handleOnDrop = useCallback((acceptedFiles) => {
-    acceptedFiles.forEach((file) => {
-      const reader = new FileReader();
+    if (acceptedFiles.length === 0) return;
 
-      reader.onabort = () => console.log('file reading was aborted'); // eslint-disable-line no-console
-      reader.onerror = () => console.log('file reading has failed'); // eslint-disable-line no-console
-      reader.onload = (e) => {
-        const text = e.target.result;
-        onClickUpload(e, text);
-      };
-      // reader.readAsArrayBuffer(file)
-      reader.readAsText(file);
-    });
-  }, [onClickUpload]);
+    const file = acceptedFiles[0];
+    const reader = new FileReader();
+
+    reader.onerror = () => onError && onError(new Error('Could not download file.'));
+    reader.onload = (e) => {
+      const text = e.target.result;
+      onClickUpload(e, text);
+    };
+    reader.readAsText(file);
+  }, [onClickUpload, onError]);
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: handleOnDrop,
@@ -133,6 +134,11 @@ const FilePanel = ({
           </Button>
         )}
       </div>
+      <div className={classes.spacing}>
+        {error && (
+          <Typography color="error">{error.message}</Typography>
+        )}
+      </div>
     </Panel>
   );
 };
@@ -140,10 +146,14 @@ const FilePanel = ({
 FilePanel.propTypes = {
   filename: PropTypes.string,
   filetype: PropTypes.string,
+  error: PropTypes.shape({
+    message: PropTypes.string.isRequired,
+  }),
   showUpload: PropTypes.bool,
   showDownload: PropTypes.bool,
   onFilenameChange: PropTypes.func,
   onFiletypeChange: PropTypes.func,
+  onError: PropTypes.func,
   onClickReset: PropTypes.func,
   onClickUpload: PropTypes.func,
   onClickDownload: PropTypes.func,
@@ -152,10 +162,12 @@ FilePanel.propTypes = {
 FilePanel.defaultProps = {
   filename: '',
   filetype: '',
+  error: null,
   showUpload: false,
   showDownload: false,
   onFilenameChange: () => {},
   onFiletypeChange: () => {},
+  onError: () => {},
   onClickReset: () => {},
   onClickUpload: () => {},
   onClickDownload: () => {},

@@ -1,5 +1,7 @@
 import React from 'react';
-import { text, boolean, select } from '@storybook/addon-knobs';
+import {
+  text, boolean, select, object
+} from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import FilePanel from './FilePanel';
@@ -19,10 +21,12 @@ export const SimpleFilePanel = () => {
     <FilePanel
       filename={text('filename', 'export')}
       filetype={select('filetype', filetypeOptions, 'gpx')}
+      error={object('error', null)}
       showUpload={boolean('showUpload', true)}
       showDownload={boolean('showDownload', true)}
       onFilenameChange={action('onFilenameChange')}
       onFiletypeChange={action('onFiletypeChange')}
+      onError={action('onError')}
       onClickReset={action('onClickReset')}
       onClickUpload={action('onClickUpload')}
       onClickDownload={action('onClickDownload')}

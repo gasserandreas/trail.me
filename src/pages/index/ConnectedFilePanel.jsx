@@ -13,6 +13,7 @@ const ConnectedFilePanel = () => {
 
   const [filename, setFilename] = useState(INITIAL_FILENAME);
   const [filetype, setFiletype] = useState(MapFileType.GPX);
+  const [error, setError] = useState(null);
 
   const handleOnChangeFilename = (e) => {
     const { target: { value } } = e;
@@ -33,14 +34,20 @@ const ConnectedFilePanel = () => {
 
   const handleOnClickUpload = () => {};
 
+  const handleOnError = (newError) => {
+    setError(newError);
+  };
+
   return (
     <>
       <input type="hidden" style={{ visability: 'none' }} id="filedownload" />
       <FilePanel
         filename={filename}
         filetype={filetype}
+        error={error}
         onFilenameChange={handleOnChangeFilename}
         onFiletypeChange={handleOnChangeFiletype}
+        onError={handleOnError}
         onClickReset={handleOnClickReset}
         onClickUpload={handleOnClickUpload}
         onClickDownload={handleOnClickDownload}
