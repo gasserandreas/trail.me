@@ -58,10 +58,7 @@ const CenterForm = ({
     if (Object.keys(errors).length !== 0) return;
 
     const { lat, lng } = getValues();
-    const newCenter = {
-      lat: Number(lat),
-      lng: Number(lng),
-    };
+    const newCenter = [Number(lat), Number(lng)];
 
     onChange(e, newCenter);
   };
@@ -80,10 +77,7 @@ const CenterForm = ({
 
       setLocationPending(false);
 
-      const newLocation = {
-        lat: latitude,
-        lng: longitude,
-      };
+      const newLocation = [latitude, longitude];
       onLocationUpdate(e, newLocation);
     } catch (error) {
       setLocationPending(false);
@@ -92,9 +86,10 @@ const CenterForm = ({
   };
 
   useEffect(() => {
+    const [lat, lng] = center;
     setValue([
-      { lat: center.lat },
-      { lng: center.lng },
+      { lat },
+      { lng },
     ]);
   }, [center]); // eslint-disable-line
 
@@ -152,10 +147,7 @@ const CenterForm = ({
 };
 
 CenterForm.propTypes = {
-  center: PropTypes.shape({
-    lat: PropTypes.number.isRequired,
-    lng: PropTypes.number.isRequired,
-  }).isRequired,
+  center: PropTypes.arrayOf(PropTypes.number).isRequired,
   onChange: PropTypes.func.isRequired,
   onLocationClick: PropTypes.func,
   onLocationUpdate: PropTypes.func.isRequired,
