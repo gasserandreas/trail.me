@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Panel, { PanelContent } from '../../ui/Panels/Panel';
 import ConnectedMap from './ConnectedMap';
 import ConnectedFilePanel from './ConnectedFilePanel';
+import ConnectedMapPanel from './ConnectedMapPanel';
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -72,11 +73,7 @@ const HomePage = () => {
           <ConnectedFilePanel />
         </div>
         <div className={classes.mapPanel}>
-          <Panel>
-            <PanelContent>
-              <Typography>Map Panel</Typography>
-            </PanelContent>
-          </Panel>
+          <ConnectedMapPanel />
         </div>
         <div className={classes.coordinatePanel}>
           <Panel>
