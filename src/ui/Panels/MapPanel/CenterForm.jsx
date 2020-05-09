@@ -138,7 +138,7 @@ const CenterForm = ({
         )}
         { locationError && (
           <Grid item xs={12}>
-            <Typography color="error">{locationError}</Typography>
+            <Typography color="error">{locationError.message}</Typography>
           </Grid>
         )}
       </Grid>
