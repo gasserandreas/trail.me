@@ -19,6 +19,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.0.1",
+    "react-hook-form": "^5.6.2",
     "react-leaflet": "^2.6.3",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
@@ -27,7 +28,8 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "ric-shim": "^1.0.0",
-    "uuid": "^7.0.3"
+    "uuid": "^7.0.3",
+    "yup": "^0.28.5"
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
