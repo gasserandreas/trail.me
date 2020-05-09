@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -8,11 +8,13 @@ import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 
 import GpsFixedIcon from '@material-ui/icons/GpsFixed';
 
 import { FRICK_VIEWPORT } from '../../Map/SwissGeoMap';
+import { getLocation } from '../../../utils/geolocation';
 
 const useStyles = makeStyles(() => ({
   iconButton: {
@@ -21,8 +23,12 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CenterForm = ({ center, onChange }) => {
+const CenterForm = ({
+  center, onChange, onLocationClick, onLocationUpdate
+}) => {
   const classes = useStyles();
+  const [locationPending, setLocationPending] = useState(false);
+  const [locationError, setLocationError] = useState(null);
 
   const centerFormSchema = yup.object().shape({
     lat: yup
@@ -37,7 +43,9 @@ const CenterForm = ({ center, onChange }) => {
       .required(),
   });
 
-  const { register, errors, getValues, setValue } = useForm({
+  const {
+    register, errors, getValues, setValue
+  } = useForm({
     mode: 'onBlur',
     validationSchema: centerFormSchema,
     defaultValues: {
@@ -46,7 +54,7 @@ const CenterForm = ({ center, onChange }) => {
     },
   });
 
-  const handleOnBlur = () => {
+  const handleOnBlur = (e) => {
     if (Object.keys(errors).length !== 0) return;
 
     const { lat, lng } = getValues();
@@ -55,7 +63,32 @@ const CenterForm = ({ center, onChange }) => {
       lng: Number(lng),
     };
 
-    onChange(newCenter);
+    onChange(e, newCenter);
+  };
+
+  const handleOnLocationClick = async (e) => {
+    if (onLocationClick) {
+      onLocationClick(e);
+    }
+
+    setLocationError(null);
+
+    try {
+      setLocationPending(true);
+      const location = await getLocation();
+      const { coords: { latitude, longitude } } = location;
+
+      setLocationPending(false);
+
+      const newLocation = {
+        lat: latitude,
+        lng: longitude,
+      };
+      onLocationUpdate(e, newLocation);
+    } catch (error) {
+      setLocationPending(false);
+      setLocationError(error);
+    }
   };
 
   useEffect(() => {
@@ -75,6 +108,7 @@ const CenterForm = ({ center, onChange }) => {
             inputRef={register}
             error={!!errors.lat}
             onBlur={handleOnBlur}
+            disabled={locationPending}
           />
         </Grid>
         <Grid item xs={5}>
@@ -83,22 +117,33 @@ const CenterForm = ({ center, onChange }) => {
             margin="dense"
             inputRef={register}
             error={!!errors.lng}
+            disabled={locationPending}
           />
         </Grid>
         <Grid item xs={2}>
           <Box className={classes.iconButton}>
-            <IconButton
-              variant="contained"
-              color="primary"
-              size="small"
-            >
-              <GpsFixedIcon />
-            </IconButton>
+            {locationPending ? (
+              <CircularProgress size={24} />
+            ) : (
+              <IconButton
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={handleOnLocationClick}
+              >
+                <GpsFixedIcon />
+              </IconButton>
+            )}
           </Box>
         </Grid>
         { (errors.lat || errors.lng) && (
           <Grid item xs={12}>
             <Typography color="error">Invalid center object</Typography>
+          </Grid>
+        )}
+        { locationError && (
+          <Grid item xs={12}>
+            <Typography color="error">{locationError}</Typography>
           </Grid>
         )}
       </Grid>
@@ -112,6 +157,12 @@ CenterForm.propTypes = {
     lng: PropTypes.number.isRequired,
   }).isRequired,
   onChange: PropTypes.func.isRequired,
+  onLocationClick: PropTypes.func,
+  onLocationUpdate: PropTypes.func.isRequired,
+};
+
+CenterForm.defaultProps = {
+  onLocationClick: () => {},
 };
 
 export default CenterForm;

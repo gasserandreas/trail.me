@@ -16,16 +16,23 @@ export const SimpleMapPanel = () => {
     lng: FRICK_VIEWPORT.center[1],
   };
 
-  const [center, setCenter] = useState(demoLocation);
+  const [viewport, setViewport] = useState({
+    center: demoLocation,
+    zoom: 13,
+  });
+
+  const handleOnCenterChange = (_, newCenter) => {
+    const newViewport = {
+      ...viewport,
+      center: newCenter,
+    };
+    setViewport(newViewport);
+  };
 
   return (
     <MapPanel
-      // zoom={zoom}
-      center={center}
-      // yourLocation={location}
-      // onZoomChange={(_, newZoom) => setZoom(newZoom)}
-      onCenterChange={(_, newCenter) => setCenter(newCenter)}
-      // onLocationRequest={(_, newLocation) => setLocation(newLocation)}
+      center={viewport.center}
+      onCenterChange={handleOnCenterChange}
     />
   );
 };

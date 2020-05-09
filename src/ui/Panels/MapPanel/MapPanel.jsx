@@ -40,7 +40,7 @@ const MapPanel = ({
       <PanelContent>
         <div className={classes.rowSpacing}>
           <Typography
-            variant="caption text"
+            variant="caption"
             className={classes.section}
             gutterBottom
           >
@@ -49,6 +49,7 @@ const MapPanel = ({
           <CenterForm
             center={center}
             onChange={onCenterChange}
+            onLocationUpdate={onCenterChange}
           />
         </div>
       </PanelContent>
