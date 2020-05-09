@@ -11,6 +11,7 @@ const coorindatesById = coordinates.reduce((prev, cur) => ({
   [cur.id]: cur,
 }), {});
 const coordinatesIds = coordinates.map(({ id }) => id);
+const selectedCoordinates = [coordinates[0].id, coordinates[1].id];
 
 const SET = 'waypoints/set';
 const ADD = 'waypoints/add';
@@ -104,7 +105,8 @@ const ids = (state = coordinatesIds, action) => {
   }
 };
 
-const selected = (state = [], action) => {
+const selected = (state = selectedCoordinates, action) => {
+// const selected = (state = [], action) => {
   const { type, payload } = action;
 
   switch (type) {

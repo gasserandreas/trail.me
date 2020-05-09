@@ -11,6 +11,8 @@ import Panel, { PanelContent } from '../../ui/Panels/Panel';
 import ConnectedMap from './ConnectedMap';
 import ConnectedFilePanel from './ConnectedFilePanel';
 import ConnectedMapPanel from './ConnectedMapPanel';
+import ConnectedCoordinatesPanel from './ConnectedCoordinatesPanel';
+import ConnectedControlsPanel from './ConnectedControlsPanel';
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -40,9 +42,15 @@ const useStyles = makeStyles(() => ({
     flexShrink: 0,
     marginBottom: '1rem',
   },
+  controlsPanel: {
+    flexGrow: 0,
+    flexShrink: 0,
+    minHeight: '66px',
+  },
   coordinatePanel: {
     flexGrow: 1,
     flexShrink: 1,
+    overflowY: 'scroll',
   },
   title: {
     padding: '1rem',
@@ -75,12 +83,11 @@ const HomePage = () => {
         <div className={classes.mapPanel}>
           <ConnectedMapPanel />
         </div>
+        <div className={classes.controlsPanel}>
+          <ConnectedControlsPanel />
+        </div>
         <div className={classes.coordinatePanel}>
-          <Panel>
-            <PanelContent>
-              <Typography>Coordinates Panel</Typography>
-            </PanelContent>
-          </Panel>
+          <ConnectedCoordinatesPanel />
         </div>
         <div className={classes.footerPanel}>
           <Panel>
