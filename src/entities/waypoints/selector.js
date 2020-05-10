@@ -38,7 +38,7 @@ export const waypointsPolylinesSelector = createSelector(
             lng: coordinate.lng,
           },
           // selected if both coordinates are selected
-          selected: selected.includes(lastCoordinate.id) && selected.includes(id),
+          selected: selected[lastCoordinate.id] && selected[id],
         };
 
         newPolylines.push(polyline);
@@ -55,4 +55,21 @@ export const waypointsPolylinesSelector = createSelector(
 export const selectedWaypointsSelector = createSelector(
   waypointsStateSelector,
   ({ selected }) => selected,
+);
+
+export const selectedWaypointIdsSelector = createSelector(
+  selectedWaypointsSelector,
+  (selectedById) => Object.entries(selectedById)
+    .map(([id, boolean]) => {
+      if (boolean) {
+        return id;
+      }
+      return undefined;
+    })
+    .filter(Boolean)
+);
+
+export const waypointsPendingSelector = createSelector(
+  waypointsStateSelector,
+  ({ pending }) => pending,
 );

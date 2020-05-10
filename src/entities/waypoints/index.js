@@ -3,7 +3,12 @@ import { createAction } from '@reduxjs/toolkit';
 
 import difference from 'lodash/difference';
 
-import { createWaypoint, createUniqueArray, addWaypointIdsInBetween } from './utils';
+import {
+  createWaypoint,
+  addWaypointIdsInBetween,
+  createChunkArray,
+  generateSelectState,
+} from './utils';
 
 // demo purpose only
 import coordinates from './coordinates.json';
@@ -13,9 +18,14 @@ const coorindatesById = coordinates.reduce((prev, cur) => ({
   [cur.id]: cur,
 }), {});
 const coordinatesIds = coordinates.map(({ id }) => id);
-const selectedCoordinates = [coordinates[0].id, coordinates[1].id];
+// const selectedCoordinates = [coordinates[0].id, coordinates[1].id];
+const selectedCoordinates = coordinates.reduce((prev, cur) => ({
+  ...prev,
+  [cur.id]: (cur.id === coordinates[0].id || cur.id === coordinates[1].id),
+}), {});
 
 const SET = 'waypoints/set';
+const SET_PENDING = 'waypoint/setPending';
 
 const ADD = 'waypoints/add';
 const ADD_BETWEEN = 'waypoints/addBetween';
@@ -26,9 +36,8 @@ const RESET = 'waypoints/reset';
 
 const SELECT = 'waypoints/select';
 const DESELECT = 'waypoints/deselect';
-const SET_SELECTED = 'waypoints/setSelected';
 
-const set = createAction(SET);
+const setPending = createAction(SET_PENDING);
 
 const add = createAction(ADD);
 const addBetween = createAction(ADD_BETWEEN);
@@ -39,24 +48,33 @@ const reset = createAction(RESET);
 
 const select = createAction(SELECT);
 const deselct = createAction(DESELECT);
-const setSelected = createAction(SET_SELECTED);
 
 // complex functions
-export const loadWaypoints = (data) => (dispatch) => {
-  console.log(data); // eslint-disable-line no-console
+export const loadWaypoints = (waypoints) => (dispatch) => {
+  console.log(waypoints); // eslint-disable-line no-console
 
-  const byId = {};
-  const ids = [];
+  dispatch(reset());
+  dispatch(setPending(true));
 
-  data.forEach((waypoint) => {
-    const { id } = waypoint;
-    byId[id] = waypoint;
-    ids.push(id);
+  // dispatch in chunks
+  const chunks = createChunkArray(waypoints);
+
+  chunks.forEach((chunk) => {
+    const byId = {};
+    const ids = [];
+
+    chunk.forEach((waypoint) => {
+      const { id } = waypoint;
+      byId[id] = waypoint;
+      ids.push(id);
+    });
+
+    const payload = { byId, ids };
+
+    dispatch(add(payload));
   });
 
-  const payload = { byId, ids };
-
-  dispatch(set(payload));
+  dispatch(setPending(false));
 };
 
 export const addWaypoint = (data) => (dispatch) => {
@@ -108,10 +126,6 @@ export const resetWaypoints = () => (dispatch) => {
   dispatch(reset());
 };
 
-export const setSelectedWaypoints = (ids) => (dispatch) => {
-  dispatch(setSelected(ids));
-};
-
 export const selectWaypoints = (ids) => (dispatch) => {
   dispatch(select(ids));
 };
@@ -121,6 +135,17 @@ export const deselectWaypoints = (ids) => (dispatch) => {
 };
 
 // reducer
+const pendingReducer = (state = false, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case SET_PENDING:
+      return payload;
+    default:
+      return state;
+  }
+};
+
 // const byId = (state = {}, action) => {
 const byIdReducer = (state = coorindatesById, action) => {
   const { type, payload } = action;
@@ -164,7 +189,7 @@ const idsReducer = (state = coordinatesIds, action) => {
     case SET:
       return payload.ids;
     case ADD:
-      return [...new Set([...state, ...payload.ids])];
+      return [...state, ...payload.ids];
     case ADD_BETWEEN:
       // eslint-disable-next-line no-case-declarations
       const { ids, position } = payload;
@@ -184,30 +209,27 @@ const selectedReducer = (state = selectedCoordinates, action) => {
 
   switch (type) {
     case SELECT:
-      return createUniqueArray(state, payload);
-      // return [...new Set([...state, ...payload])];
+      return generateSelectState(state, payload, true);
     case DESELECT:
-      return [...difference(state, payload)];
-    case SET_SELECTED:
-      return payload;
-    case ADD_BETWEEN:
-      // eslint-disable-next-line no-case-declarations
-      const { ids, position } = payload;
-      if (state.includes(position.prev) && state.includes(position.next)) {
-        // also select in between ids
-        return createUniqueArray(state, ids);
-      }
-      // simple return old state
-      return state;
-    case RESET:
+      return generateSelectState(state, payload, false);
+    case ADD:
+      return generateSelectState(state, payload.ids, false);
     case REMOVE:
-      return [];
+      // eslint-disable-next-line no-case-declarations
+      const newState = { ...state };
+      payload.forEach((id) => {
+        delete newState[id];
+      });
+      return newState;
+    case RESET:
+      return {};
     default:
       return state;
   }
 };
 
 export default combineReducers({
+  pending: pendingReducer,
   byId: byIdReducer,
   ids: idsReducer,
   selected: selectedReducer,
