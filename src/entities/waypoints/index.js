@@ -48,6 +48,12 @@ export const loadWaypoints = (data) => (dispatch) => {
   const byId = {};
   const ids = [];
 
+  data.forEach((waypoint) => {
+    const { id } = waypoint;
+    byId[id] = waypoint;
+    ids.push(id);
+  });
+
   const payload = { byId, ids };
 
   dispatch(set(payload));

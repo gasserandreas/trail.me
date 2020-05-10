@@ -4,7 +4,9 @@ import { useDispatch } from 'react-redux';
 import FilePanel from '../../ui/Panels/FilePanel/FilePanel';
 import MapFileType from '../../constants/MapFileType';
 
-import { resetWaypoints } from '../../entities/waypoints';
+import { resetWaypoints, loadWaypoints } from '../../entities/waypoints';
+
+import { parseGpx } from '../../utils/gpx';
 
 const INITIAL_FILENAME = 'export';
 
@@ -32,7 +34,13 @@ const ConnectedFilePanel = () => {
 
   const handleOnClickDownload = async () => {};
 
-  const handleOnClickUpload = () => {};
+  const handleOnClickUpload = (_, text) => {
+    const result = parseGpx(text);
+    const { name, waypoints } = result;
+
+    setFilename(name);
+    dispatch(loadWaypoints(waypoints));
+  };
 
   const handleOnError = (newError) => {
     setError(newError);
