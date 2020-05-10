@@ -113,6 +113,7 @@ const selected = (state = selectedCoordinates, action) => {
     case SELECT:
       return payload;
     case RESET:
+    case REMOVE:
       return [];
     default:
       return state;
