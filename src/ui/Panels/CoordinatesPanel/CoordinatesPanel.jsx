@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import List from '@material-ui/core/List';
@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { SPACING } from '../Panel';
 import { getInBetweenElements } from './util';
 
+import useSelectedCoordinatesMap from '../../../hooks/useSelectedCoordinatesMap';
 import { shortenCoordinate } from '../../../utils/coordinate';
 import { CoordinatePropType } from '../../../utils/CustomPropTypes';
 
@@ -43,17 +44,7 @@ const CoordinatesPanel = ({
 }) => {
   const classes = useStyles();
   const [lastClicked, setLastClicked] = useState(null);
-
-  // pre-calculate selected coordinates map
-  const selectedCoordinatesMap = useMemo(() => coordinates.reduce((prev, cur) => {
-    const { id } = cur;
-    const isSelected = selectedCoordinates.includes(id);
-
-    return {
-      ...prev,
-      [id]: isSelected,
-    };
-  }, {}), [coordinates, selectedCoordinates]);
+  const selectedCoordinatesMap = useSelectedCoordinatesMap(coordinates, selectedCoordinates);
 
   const handleOnClick = (selectedId) => (e) => {
     const { shiftKey } = e;

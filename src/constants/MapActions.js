@@ -1,6 +1,6 @@
 export default {
   SELECT: 'Select',
-  MARK: 'Mark',
+  // MARK: 'Mark',
   ADD: 'Add',
   REMOVE: 'Remove',
 };
