@@ -70,8 +70,6 @@ const ConnectedMap = () => {
   };
 
   const handleOnDragend = (e, id) => {
-    e.originalEvent.stopPropagation();
-
     const { target: { _latlng } } = e;
     dispatch(moveWaypoint(id, _latlng));
   };
