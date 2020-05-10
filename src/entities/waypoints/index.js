@@ -15,10 +15,12 @@ const coorindatesById = coordinates.reduce((prev, cur) => ({
 const coordinatesIds = coordinates.map(({ id }) => id);
 const selectedCoordinates = [coordinates[0].id, coordinates[1].id];
 
+const SET = 'waypoints/set';
+
 const ADD = 'waypoints/add';
 const ADD_BETWEEN = 'waypoints/addBetween';
+const UPDATE = 'waypoints/update';
 
-const SET = 'waypoints/set';
 const REMOVE = 'waypoints/remove';
 const RESET = 'waypoints/reset';
 
@@ -26,10 +28,12 @@ const SELECT = 'waypoints/select';
 const DESELECT = 'waypoints/deselect';
 const SET_SELECTED = 'waypoints/setSelected';
 
+const set = createAction(SET);
+
 const add = createAction(ADD);
 const addBetween = createAction(ADD_BETWEEN);
+const update = createAction(UPDATE);
 
-const set = createAction(SET);
 const remove = createAction(REMOVE);
 const reset = createAction(RESET);
 
@@ -81,6 +85,15 @@ export const addWaypointBetween = (data, prevId, nextId) => (dispatch) => {
   dispatch(addBetween(payload));
 };
 
+export const moveWaypoint = (id, latlng) => (dispatch) => {
+  const payload = {
+    id,
+    ...latlng,
+  };
+
+  dispatch(update(payload));
+};
+
 export const removeWaypoints = (ids) => (dispatch) => {
   dispatch(remove(ids));
 };
@@ -122,6 +135,14 @@ const byIdReducer = (state = coorindatesById, action) => {
         delete newState[id];
       });
       return newState;
+    case UPDATE:
+      return {
+        ...state,
+        [payload.id]: {
+          ...state[payload.id],
+          ...payload,
+        },
+      };
     case RESET:
       return {};
     default:

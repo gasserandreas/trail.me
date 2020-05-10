@@ -2,7 +2,11 @@ import React, { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
-  addWaypoint, removeWaypoints, selectWaypoints, addWaypointBetween
+  addWaypoint,
+  removeWaypoints,
+  selectWaypoints,
+  addWaypointBetween,
+  moveWaypoint,
 } from '../../entities/waypoints';
 
 import {
@@ -24,11 +28,6 @@ import useSelectedCoordinatesMap from '../../hooks/useSelectedCoordinatesMap';
 const ConnectedMap = () => {
   const dispatch = useDispatch();
   const actionType = useSelector(actionTypeSelector);
-
-  // const [draggableCircle, setDraggableCircle] = useState(null);
-  // const circleRef = useRef(null);
-
-  // const [isMapDraggable, setIsMapDraggable] = useState(false);
 
   // handle map viewport
   const viewport = useSelector(viewportSelector);
@@ -70,18 +69,12 @@ const ConnectedMap = () => {
     }
   };
 
-  // const handleOnDragend = (e, id) => {
-  // const handleOnDragend = (...args) => {
-  //   console.log('handleOnDragend');
-  //   console.log(args);
-  //   // console.log(e);
-  //   // console.log(id);
-  // };
+  const handleOnDragend = (e, id) => {
+    e.originalEvent.stopPropagation();
 
-  // const handleOnMouseDownCircle = (e, id) => {
-  //   // console.log('handleOnMouseDown');
-  //   setDraggableCircle(id);
-  // };
+    const { target: { _latlng } } = e;
+    dispatch(moveWaypoint(id, _latlng));
+  };
 
   const circleItems = useMemo(() => waypoints.map(({ id, lat, lng }, i) => (
     <Circle
@@ -89,14 +82,10 @@ const ConnectedMap = () => {
       latlng={{ lat, lng }}
       zoom={zoom}
       onClick={(e) => handleCircleClick(e, id)}
-      // onDragend={(e) => handleOnDragend}
+      onDragend={(e) => handleOnDragend(e, id)}
       selected={selectedCoordinatesMap[id]}
-      // onMouseDown={(e) => handleOnMouseDownCircle(e, id)}
-      // onDragend={(e) => handleOnDragend(e, id)}
-      // draggable
-      // onDblClick={(e) => handleCircleDbClick(e, id)}
     />
-    )), [waypoints, zoom]); // eslint-disable-line
+    )), [waypoints, zoom, actionType]); // eslint-disable-line
 
   // polylines code
   const handlePolylineClick = (e, startId, endId) => {
@@ -136,28 +125,14 @@ const ConnectedMap = () => {
       zoom={zoom}
       selected={selected}
     />
-  )), [polylines, zoom]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // map handlers
-  // const handleOnMouseMove = (e) => {
-  //   if (!draggableCircle) return;
-
-  //   console.log(e);
-  // };
-
-  // const handleOnMouseUp = () => {
-  //   setDraggableCircle(null);
-  // };
+  )), [polylines, zoom, actionType]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <SwissGeoMap
       viewport={viewport}
       onViewportChanged={handleOnViewportChanged}
       onClick={handleMapClick}
-      // onMouseMove={handleOnMouseMove}
-      // onMouseUp={handleOnMouseUp}
       doubleClickZoom={false}
-      // dragging={draggableCircle === null}
     >
       {polylinesItems}
       {circleItems}
