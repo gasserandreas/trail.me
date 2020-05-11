@@ -2,7 +2,7 @@
 import { v4 } from 'uuid';
 import createGpx from 'gps-to-gpx';
 
-export const convertToWaypoints = (waypoints) => waypoints.map(({
+export const convertToGpxWaypoints = (waypoints) => waypoints.map(({
   lat, lng, elevation, time
 }) => ({
   latitude: lat,

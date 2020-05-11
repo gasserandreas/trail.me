@@ -34,6 +34,7 @@ const UPDATE = 'waypoints/update';
 const REMOVE = 'waypoints/remove';
 const RESET = 'waypoints/reset';
 
+const SELECTED_RESET = 'waypoints/selectedReset';
 const SELECT = 'waypoints/select';
 const DESELECT = 'waypoints/deselect';
 
@@ -46,6 +47,7 @@ const update = createAction(UPDATE);
 const remove = createAction(REMOVE);
 const reset = createAction(RESET);
 
+const selectedReset = createAction(SELECTED_RESET);
 const select = createAction(SELECT);
 const deselct = createAction(DESELECT);
 
@@ -124,6 +126,10 @@ export const removeWaypoints = (ids) => (dispatch) => {
 
 export const resetWaypoints = () => (dispatch) => {
   dispatch(reset());
+};
+
+export const resetSelectedWaypoints = () => (dispatch) => {
+  dispatch(selectedReset());
 };
 
 export const selectWaypoints = (ids) => (dispatch) => {
@@ -221,6 +227,15 @@ const selectedReducer = (state = selectedCoordinates, action) => {
         delete newState[id];
       });
       return newState;
+    case SELECTED_RESET:
+      return Object.entries(state)
+        .reduce((prev, cur) => {
+          const id = cur[0];
+          return {
+            ...prev,
+            [id]: false,
+          };
+        }, {});
     case RESET:
       return {};
     default:
