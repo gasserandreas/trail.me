@@ -12,8 +12,12 @@ export const locationSelector = createSelector(
   ({ location }) => location,
 );
 
-// export const actionTypeSelector = createSelector(
-//   mapStateSelector,
-//   ({ actionType }) => actionType,
-// );
-export const actionTypeSelector = (state) => state.map.actionType;
+export const actionTypeSelector = createSelector(
+  mapStateSelector,
+  ({ actionType }) => actionType,
+);
+
+export const fileTypeSelector = createSelector(
+  mapStateSelector,
+  ({ fileType }) => fileType,
+);

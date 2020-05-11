@@ -8,7 +8,7 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Panel, { PanelContent } from '../../ui/Panels/Panel';
-import ConnectedMap from './ConnectedMap';
+import ConnectedMap from './Map/ConnectedMap';
 import ConnectedFilePanel from './ConnectedFilePanel';
 import ConnectedMapPanel from './ConnectedMapPanel';
 import ConnectedCoordinatesPanel from './ConnectedCoordinatesPanel';

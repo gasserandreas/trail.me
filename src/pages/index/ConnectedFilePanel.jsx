@@ -1,15 +1,20 @@
+/* global Blob */
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import FilePanel from '../../ui/Panels/FilePanel/FilePanel';
 import MapFileType from '../../constants/MapFileType';
 
-import { resetWaypoints } from '../../entities/waypoints';
+import { resetWaypoints, loadWaypoints } from '../../entities/waypoints';
+import { waypointsSelector } from '../../entities/waypoints/selector';
+
+import { parseGpx, convertToGpxWaypoints, convertToGpx } from '../../utils/gpx';
 
 const INITIAL_FILENAME = 'export';
 
 const ConnectedFilePanel = () => {
   const dispatch = useDispatch();
+  const waypoints = useSelector(waypointsSelector);
 
   const [filename, setFilename] = useState(INITIAL_FILENAME);
   const [filetype, setFiletype] = useState(MapFileType.GPX);
@@ -30,9 +35,32 @@ const ConnectedFilePanel = () => {
     dispatch(resetWaypoints());
   };
 
-  const handleOnClickDownload = async () => {};
+  const handleOnClickDownload = async () => {
+    const gpxWaypoints = convertToGpxWaypoints(waypoints);
+    const gpxString = await convertToGpx(filename, gpxWaypoints);
 
-  const handleOnClickUpload = () => {};
+    const downloadName = `${filename}.${filetype}`;
+
+    /**
+     * Create new a tag to support download
+     */
+    const element = document.createElement('a');
+    const file = new Blob([gpxString], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    element.download = downloadName;
+    document.body.appendChild(element); // Required for this to work in FireFox
+
+    // download file
+    element.click();
+  };
+
+  const handleOnClickUpload = (_, text) => {
+    const result = parseGpx(text);
+    const { name, waypoints: parsedWaypoints } = result;
+
+    setFilename(name);
+    dispatch(loadWaypoints(parsedWaypoints));
+  };
 
   const handleOnError = (newError) => {
     setError(newError);
