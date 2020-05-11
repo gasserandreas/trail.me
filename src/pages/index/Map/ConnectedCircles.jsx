@@ -12,10 +12,13 @@ import {
 
 import {
   waypointsSelector,
+  selectedWaypointsSelector,
   waypointsPendingSelector,
 } from '../../../entities/waypoints/selector';
 
 import { viewportSelector, actionTypeSelector } from '../../../entities/map/selector';
+
+const ZOOM_HIDE_LEVEL = 14;
 
 const ConnectedCircles = () => {
   const dispatch = useDispatch();
@@ -23,11 +26,12 @@ const ConnectedCircles = () => {
   const actionType = useSelector(actionTypeSelector);
   const waypointsPending = useSelector(waypointsPendingSelector);
   const waypoints = useSelector(waypointsSelector);
+  const selectedWaypoints = useSelector(selectedWaypointsSelector);
 
   const viewport = useSelector(viewportSelector);
   const { zoom } = viewport;
 
-  if (waypointsPending) {
+  if (waypointsPending || zoom <= ZOOM_HIDE_LEVEL) {
     return null;
   }
 
@@ -57,7 +61,7 @@ const ConnectedCircles = () => {
       zoom={zoom}
       onClick={(e) => handleCircleClick(e, id)}
       onDragend={(e) => handleOnDragend(e, id)}
-      // selected={selectedCoordinatesMap[id]}
+      selected={selectedWaypoints[id]}
     />
   ));
 

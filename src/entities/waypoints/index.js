@@ -10,6 +10,8 @@ import {
   generateSelectState,
 } from './utils';
 
+import simplify from './simplifyPath';
+
 // demo purpose only
 import coordinates from './coordinates.json';
 
@@ -53,19 +55,31 @@ const deselct = createAction(DESELECT);
 
 // complex functions
 export const loadWaypoints = (waypoints) => (dispatch) => {
-  console.log(waypoints); // eslint-disable-line no-console
+  /**
+   * Make sure x and y is set
+   */
+  const converterWaypoints = waypoints.map(({ lat, lng, ...rest }) => ({
+    x: lat,
+    y: lng,
+    lat,
+    lng,
+    ...rest,
+  }));
+
+  const TOLERANCE = 0.00015;
+  const simplifiedWaypoints = simplify(converterWaypoints, TOLERANCE, true);
 
   dispatch(reset());
   dispatch(setPending(true));
 
   // dispatch in chunks
-  const chunks = createChunkArray(waypoints);
+  const chunks = createChunkArray(simplifiedWaypoints, 75);
 
   chunks.forEach((chunk) => {
     const byId = {};
     const ids = [];
 
-    chunk.forEach((waypoint) => {
+    chunk.forEach(({ x, y, ...waypoint }) => {
       const { id } = waypoint;
       byId[id] = waypoint;
       ids.push(id);
