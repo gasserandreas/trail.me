@@ -16,6 +16,8 @@ import IndexPage from './pages/index/index';
 import UserPage from './pages/user/index';
 import NotFound from './pages/not-found';
 
+import Layout from './ui/Layout/Layout';
+
 const useStyles = makeStyles(() => ({
   root: {
     dispaly: 'flex',
@@ -24,13 +26,7 @@ const useStyles = makeStyles(() => ({
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto',
-    // define content container
     display: 'flex',
-    // paddingTop: '3rem',
-  },
-  content: {
-    flexGrow: 1,
-    flexShrink: 1,
   },
 }));
 
@@ -45,7 +41,7 @@ const App = () => {
   return (
     <div className={classes.root}>
       <div className={classes.wrapper}>
-        <main className={classes.content}>
+        <Layout>
           <Router>
             <Switch>
               <Route exact path={INDEX} component={IndexPage} />
@@ -53,7 +49,7 @@ const App = () => {
               <Route path="*" component={NotFound} />
             </Switch>
           </Router>
-        </main>
+        </Layout>
       </div>
     </div>
   );

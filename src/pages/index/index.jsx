@@ -7,11 +7,12 @@ import Link from '@material-ui/core/Link';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+import Page from '../../ui/Layout/Page';
 import Panel, { PanelContent } from '../../ui/Panels/Panel';
+
 import ConnectedMap from './Map/ConnectedMap';
 import ConnectedFilePanel from './ConnectedFilePanel';
 import ConnectedMapPanel from './ConnectedMapPanel';
-// import ConnectedWaypointsPanel from './Waypoints/ConnectedWaypointsPanel';
 import ConnectedWaypointsPanel from './ConnectedWaypointsPanel';
 import ConnectedControlsPanel from './ConnectedControlsPanel';
 
@@ -69,24 +70,18 @@ const useStyles = makeStyles(() => ({
 const HomePage = () => {
   const classes = useStyles();
 
+  /**
+   * Get parent size and pass to virtualize list
+   */
   const [waypointHeight, setWaypointHeight] = React.useState(null);
-
   const waypointRef = React.useCallback((node) => {
     if (node !== null) {
       setWaypointHeight(node.getBoundingClientRect().height);
     }
   }, []);
 
-  // const waypointsRef = React.useRef(null);
-
-  // console.log(waypointsRef.current);
-
-  // if (waypointsRef.current) {
-  //   console.log(waypointsRef.current.offsetHeight);
-  // }
-
   return (
-    <div className={classes.page}>
+    <Page>
       <section className={classes.map}>
         <ConnectedMap />
       </section>
@@ -118,7 +113,7 @@ const HomePage = () => {
           </Panel>
         </div>
       </Box>
-    </div>
+    </Page>
   );
 };
 
