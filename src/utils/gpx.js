@@ -1,5 +1,4 @@
 /* global DOMParser */
-import { v4 } from 'uuid';
 import createGpx from 'gps-to-gpx';
 
 export const convertToGpxWaypoints = (waypoints) => waypoints.map(({
@@ -49,7 +48,6 @@ export const parseGpx = (text) => {
     const time = getValue(trkpt, 'time', '');
 
     waypoints.push({
-      id: v4(),
       lat: Number(lat),
       lng: Number(lon),
       elevation: Number(ele),

@@ -23,7 +23,9 @@ const coordinatesIds = coordinates.map(({ id }) => id);
 // const selectedCoordinates = [coordinates[0].id, coordinates[1].id];
 const selectedCoordinates = coordinates.reduce((prev, cur) => ({
   ...prev,
-  [cur.id]: (cur.id === coordinates[0].id || cur.id === coordinates[1].id),
+  [cur.id]: {
+    value: (cur.id === coordinates[0].id || cur.id === coordinates[1].id),
+  },
 }), {});
 
 const SET = 'waypoints/set';
@@ -79,8 +81,10 @@ export const loadWaypoints = (waypoints) => (dispatch) => {
     const byId = {};
     const ids = [];
 
-    chunk.forEach(({ x, y, ...waypoint }) => {
+    chunk.forEach(({ x, y, ...data }) => {
+      const waypoint = createWaypoint(data);
       const { id } = waypoint;
+
       byId[id] = waypoint;
       ids.push(id);
     });
@@ -226,17 +230,26 @@ const idsReducer = (state = coordinatesIds, action) => {
 const selectedReducer = (state = selectedCoordinates, action) => {
 // const selected = (state = [], action) => {
   const { type, payload } = action;
+  let newState;
 
   switch (type) {
     case SELECT:
       return generateSelectState(state, payload, true);
+      // newState = state;
+      // payload.forEach((id) => {
+      //   newState[id] = {
+      //     value: true,
+      //   };
+      // });
+      // return newState;
+      // newState[payload]
     case DESELECT:
       return generateSelectState(state, payload, false);
     case ADD:
       return generateSelectState(state, payload.ids, false);
     case REMOVE:
       // eslint-disable-next-line no-case-declarations
-      const newState = { ...state };
+      newState = { ...state };
       payload.forEach((id) => {
         delete newState[id];
       });
@@ -247,7 +260,9 @@ const selectedReducer = (state = selectedCoordinates, action) => {
           const id = cur[0];
           return {
             ...prev,
-            [id]: false,
+            [id]: {
+              value: false,
+            },
           };
         }, {});
     case RESET:

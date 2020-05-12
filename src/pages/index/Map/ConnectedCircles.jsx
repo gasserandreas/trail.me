@@ -61,7 +61,7 @@ const ConnectedCircles = () => {
       zoom={zoom}
       onClick={(e) => handleCircleClick(e, id)}
       onDragend={(e) => handleOnDragend(e, id)}
-      selected={selectedWaypoints[id]}
+      selected={selectedWaypoints[id].value}
     />
   ));
 

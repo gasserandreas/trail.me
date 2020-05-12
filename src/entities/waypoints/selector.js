@@ -2,6 +2,41 @@ import { createSelector } from 'reselect';
 
 export const waypointsStateSelector = (state) => state.waypoints;
 
+export const waypointsByIdSelector = createSelector(
+  waypointsStateSelector,
+  ({ byId }) => byId,
+);
+
+export const waypointsIdsSelector = createSelector(
+  waypointsStateSelector,
+  ({ ids }) => ids,
+);
+
+export const selectedWaypointsSelector = createSelector(
+  waypointsStateSelector,
+  ({ selected }) => selected,
+);
+
+// export const selectedWaypointsUncachedSelector = (state) => state.waypoints.selected;
+
+export const selectedWaypointIdsSelector = createSelector(
+  selectedWaypointsSelector,
+  (selectedById) => Object.entries(selectedById)
+    .map(([id, data]) => {
+      const { value } = data;
+      if (value) {
+        return id;
+      }
+      return undefined;
+    })
+    .filter(Boolean)
+);
+
+export const waypointsPendingSelector = createSelector(
+  waypointsStateSelector,
+  ({ pending }) => pending,
+);
+
 export const waypointsSelector = createSelector(
   waypointsStateSelector,
   ({ byId, ids }) => {
@@ -38,7 +73,7 @@ export const waypointsPolylinesSelector = createSelector(
             lng: coordinate.lng,
           },
           // selected if both coordinates are selected
-          selected: selected[lastCoordinate.id] && selected[id],
+          selected: selected[lastCoordinate.id].value && selected[id].value,
         };
 
         newPolylines.push(polyline);
@@ -50,26 +85,4 @@ export const waypointsPolylinesSelector = createSelector(
 
     return newPolylines;
   }
-);
-
-export const selectedWaypointsSelector = createSelector(
-  waypointsStateSelector,
-  ({ selected }) => selected,
-);
-
-export const selectedWaypointIdsSelector = createSelector(
-  selectedWaypointsSelector,
-  (selectedById) => Object.entries(selectedById)
-    .map(([id, boolean]) => {
-      if (boolean) {
-        return id;
-      }
-      return undefined;
-    })
-    .filter(Boolean)
-);
-
-export const waypointsPendingSelector = createSelector(
-  waypointsStateSelector,
-  ({ pending }) => pending,
 );

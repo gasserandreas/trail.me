@@ -11,7 +11,8 @@ import Panel, { PanelContent } from '../../ui/Panels/Panel';
 import ConnectedMap from './Map/ConnectedMap';
 import ConnectedFilePanel from './ConnectedFilePanel';
 import ConnectedMapPanel from './ConnectedMapPanel';
-import ConnectedCoordinatesPanel from './ConnectedCoordinatesPanel';
+// import ConnectedWaypointsPanel from './Waypoints/ConnectedWaypointsPanel';
+import ConnectedWaypointsPanel from './ConnectedWaypointsPanel';
 import ConnectedControlsPanel from './ConnectedControlsPanel';
 
 const useStyles = makeStyles(() => ({
@@ -68,6 +69,22 @@ const useStyles = makeStyles(() => ({
 const HomePage = () => {
   const classes = useStyles();
 
+  const [waypointHeight, setWaypointHeight] = React.useState(null);
+
+  const waypointRef = React.useCallback((node) => {
+    if (node !== null) {
+      setWaypointHeight(node.getBoundingClientRect().height);
+    }
+  }, []);
+
+  // const waypointsRef = React.useRef(null);
+
+  // console.log(waypointsRef.current);
+
+  // if (waypointsRef.current) {
+  //   console.log(waypointsRef.current.offsetHeight);
+  // }
+
   return (
     <div className={classes.page}>
       <section className={classes.map}>
@@ -86,8 +103,8 @@ const HomePage = () => {
         <div className={classes.controlsPanel}>
           <ConnectedControlsPanel />
         </div>
-        <div className={classes.coordinatePanel}>
-          <ConnectedCoordinatesPanel />
+        <div className={classes.coordinatePanel} ref={waypointRef}>
+          <ConnectedWaypointsPanel panelHeight={waypointHeight} />
         </div>
         <div className={classes.footerPanel}>
           <Panel>

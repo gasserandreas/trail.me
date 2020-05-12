@@ -1,8 +1,9 @@
 import * as uuid from 'uuid';
 
-export const createWaypoint = (data) => ({
+export const createWaypoint = (data, meta = { selected: false }) => ({
   id: uuid.v4(),
   ...data,
+  meta,
 });
 
 export const createUniqueArray = (array, newIds = []) => [...new Set([...array, ...newIds])];
@@ -56,6 +57,8 @@ export const generateSelectState = (state, newIds, value) => ({
   ...state,
   ...newIds.reduce((prev, cur) => ({
     ...prev,
-    [cur]: value,
+    [cur]: {
+      value,
+    },
   }), {}),
 });
