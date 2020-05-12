@@ -10,6 +10,8 @@ import {
   generateSelectState,
 } from './utils';
 
+import simplify from './simplifyPath';
+
 // demo purpose only
 import coordinates from './coordinates.json';
 
@@ -21,7 +23,9 @@ const coordinatesIds = coordinates.map(({ id }) => id);
 // const selectedCoordinates = [coordinates[0].id, coordinates[1].id];
 const selectedCoordinates = coordinates.reduce((prev, cur) => ({
   ...prev,
-  [cur.id]: (cur.id === coordinates[0].id || cur.id === coordinates[1].id),
+  [cur.id]: {
+    value: (cur.id === coordinates[0].id || cur.id === coordinates[1].id),
+  },
 }), {});
 
 const SET = 'waypoints/set';
@@ -53,20 +57,34 @@ const deselct = createAction(DESELECT);
 
 // complex functions
 export const loadWaypoints = (waypoints) => (dispatch) => {
-  console.log(waypoints); // eslint-disable-line no-console
+  /**
+   * Make sure x and y is set
+   */
+  const converterWaypoints = waypoints.map(({ lat, lng, ...rest }) => ({
+    x: lat,
+    y: lng,
+    lat,
+    lng,
+    ...rest,
+  }));
+
+  const TOLERANCE = 0.00015;
+  const simplifiedWaypoints = simplify(converterWaypoints, TOLERANCE, true);
 
   dispatch(reset());
   dispatch(setPending(true));
 
   // dispatch in chunks
-  const chunks = createChunkArray(waypoints);
+  const chunks = createChunkArray(simplifiedWaypoints, 75);
 
   chunks.forEach((chunk) => {
     const byId = {};
     const ids = [];
 
-    chunk.forEach((waypoint) => {
+    chunk.forEach(({ x, y, ...data }) => {
+      const waypoint = createWaypoint(data);
       const { id } = waypoint;
+
       byId[id] = waypoint;
       ids.push(id);
     });
@@ -212,17 +230,26 @@ const idsReducer = (state = coordinatesIds, action) => {
 const selectedReducer = (state = selectedCoordinates, action) => {
 // const selected = (state = [], action) => {
   const { type, payload } = action;
+  let newState;
 
   switch (type) {
     case SELECT:
       return generateSelectState(state, payload, true);
+      // newState = state;
+      // payload.forEach((id) => {
+      //   newState[id] = {
+      //     value: true,
+      //   };
+      // });
+      // return newState;
+      // newState[payload]
     case DESELECT:
       return generateSelectState(state, payload, false);
     case ADD:
       return generateSelectState(state, payload.ids, false);
     case REMOVE:
       // eslint-disable-next-line no-case-declarations
-      const newState = { ...state };
+      newState = { ...state };
       payload.forEach((id) => {
         delete newState[id];
       });
@@ -233,7 +260,9 @@ const selectedReducer = (state = selectedCoordinates, action) => {
           const id = cur[0];
           return {
             ...prev,
-            [id]: false,
+            [id]: {
+              value: false,
+            },
           };
         }, {});
     case RESET:

@@ -59,6 +59,7 @@ const ConnectedPolylines = () => {
       endLatlng={endPosition}
       zoom={zoom}
       selected={selected}
+      smoothFactor={3}
     />
   ));
 
