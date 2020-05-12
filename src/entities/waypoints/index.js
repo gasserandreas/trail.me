@@ -235,17 +235,10 @@ const selectedReducer = (state = selectedCoordinates, action) => {
   switch (type) {
     case SELECT:
       return generateSelectState(state, payload, true);
-      // newState = state;
-      // payload.forEach((id) => {
-      //   newState[id] = {
-      //     value: true,
-      //   };
-      // });
-      // return newState;
-      // newState[payload]
     case DESELECT:
       return generateSelectState(state, payload, false);
     case ADD:
+    case ADD_BETWEEN:
       return generateSelectState(state, payload.ids, false);
     case REMOVE:
       // eslint-disable-next-line no-case-declarations

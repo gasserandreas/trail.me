@@ -42,7 +42,11 @@ const ConnectedWaypointsPanel = ({ panelHeight }) => {
 };
 
 ConnectedWaypointsPanel.propTypes = {
-  panelHeight: PropTypes.number.isRequired,
+  panelHeight: PropTypes.number,
+};
+
+ConnectedWaypointsPanel.defaultProps = {
+  panelHeight: null,
 };
 
 export default ConnectedWaypointsPanel;
