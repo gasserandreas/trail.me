@@ -12,22 +12,6 @@ import {
 
 import simplify from './simplifyPath';
 
-// demo purpose only
-import coordinates from './coordinates.json';
-
-const coorindatesById = coordinates.reduce((prev, cur) => ({
-  ...prev,
-  [cur.id]: cur,
-}), {});
-const coordinatesIds = coordinates.map(({ id }) => id);
-// const selectedCoordinates = [coordinates[0].id, coordinates[1].id];
-const selectedCoordinates = coordinates.reduce((prev, cur) => ({
-  ...prev,
-  [cur.id]: {
-    value: (cur.id === coordinates[0].id || cur.id === coordinates[1].id),
-  },
-}), {});
-
 const SET = 'waypoints/set';
 const SET_PENDING = 'waypoint/setPending';
 
@@ -170,8 +154,7 @@ const pendingReducer = (state = false, action) => {
   }
 };
 
-// const byId = (state = {}, action) => {
-const byIdReducer = (state = coorindatesById, action) => {
+const byIdReducer = (state = {}, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -205,8 +188,7 @@ const byIdReducer = (state = coorindatesById, action) => {
   }
 };
 
-// const ids = (state = [], action) => {
-const idsReducer = (state = coordinatesIds, action) => {
+const idsReducer = (state = [], action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -227,8 +209,7 @@ const idsReducer = (state = coordinatesIds, action) => {
   }
 };
 
-const selectedReducer = (state = selectedCoordinates, action) => {
-// const selected = (state = [], action) => {
+const selectedReducer = (state = [], action) => {
   const { type, payload } = action;
   let newState;
 

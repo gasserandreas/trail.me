@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import ControlsPanel from '../../ui/Panels/ControlsPanel/ControlsPanel';
 
 import { removeWaypoints, resetSelectedWaypoints } from '../../entities/waypoints';
-import { selectedWaypointIdsSelector } from '../../entities/waypoints/selector';
+import { selectedWaypointIdsSelector, waypointsIdsSelector } from '../../entities/waypoints/selector';
 
 const ConnectedCoordinatesPanel = () => {
   const dispatch = useDispatch();
 
   const selectedWaypointIds = useSelector(selectedWaypointIdsSelector);
+  const waypointsIds = useSelector(waypointsIdsSelector);
 
   const handleOnCoordinateDelete = () => {
     dispatch(removeWaypoints(selectedWaypointIds));
@@ -18,6 +19,11 @@ const ConnectedCoordinatesPanel = () => {
   const handleOnCoordinateReset = () => {
     dispatch(resetSelectedWaypoints());
   };
+
+  // don't render with no items
+  if (waypointsIds.length === 0) {
+    return null;
+  }
 
   return (
     <ControlsPanel

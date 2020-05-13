@@ -18,6 +18,7 @@ import { getInBetweenElements } from './util';
 import { shortenCoordinate } from '../../../utils/coordinate';
 
 const ROW_HEIGHT = 56;
+const HEIGH_ADJUSTMENT = 2; // 2 * 1 px Dividerg
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -52,6 +53,8 @@ const WaypointsPanel = ({
   const classes = useStyles();
 
   const [lastClicked, setLastClicked] = useState(null);
+
+  const correctedParentHeight = parentHeight - HEIGH_ADJUSTMENT;
 
   const handleOnClick = (selectedId) => (e) => {
     const { shiftKey } = e;
@@ -135,9 +138,9 @@ const WaypointsPanel = ({
   }
 
   return (
-    <List>
+    <List className={classes.list}>
       <Divider />
-      <VariableSizeList height={parentHeight} itemSize={() => ROW_HEIGHT} itemCount={waypointIds.length}>
+      <VariableSizeList height={correctedParentHeight} itemSize={() => ROW_HEIGHT} itemCount={waypointIds.length}>
         {renderRow}
       </VariableSizeList>
       <Divider />
