@@ -3,12 +3,12 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 import Page from '../../ui/Layout/Page';
 import Panel, { PanelContent } from '../../ui/Panels/Panel';
+import Footer from '../../ui/Footer/Footer';
 
 import ConnectedMap from './Map/ConnectedMap';
 import ConnectedFilePanel from './ConnectedFilePanel';
@@ -104,11 +104,7 @@ const HomePage = () => {
         <div className={classes.footerPanel}>
           <Panel>
             <PanelContent>
-              <Typography variant="body2">
-                Created by:
-                {' '}
-                <Link href="https://gasserandreas.com" target="_blank">Andreas Gasser</Link>
-              </Typography>
+              <Footer />
             </PanelContent>
           </Panel>
         </div>

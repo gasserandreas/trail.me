@@ -17,6 +17,7 @@ import PublishIcon from '@material-ui/icons/Publish';
 import clsx from 'clsx';
 
 import Panel, { SPACING } from '../Panel';
+import DeleteButton from '../../DeleteButton/DeleteButton';
 import MapFileType from '../../../constants/MapFileType';
 
 const useStyles = makeStyles(() => ({
@@ -107,7 +108,7 @@ const FilePanel = ({
         </Grid>
       </div>
       <div className={clsx(classes.controls, classes.spacing)}>
-        <Button size="small" onClick={onClickReset}>Reset</Button>
+        <DeleteButton size="small" onClick={onClickReset}>Reset</DeleteButton>
         {showUpload && (
           <div {...getRootProps()}>
             <input {...getInputProps()} />

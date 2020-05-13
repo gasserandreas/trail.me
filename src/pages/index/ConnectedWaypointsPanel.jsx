@@ -28,6 +28,11 @@ const ConnectedWaypointsPanel = ({ panelHeight }) => {
     dispatch(deselectWaypoints(newDeselect));
   };
 
+  // don't render with no items
+  if (waypointsIds.length === 0) {
+    return null;
+  }
+
   return (
     <WaypointsPanel
       waypointById={waypointsById}

@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Panel, { SPACING, PanelContent } from '../Panel';
+import DeleteButton from '../../DeleteButton/DeleteButton';
 
 const useStyles = makeStyles(() => ({
   fileName: {
@@ -28,6 +29,9 @@ const useStyles = makeStyles(() => ({
   button: {
     fontSize: '0.9rem',
   },
+  buttonDelete: {
+    color: '#000',
+  }
 }));
 
 const ControlsPanel = ({
@@ -81,13 +85,13 @@ const ControlsPanel = ({
               >
                 Cancel
               </Button>
-              <Button
+              <DeleteButton
                 onClick={handleOnDeleteClick}
                 disabled={numberSelectedItems === 0}
                 className={classes.button}
               >
                 {deleteText}
-              </Button>
+              </DeleteButton>
             </>
           )}
         </div>
