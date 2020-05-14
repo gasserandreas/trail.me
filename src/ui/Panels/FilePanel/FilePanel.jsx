@@ -1,5 +1,6 @@
 /* global FileReader */
 import React, { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useDropzone } from 'react-dropzone';
 
@@ -19,6 +20,8 @@ import clsx from 'clsx';
 import Panel, { SPACING } from '../Panel';
 import DeleteButton from '../../DeleteButton/DeleteButton';
 import MapFileType from '../../../constants/MapFileType';
+
+import { waypointsIdsSelector } from '../../../entities/waypoints/selector';
 
 const useStyles = makeStyles(() => ({
   fileName: {
@@ -56,6 +59,7 @@ const FilePanel = ({
   ...props
 }) => {
   const classes = useStyles();
+  const waypointsIds = useSelector(waypointsIdsSelector);
 
   const handleOnDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles.length === 0) return;
@@ -70,6 +74,14 @@ const FilePanel = ({
     };
     reader.readAsText(file);
   }, [onClickUpload, onError]);
+
+  const handleOnDownloadClick = (e) => {
+    if (waypointsIds.length === 0) {
+      return;
+    }
+
+    onClickDownload(e);
+  };
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: handleOnDrop,
@@ -129,7 +141,8 @@ const FilePanel = ({
             size="small"
             endIcon={<SystemUpdateIcon />}
             className={classes.buttonMargin}
-            onClick={onClickDownload}
+            onClick={handleOnDownloadClick}
+            disabled={waypointsIds.length === 0}
           >
             Download
           </Button>
