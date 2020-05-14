@@ -41,6 +41,7 @@ const ConnectedMap = () => {
       onViewportChanged={handleOnViewportChanged}
       onClick={handleMapClick}
       doubleClickZoom={false}
+      mapAction={actionType}
     >
       <ConnectedPolylines />
       <ConnectedCircles />
