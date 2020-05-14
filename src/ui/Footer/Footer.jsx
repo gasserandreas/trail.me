@@ -1,8 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core';
+
+import clsx from 'clsx';
 
 import { version } from '../../../package.json';
 
@@ -14,11 +17,11 @@ const useStyles = makeStyles({
   },
 });
 
-const Footer = () => {
+const Footer = ({ className }) => {
   const classes = useStyles();
 
   return (
-    <Typography variant="body2" className={classes.footer}>
+    <Typography variant="body2" className={clsx(classes.footer, className)}>
       <span>
         Created by:
         {' '}
@@ -34,7 +37,12 @@ const Footer = () => {
   );
 };
 
-Footer.propTypes = {};
-Footer.defaultProps = {};
+Footer.propTypes = {
+  className: PropTypes.string,
+};
+
+Footer.defaultProps = {
+  className: '',
+};
 
 export default Footer;
