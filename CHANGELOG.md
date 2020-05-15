@@ -1,3 +1,43 @@
+# [1.1.0](https://github.com/gasserandreas/trail.me/compare/v1.0.0...v1.1.0) (2020-05-15)
+
+
+### Bug Fixes
+
+* **#35:** disabled export for empty coordinates ([a85d8a7](https://github.com/gasserandreas/trail.me/commit/a85d8a7e9fcc1ffe979323adba7e75674e393459)), closes [#35](https://github.com/gasserandreas/trail.me/issues/35)
+* fixed event propagation bug ([04e601e](https://github.com/gasserandreas/trail.me/commit/04e601e00bfe728bdedbbd1a2b746ac03bc36856))
+* **#18:** fixed geo location error bug ([1540288](https://github.com/gasserandreas/trail.me/commit/154028856f0f08f10b82244ef3dbe2aa799cb7a7))
+* **#21:** fixed selected waypoint remove bug ([8ab14ae](https://github.com/gasserandreas/trail.me/commit/8ab14ae04b41448654e877229705ec8d440e6685))
+* **#21:** fixed waypoint selection issue ([3dafc2b](https://github.com/gasserandreas/trail.me/commit/3dafc2becf1ff717549ca66a2b83480e983a675d))
+
+
+### Features
+
+* **#13:** added baes MapPanel ([f3d7537](https://github.com/gasserandreas/trail.me/commit/f3d753773bffb9b86f85add408f329bf345b887f)), closes [#13](https://github.com/gasserandreas/trail.me/issues/13)
+* **#13:** added geo location API ([e82f122](https://github.com/gasserandreas/trail.me/commit/e82f12282cf034150b1e6bbff740c24be8610ca9)), closes [#13](https://github.com/gasserandreas/trail.me/issues/13)
+* **#13:** added map actions ([e9b0be7](https://github.com/gasserandreas/trail.me/commit/e9b0be7832b019a31bf21f2634999c0d0306fc1d)), closes [#13](https://github.com/gasserandreas/trail.me/issues/13)
+* **#13:** added MapPanel and redux tree ([7834c8a](https://github.com/gasserandreas/trail.me/commit/7834c8a42e2626e4b9e3c7808742e0a42f8cfb73)), closes [#13](https://github.com/gasserandreas/trail.me/issues/13)
+* **#14:** added ControlsPanel ([ea21d2b](https://github.com/gasserandreas/trail.me/commit/ea21d2bc3302c57ac1c7aeae6b832a744f3f212b)), closes [#14](https://github.com/gasserandreas/trail.me/issues/14)
+* **#14:** added CoordinatesPanel ([22c1de2](https://github.com/gasserandreas/trail.me/commit/22c1de2302661a053be7f6445e132f4413a821d9)), closes [#14](https://github.com/gasserandreas/trail.me/issues/14)
+* **#15:** added base map actions ([348a47a](https://github.com/gasserandreas/trail.me/commit/348a47a9d1566f139df9c6a0c123b648d9d13cfd)), closes [#15](https://github.com/gasserandreas/trail.me/issues/15)
+* **#15:** added map edit actions ([d71fd61](https://github.com/gasserandreas/trail.me/commit/d71fd613b5c03b85c29f34e5aa1434a79854f2c4)), closes [#15](https://github.com/gasserandreas/trail.me/issues/15)
+* **#23:** added map performance improvements ([fd599eb](https://github.com/gasserandreas/trail.me/commit/fd599eba46954422bde9f761f8760a4d69bb85fb)), closes [#23](https://github.com/gasserandreas/trail.me/issues/23)
+* **#23:** added virtualized list to improve performance ([1e440ef](https://github.com/gasserandreas/trail.me/commit/1e440ef5567b4c082c93ce701b31bc6f846affd7)), closes [#23](https://github.com/gasserandreas/trail.me/issues/23)
+* **#24:** added  base layout components ([095694b](https://github.com/gasserandreas/trail.me/commit/095694bc8be52e3ada576e18849ac01794833d80)), closes [#24](https://github.com/gasserandreas/trail.me/issues/24)
+* **#25:** added minor style improvements ([efbac1d](https://github.com/gasserandreas/trail.me/commit/efbac1d8e729c32a917e57077f7587388c6e4429)), closes [#25](https://github.com/gasserandreas/trail.me/issues/25)
+* **#25:** disabled app for small devices ([967a1b0](https://github.com/gasserandreas/trail.me/commit/967a1b018c3d1a55757864e8cf3a5d1297039e4c)), closes [#25](https://github.com/gasserandreas/trail.me/issues/25)
+* **#25:** removed dummy waypoints ([490a6c7](https://github.com/gasserandreas/trail.me/commit/490a6c74420405abe49cecafcd122a9782acebea)), closes [#25](https://github.com/gasserandreas/trail.me/issues/25)
+* **#3:** added download parser ([28964e1](https://github.com/gasserandreas/trail.me/commit/28964e1d93106ef289e07e71227cdc70bf2a2b9e)), closes [#3](https://github.com/gasserandreas/trail.me/issues/3)
+* **#3:** added xml parser ([388c875](https://github.com/gasserandreas/trail.me/commit/388c875051fa9ffe5104e4ce9bf1d068fee99a0d)), closes [#3](https://github.com/gasserandreas/trail.me/issues/3)
+* **#3:** improved performance for large data sets ([a89663e](https://github.com/gasserandreas/trail.me/commit/a89663e4ea9c2f8defcbc94da375c4a49125029a)), closes [#3](https://github.com/gasserandreas/trail.me/issues/3)
+* **#30:** enabled moveable circles ([19a792f](https://github.com/gasserandreas/trail.me/commit/19a792ff866156e283f44f225bd0ed943538474f)), closes [#30](https://github.com/gasserandreas/trail.me/issues/30)
+* **#5:** added base layout component ([1f09927](https://github.com/gasserandreas/trail.me/commit/1f099272a6b9a396ab5512decc15eaa09572e245)), closes [#5](https://github.com/gasserandreas/trail.me/issues/5)
+* **#7:** added map and map elements ([00d81bd](https://github.com/gasserandreas/trail.me/commit/00d81bd9eea74a3ca2ff9952f9f3606689dbcd15)), closes [#7](https://github.com/gasserandreas/trail.me/issues/7)
+* **#7:** minor setup improvements ([81edf8d](https://github.com/gasserandreas/trail.me/commit/81edf8db0033264f22f62b108bc128c57a97f16b)), closes [#7](https://github.com/gasserandreas/trail.me/issues/7)
+* **#8:** added error rendering to FilePanel ([f24d3fd](https://github.com/gasserandreas/trail.me/commit/f24d3fd5dfcae851d7a6b873b59383ea4327cd7a)), closes [#8](https://github.com/gasserandreas/trail.me/issues/8)
+* **#8:** added FilePanel component ([70417f7](https://github.com/gasserandreas/trail.me/commit/70417f7763c4b41c7f00306a279288f1852d4bf9)), closes [#8](https://github.com/gasserandreas/trail.me/issues/8)
+* **#9:** added waypoint redux ([444ad7b](https://github.com/gasserandreas/trail.me/commit/444ad7b9e1bdeccde1026d4695a25a6dc3460a99)), closes [#9](https://github.com/gasserandreas/trail.me/issues/9)
+* **$14:** added simple coordinate panel ([3679d74](https://github.com/gasserandreas/trail.me/commit/3679d74b1844340a8d9cf6e6c7ba22bab4619194))
+
 # 1.0.0 (2020-05-04)
 
 
