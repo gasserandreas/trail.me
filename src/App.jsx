@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -10,12 +10,12 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { loadApplication } from './entities/application';
 
-import { INDEX, USER } from './paths';
+import { INDEX } from './paths';
 
-import IndexPage from './pages/index';
-import UserPage from './pages/user/index';
-import NotFound from './pages/not-found';
+import Layout from './ui/Layout/Layout';
 
+const IndexPage = React.lazy(() => import('./pages/index/index'));
+const NotFound = React.lazy(() => import('./pages/not-found'));
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -25,13 +25,7 @@ const useStyles = makeStyles(() => ({
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto',
-    // define content container
     display: 'flex',
-    // paddingTop: '3rem',
-  },
-  content: {
-    flexGrow: 1,
-    flexShrink: 1,
   },
 }));
 
@@ -44,19 +38,20 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <div className={classes.root}>
-      <div className={classes.wrapper}>
-        <main className={classes.content}>
-          <Router>
-            <Switch>
-              <Route exact path={INDEX} component={IndexPage} />
-              <Route path={USER} component={UserPage} />
-              <Route path="*" component={NotFound} />
-            </Switch>
-          </Router>
-        </main>
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className={classes.root}>
+        <div className={classes.wrapper}>
+          <Layout>
+            <Router>
+              <Switch>
+                <Route exact path={INDEX} component={IndexPage} />
+                <Route path="*" component={NotFound} />
+              </Switch>
+            </Router>
+          </Layout>
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 };
 

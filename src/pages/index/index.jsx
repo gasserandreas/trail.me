@@ -3,11 +3,18 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import Panel, { PanelContent } from '../ui/Panels/Panel';
+import Page from '../../ui/Layout/Page';
+import Panel, { PanelContent } from '../../ui/Panels/Panel';
+import Footer from '../../ui/Footer/Footer';
+
+import ConnectedMap from './Map/ConnectedMap';
+import ConnectedFilePanel from './ConnectedFilePanel';
+import ConnectedMapPanel from './ConnectedMapPanel';
+import ConnectedWaypointsPanel from './ConnectedWaypointsPanel';
+import ConnectedControlsPanel from './ConnectedControlsPanel';
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -25,6 +32,7 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     flexFlow: 'column',
     flexWrap: 'nowrap',
+    justifyContent: 'space-between',
   },
   filePanel: {
     flexGrow: 0,
@@ -35,6 +43,16 @@ const useStyles = makeStyles(() => ({
     flexGrow: 0,
     flexShrink: 0,
     marginBottom: '1rem',
+  },
+  controlsPanel: {
+    flexGrow: 0,
+    flexShrink: 0,
+    minHeight: '66px',
+  },
+  coordinatePanel: {
+    flexGrow: 1,
+    flexShrink: 1,
+    overflowY: 'scroll',
   },
   title: {
     padding: '1rem',
@@ -52,49 +70,46 @@ const useStyles = makeStyles(() => ({
 const HomePage = () => {
   const classes = useStyles();
 
+  /**
+   * Get parent size and pass to virtualize list
+   */
+  const [waypointHeight, setWaypointHeight] = React.useState(null);
+  const waypointRef = React.useCallback((node) => {
+    if (node !== null) {
+      setWaypointHeight(node.getBoundingClientRect().height);
+    }
+  }, []);
+
   return (
-    <div className={classes.page}>
+    <Page>
       <section className={classes.map}>
-        Map
+        <ConnectedMap />
       </section>
       <Box className={classes.actionPanel}>
         <Typography className={classes.title} variant="h1" component="h1">
-          <Typography>Bike.me</Typography>
+          Trail.me
         </Typography>
         <div className={classes.filePanel}>
-          <Panel>
-            <PanelContent>
-              <Typography>File Panel</Typography>
-            </PanelContent>
-          </Panel>
+          <ConnectedFilePanel />
         </div>
         <div className={classes.mapPanel}>
-          <Panel>
-            <PanelContent>
-              <Typography>Map Panel</Typography>
-            </PanelContent>
-          </Panel>
+          <ConnectedMapPanel />
         </div>
-        <div className={classes.coordinatePanel}>
-          <Panel>
-            <PanelContent>
-              <Typography>Coordinates Panel</Typography>
-            </PanelContent>
-          </Panel>
+        <div className={classes.controlsPanel}>
+          <ConnectedControlsPanel />
+        </div>
+        <div className={classes.coordinatePanel} ref={waypointRef}>
+          <ConnectedWaypointsPanel panelHeight={waypointHeight} />
         </div>
         <div className={classes.footerPanel}>
           <Panel>
             <PanelContent>
-              <Typography variant="body2">
-                Created by:
-                {' '}
-                <Link href="https://gasserandreas.com" target="_blank">Andreas Gasser</Link>
-              </Typography>
+              <Footer />
             </PanelContent>
           </Panel>
         </div>
       </Box>
-    </div>
+    </Page>
   );
 };
 
