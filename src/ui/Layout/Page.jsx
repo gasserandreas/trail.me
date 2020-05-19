@@ -39,25 +39,3 @@ Page.defaultProps = {
 };
 
 export default withHotKeys(Page);
-
-
-// const HOCPage = ({ handlers, ...props }) => {
-//   if (!handlers) {
-//     return <Page {...props} />;
-//   }
-
-//   return withHotKeys(<Page handlers={handlers} {...props} />);
-// };
-
-// HOCPage.propTypes = {
-//   children: PropTypes.node.isRequired,
-//   className: PropTypes.string,
-//   handlers: PropTypes.shape({}),
-// };
-
-// HOCPage.defaultProps = {
-//   className: '',
-//   handlers: null,
-// };
-
-// export default HOCPage;
