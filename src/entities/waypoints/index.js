@@ -12,6 +12,20 @@ import {
 
 import simplify from './simplifyPath';
 
+/* demo only */
+import coordinates from './coordinates.json';
+
+const byId = {};
+const ids = [];
+const selected = {};
+
+coordinates.forEach((coordinate) => {
+  const { id } = coordinate;
+  byId[id] = coordinate;
+  selected[id] = { value: false };
+  ids.push(id);
+});
+
 const SET = 'waypoints/set';
 const SET_PENDING = 'waypoint/setPending';
 
@@ -25,6 +39,7 @@ const RESET = 'waypoints/reset';
 const SELECTED_RESET = 'waypoints/selectedReset';
 const SELECT = 'waypoints/select';
 const DESELECT = 'waypoints/deselect';
+const SET_SELECTED = 'waypoints/setSelected';
 
 const setPending = createAction(SET_PENDING);
 
@@ -38,6 +53,7 @@ const reset = createAction(RESET);
 const selectedReset = createAction(SELECTED_RESET);
 const select = createAction(SELECT);
 const deselct = createAction(DESELECT);
+const setSelected = createAction(SET_SELECTED);
 
 // complex functions
 export const loadWaypoints = (waypoints) => (dispatch) => {
@@ -142,6 +158,10 @@ export const deselectWaypoints = (ids) => (dispatch) => {
   dispatch(deselct(ids));
 };
 
+export const setSelectedWaypoints = (ids) => (dispatch) => {
+  dispatch(setSelected(ids));
+};
+
 // reducer
 const pendingReducer = (state = false, action) => {
   const { type, payload } = action;
@@ -154,7 +174,8 @@ const pendingReducer = (state = false, action) => {
   }
 };
 
-const byIdReducer = (state = {}, action) => {
+// const byIdReducer = (state = {}, action) => {
+const byIdReducer = (state = byId, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -188,7 +209,8 @@ const byIdReducer = (state = {}, action) => {
   }
 };
 
-const idsReducer = (state = [], action) => {
+// const idsReducer = (state = [], action) => {
+const idsReducer = (state = ids, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -209,11 +231,27 @@ const idsReducer = (state = [], action) => {
   }
 };
 
-const selectedReducer = (state = [], action) => {
+// const selectedReducer = (state = {}, action) => {
+const selectedReducer = (state = selected, action) => {
   const { type, payload } = action;
   let newState;
 
   switch (type) {
+    case SET_SELECTED:
+      return {
+        ...Object.keys(state).reduce((prev, cur) => ({
+          ...prev,
+          [cur]: {
+            value: false,
+          },
+        }), {}),
+        ...payload.reduce((prev, cur) => ({
+          ...prev,
+          [cur]: {
+            value: true,
+          },
+        }), {}),
+      };
     case SELECT:
       return generateSelectState(state, payload, true);
     case DESELECT:

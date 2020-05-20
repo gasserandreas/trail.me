@@ -35,16 +35,17 @@ const useStyles = makeStyles(() => ({
 }));
 
 const ControlsPanel = ({
+  isMultiSelect,
   selectedCoordinates,
   onCoordinateDelete,
   onCoordinateReset,
+  onSetMultiSelect,
   ...props
 }) => {
   const classes = useStyles();
 
   const numberSelectedItems = useMemo(() => selectedCoordinates.length, [selectedCoordinates]);
-
-  const deleteDisabled = numberSelectedItems === 0;
+  const deleteEnabled = numberSelectedItems > 0;
 
   const deleteText = React.useMemo(() => {
     switch (numberSelectedItems) {
@@ -58,7 +59,7 @@ const ControlsPanel = ({
   }, [numberSelectedItems]);
 
   const handleOnDeleteClick = (e) => {
-    if (deleteDisabled) {
+    if (!deleteEnabled) {
       return;
     }
 
@@ -73,18 +74,31 @@ const ControlsPanel = ({
     }
   };
 
+  const handleOnSelectClick = (e) => {
+    onSetMultiSelect(e);
+  };
+
   return (
     <Panel title="Coordinates" {...props}>
       <PanelContent>
         <div className={classes.controls}>
-          {!deleteDisabled && (
-            <>
+          <>
+            {isMultiSelect ? (
               <Button
                 onClick={handleOnCancelClick}
                 className={classes.button}
               >
                 Cancel
               </Button>
+            ) : (
+              <Button
+                onClick={handleOnSelectClick}
+                className={classes.button}
+              >
+                Select
+              </Button>
+            )}
+            {deleteEnabled && (
               <DeleteButton
                 onClick={handleOnDeleteClick}
                 disabled={numberSelectedItems === 0}
@@ -92,8 +106,8 @@ const ControlsPanel = ({
               >
                 {deleteText}
               </DeleteButton>
-            </>
-          )}
+            )}
+          </>
         </div>
       </PanelContent>
     </Panel>
@@ -101,14 +115,18 @@ const ControlsPanel = ({
 };
 
 ControlsPanel.propTypes = {
+  isMultiSelect: PropTypes.bool,
   selectedCoordinates: PropTypes.arrayOf(PropTypes.string).isRequired,
   onCoordinateDelete: PropTypes.func,
   onCoordinateReset: PropTypes.func,
+  onSetMultiSelect: PropTypes.func,
 };
 
 ControlsPanel.defaultProps = {
+  isMultiSelect: false,
   onCoordinateDelete: () => {},
   onCoordinateReset: () => {},
+  onSetMultiSelect: () => {},
 };
 
 export default ControlsPanel;

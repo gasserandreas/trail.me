@@ -4,13 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import WaypointsPanel from '../../ui/Panels/WaypointsPanel/WaypointsPanel';
 
-import { selectWaypoints, deselectWaypoints } from '../../entities/waypoints';
+import { selectWaypoints, deselectWaypoints, setSelectedWaypoints } from '../../entities/waypoints';
 import {
   waypointsByIdSelector,
   waypointsIdsSelector,
   selectedWaypointsSelector,
   waypointsPendingSelector,
 } from '../../entities/waypoints/selector';
+
+import { setMultiSelect } from '../../entities/map';
+import { multiSelectSelector } from '../../entities/map/selector';
 
 const ConnectedWaypointsPanel = ({ panelHeight }) => {
   const dispatch = useDispatch();
@@ -19,6 +22,7 @@ const ConnectedWaypointsPanel = ({ panelHeight }) => {
   const waypointsById = useSelector(waypointsByIdSelector);
   const waypointsIds = useSelector(waypointsIdsSelector);
   const selectedWaypoints = useSelector(selectedWaypointsSelector);
+  const isMultiSelect = useSelector(multiSelectSelector);
 
   const handleOnWaypointSelect = (_, newSelected) => {
     dispatch(selectWaypoints(newSelected));
@@ -26,6 +30,14 @@ const ConnectedWaypointsPanel = ({ panelHeight }) => {
 
   const handleOnWaypointDeSelect = (_, newDeselect) => {
     dispatch(deselectWaypoints(newDeselect));
+  };
+
+  const handleOnWaypointSetSelected = (_, id) => {
+    dispatch(setSelectedWaypoints([id]));
+  };
+
+  const handleOnSetMultiSelect = () => {
+    dispatch(setMultiSelect(true));
   };
 
   // don't render with no items
@@ -40,8 +52,11 @@ const ConnectedWaypointsPanel = ({ panelHeight }) => {
       waypointSelectedById={selectedWaypoints}
       onWaypointSelect={handleOnWaypointSelect}
       onWaypointDeSelect={handleOnWaypointDeSelect}
+      onWaypointSetSelected={handleOnWaypointSetSelected}
+      onSetMultiSelect={handleOnSetMultiSelect}
       parentHeight={panelHeight}
       pending={waypointsPending}
+      multiSelect={isMultiSelect}
     />
   );
 };
