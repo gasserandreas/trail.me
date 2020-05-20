@@ -7,23 +7,26 @@ import {
   createWaypoint,
   addWaypointIdsInBetween,
   createChunkArray,
+  updateSelectState,
   generateSelectState,
 } from './utils';
 
 import simplify from './simplifyPath';
 
+import { selectedWaypointIdsSelector, waypointsIdsSelector } from './selector';
+
 /* demo only */
 import coordinates from './coordinates.json';
 
-const byId = {};
-const ids = [];
-const selected = {};
+const exampleById = {};
+const exampleIds = [];
+const exampleSelected = {};
 
 coordinates.forEach((coordinate) => {
   const { id } = coordinate;
-  byId[id] = coordinate;
-  selected[id] = { value: false };
-  ids.push(id);
+  exampleById[id] = coordinate;
+  exampleSelected[id] = { value: false };
+  exampleIds.push(id);
 });
 
 const SET = 'waypoints/set';
@@ -142,6 +145,22 @@ export const removeWaypoints = (ids) => (dispatch) => {
   dispatch(remove(ids));
 };
 
+export const removeSelectedWaypoints = () => (dispatch, getStore) => {
+  const store = getStore();
+  const selectedIds = selectedWaypointIdsSelector(store);
+  const ids = waypointsIdsSelector(store);
+  dispatch(remove(selectedIds));
+
+  // select next element
+  const lastSelectedId = selectedIds[selectedIds.length - 1];
+  const nextSelectedIndex = ids.indexOf(lastSelectedId) - 1;
+  const nextSelectedId = nextSelectedIndex < (ids.length - 1) ? ids[nextSelectedIndex] : null;
+
+  if (nextSelectedId) {
+    dispatch(setSelected([nextSelectedId]));
+  }
+};
+
 export const resetWaypoints = () => (dispatch) => {
   dispatch(reset());
 };
@@ -174,8 +193,8 @@ const pendingReducer = (state = false, action) => {
   }
 };
 
-// const byIdReducer = (state = {}, action) => {
-const byIdReducer = (state = byId, action) => {
+const byIdReducer = (state = {}, action) => {
+// const byIdReducer = (state = exampleById, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -209,8 +228,8 @@ const byIdReducer = (state = byId, action) => {
   }
 };
 
-// const idsReducer = (state = [], action) => {
-const idsReducer = (state = ids, action) => {
+const idsReducer = (state = [], action) => {
+// const idsReducer = (state = exampleIds, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -231,34 +250,22 @@ const idsReducer = (state = ids, action) => {
   }
 };
 
-// const selectedReducer = (state = {}, action) => {
-const selectedReducer = (state = selected, action) => {
+const selectedReducer = (state = {}, action) => {
+// const selectedReducer = (state = exampleSelected, action) => {
   const { type, payload } = action;
   let newState;
 
   switch (type) {
     case SET_SELECTED:
-      return {
-        ...Object.keys(state).reduce((prev, cur) => ({
-          ...prev,
-          [cur]: {
-            value: false,
-          },
-        }), {}),
-        ...payload.reduce((prev, cur) => ({
-          ...prev,
-          [cur]: {
-            value: true,
-          },
-        }), {}),
-      };
-    case SELECT:
       return generateSelectState(state, payload, true);
+    case SELECT:
+      return updateSelectState(state, payload, true);
     case DESELECT:
-      return generateSelectState(state, payload, false);
-    case ADD:
+      return updateSelectState(state, payload, false);
     case ADD_BETWEEN:
-      return generateSelectState(state, payload.ids, false);
+      return generateSelectState(state, payload.ids, true);
+    case ADD:
+      return updateSelectState(state, payload.ids, false);
     case REMOVE:
       // eslint-disable-next-line no-case-declarations
       newState = { ...state };
@@ -267,16 +274,7 @@ const selectedReducer = (state = selected, action) => {
       });
       return newState;
     case SELECTED_RESET:
-      return Object.entries(state)
-        .reduce((prev, cur) => {
-          const id = cur[0];
-          return {
-            ...prev,
-            [id]: {
-              value: false,
-            },
-          };
-        }, {});
+      return generateSelectState(state, Object.keys(state), false);
     case RESET:
       return {};
     default:
