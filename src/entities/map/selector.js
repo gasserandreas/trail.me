@@ -21,3 +21,8 @@ export const fileTypeSelector = createSelector(
   mapStateSelector,
   ({ fileType }) => fileType,
 );
+
+export const multiSelectSelector = createSelector(
+  mapStateSelector,
+  ({ multiSelect }) => multiSelect,
+);

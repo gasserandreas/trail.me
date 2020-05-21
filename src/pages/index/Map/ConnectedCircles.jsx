@@ -8,6 +8,7 @@ import {
   removeWaypoints,
   selectWaypoints,
   moveWaypoint,
+  setSelectedWaypoints,
 } from '../../../entities/waypoints';
 
 import {
@@ -16,7 +17,7 @@ import {
   waypointsPendingSelector,
 } from '../../../entities/waypoints/selector';
 
-import { viewportSelector, actionTypeSelector } from '../../../entities/map/selector';
+import { viewportSelector, actionTypeSelector, multiSelectSelector } from '../../../entities/map/selector';
 
 const ZOOM_HIDE_LEVEL = 14;
 
@@ -27,6 +28,7 @@ const ConnectedCircles = () => {
   const waypointsPending = useSelector(waypointsPendingSelector);
   const waypoints = useSelector(waypointsSelector);
   const selectedWaypoints = useSelector(selectedWaypointsSelector);
+  const isMultiSelect = useSelector(multiSelectSelector);
 
   const viewport = useSelector(viewportSelector);
   const { zoom } = viewport;
@@ -40,13 +42,17 @@ const ConnectedCircles = () => {
     e.originalEvent.stopPropagation();
     const ids = [id];
 
-    switch (actionType) {
-      case MapActions.REMOVE:
-        dispatch(removeWaypoints(ids));
-        break;
-      default:
-        dispatch(selectWaypoints(ids));
+    if (actionType === MapActions.REMOVE) {
+      dispatch(removeWaypoints(ids));
+      return;
     }
+
+    if (isMultiSelect) {
+      dispatch(selectWaypoints(ids));
+      return;
+    }
+
+    dispatch(setSelectedWaypoints(ids));
   };
 
   const handleOnDragend = (e, id) => {

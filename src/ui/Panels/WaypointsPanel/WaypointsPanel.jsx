@@ -47,8 +47,11 @@ const WaypointsPanel = ({
   waypointSelectedById,
   onWaypointSelect,
   onWaypointDeSelect,
+  onWaypointSetSelected,
+  onSetMultiSelect,
   parentHeight,
   pending,
+  multiSelect,
 }) => {
   const classes = useStyles();
 
@@ -59,15 +62,30 @@ const WaypointsPanel = ({
   const handleOnClick = (selectedId) => (e) => {
     const { shiftKey } = e;
 
+    /**
+     * handle shift multi selection
+     */
     if (lastClicked && shiftKey) {
       const inBetweenIds = getInBetweenElements(waypointIds, lastClicked, selectedId);
       onWaypointSelect(e, inBetweenIds);
+      onSetMultiSelect(e, true);
 
       setLastClicked(selectedId);
       return;
     }
 
-    // simple click
+    /**
+     * simple select allowed only
+     */
+    if (!multiSelect) {
+      onWaypointSetSelected(e, selectedId);
+      setLastClicked(selectedId);
+      return;
+    }
+
+    /**
+     * handle default multi select behaviour
+     */
     setLastClicked(selectedId);
     if (waypointSelectedById[selectedId].value) {
       onWaypointDeSelect(e, [selectedId]);
@@ -109,14 +127,16 @@ const WaypointsPanel = ({
             )}
             className={classes.listItemText}
           />
-          <ListItemIcon>
-            <Checkbox
-              checked={waypointSelectedById[id].value}
-              tabIndex={-1}
-              disableRipple
-              inputProps={{ 'aria-labelledby': id }}
-            />
-          </ListItemIcon>
+          {multiSelect && (
+            <ListItemIcon>
+              <Checkbox
+                checked={waypointSelectedById[id].value}
+                tabIndex={-1}
+                disableRipple
+                inputProps={{ 'aria-labelledby': id }}
+              />
+            </ListItemIcon>
+          )}
         </ListItem>
         {index !== (waypointIds.length - 1) && (
           <Divider key={`coordinate-item-divider-${id}`} />
@@ -154,15 +174,21 @@ WaypointsPanel.propTypes = {
   waypointSelectedById: PropTypes.shape({}).isRequired,
   onWaypointSelect: PropTypes.func,
   onWaypointDeSelect: PropTypes.func,
+  onWaypointSetSelected: PropTypes.func,
+  onSetMultiSelect: PropTypes.func,
   parentHeight: PropTypes.number,
   pending: PropTypes.bool,
+  multiSelect: PropTypes.bool,
 };
 
 WaypointsPanel.defaultProps = {
   onWaypointSelect: () => {},
   onWaypointDeSelect: () => {},
+  onWaypointSetSelected: () => {},
+  onSetMultiSelect: () => {},
   parentHeight: null,
   pending: false,
+  multiSelect: false,
 };
 
 export default WaypointsPanel;

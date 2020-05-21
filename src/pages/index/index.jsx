@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import Box from '@material-ui/core/Box';
@@ -17,6 +18,8 @@ import ConnectedWaypointsPanel from './ConnectedWaypointsPanel';
 import ConnectedControlsPanel from './ConnectedControlsPanel';
 
 import HotKeys from '../../constants/HotKeys';
+
+import { removeSelectedWaypoints } from '../../entities/waypoints';
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -71,6 +74,7 @@ const useStyles = makeStyles(() => ({
 
 const HomePage = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   /**
    * Get parent size and pass to virtualize list
@@ -85,12 +89,8 @@ const HomePage = () => {
   /**
    * HotKeys handler
    */
-  const deleteHandler = useCallback(() => {
-    console.log('delete handler'); // eslint-disable-line no-console
-  }, []);
-
   const handlers = {
-    [HotKeys.DELETE]: deleteHandler,
+    [HotKeys.DELETE]: () => dispatch(removeSelectedWaypoints()),
   };
 
   return (
