@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
 
 import { version } from '../../../package.json';
+import PrivacyModal from '../Analytics/PrivacyModal';
 
 const useStyles = makeStyles({
   footer: {
@@ -21,19 +22,23 @@ const Footer = ({ className }) => {
   const classes = useStyles();
 
   return (
-    <Typography variant="body2" className={clsx(classes.footer, className)}>
-      <span>
-        Created by:
-        {' '}
-        <Link href="https://gasserandreas.com" target="_blank">Andreas Gasser</Link>
-      </span>
-      {/* <br /> */}
-      <span className={classes.version}>
-        v.
-        {' '}
-        {version}
-      </span>
-    </Typography>
+    <>
+      <Typography variant="body2" className={clsx(classes.footer, className)}>
+        <span>
+          Created by:
+          {' '}
+          <Link href="https://gasserandreas.com" target="_blank">Andreas Gasser</Link>
+        </span>
+        <span className={classes.version}>
+          v.
+          {' '}
+          {version}
+        </span>
+      </Typography>
+      <Typography variant="body2" className={clsx(classes.footer, className)}>
+        <PrivacyModal />
+      </Typography>
+    </>
   );
 };
 
