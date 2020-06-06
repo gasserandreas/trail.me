@@ -14,6 +14,7 @@ import { loadApplication } from './entities/application';
 import { INDEX } from './paths';
 
 import Layout from './ui/Layout/Layout';
+import withTracker from './ui/Analytics/withTracker';
 import HotKeys from './constants/HotKeys';
 
 const IndexPage = React.lazy(() => import('./pages/index/index'));
@@ -54,8 +55,8 @@ const App = () => {
             <Layout>
               <Router>
                 <Switch>
-                  <Route exact path={INDEX} component={IndexPage} />
-                  <Route path="*" component={NotFound} />
+                  <Route exact path={INDEX} component={withTracker(IndexPage)} />
+                  <Route path="*" component={withTracker(NotFound)} />
                 </Switch>
               </Router>
             </Layout>
