@@ -10,6 +10,7 @@ const FRICK_VIEWPORT = {
 };
 
 const SET_VIEWPORT = 'map/setViewport';
+const SET_VIEWPORT_COORDINATES = 'map/setViewportCoordinates';
 const SET_LOCATION = 'map/setLocation';
 
 const SET_ACTION_TYPE = 'map/setActionType';
@@ -18,6 +19,7 @@ const SET_FILE_TYPE = 'map/setFileType';
 const SET_MULTI_SELECT = 'map/setMultiSelect';
 
 export const setViewport = createAction(SET_VIEWPORT);
+export const setViewportCoordinates = createAction(SET_VIEWPORT_COORDINATES);
 export const setLocation = createAction(SET_LOCATION);
 
 export const setActionType = createAction(SET_ACTION_TYPE);
@@ -32,6 +34,11 @@ const viewport = (state = FRICK_VIEWPORT, action) => {
   switch (type) {
     case SET_VIEWPORT:
       return payload;
+    case SET_VIEWPORT_COORDINATES:
+      return {
+        ...state,
+        center: payload,
+      };
     default:
       return state;
   }

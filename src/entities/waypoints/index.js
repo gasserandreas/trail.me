@@ -15,6 +15,8 @@ import simplify from './simplifyPath';
 
 import { selectedWaypointIdsSelector, waypointsIdsSelector } from './selector';
 
+import { setViewportCoordinates } from '../map';
+
 /* demo only */
 import coordinates from './coordinates.json';
 
@@ -96,6 +98,13 @@ export const loadWaypoints = (waypoints) => (dispatch) => {
 
     dispatch(add(payload));
   });
+
+  // get first coordinate and set map center
+  const first = waypoints[0];
+  if (first) {
+    const { lat, lng } = first;
+    dispatch(setViewportCoordinates([lat, lng]));
+  }
 
   dispatch(setPending(false));
 };
