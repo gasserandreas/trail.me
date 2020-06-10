@@ -17,8 +17,6 @@ export const selectedWaypointsSelector = createSelector(
   ({ selected }) => selected,
 );
 
-// export const selectedWaypointsUncachedSelector = (state) => state.waypoints.selected;
-
 export const selectedWaypointIdsSelector = createSelector(
   selectedWaypointsSelector,
   (selectedById) => Object.entries(selectedById)

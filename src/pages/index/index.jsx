@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import Box from '@material-ui/core/Box';
@@ -15,6 +16,10 @@ import ConnectedFilePanel from './ConnectedFilePanel';
 import ConnectedMapPanel from './ConnectedMapPanel';
 import ConnectedWaypointsPanel from './ConnectedWaypointsPanel';
 import ConnectedControlsPanel from './ConnectedControlsPanel';
+
+import HotKeys from '../../constants/HotKeys';
+
+import { removeSelectedWaypoints } from '../../entities/waypoints';
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -69,19 +74,27 @@ const useStyles = makeStyles(() => ({
 
 const HomePage = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   /**
    * Get parent size and pass to virtualize list
    */
   const [waypointHeight, setWaypointHeight] = React.useState(null);
-  const waypointRef = React.useCallback((node) => {
+  const waypointRef = useCallback((node) => {
     if (node !== null) {
       setWaypointHeight(node.getBoundingClientRect().height);
     }
   }, []);
 
+  /**
+   * HotKeys handler
+   */
+  const handlers = {
+    [HotKeys.DELETE]: () => dispatch(removeSelectedWaypoints()),
+  };
+
   return (
-    <Page>
+    <Page handlers={handlers}>
       <section className={classes.map}>
         <ConnectedMap />
       </section>

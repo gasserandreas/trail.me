@@ -15,11 +15,15 @@ const SET_LOCATION = 'map/setLocation';
 const SET_ACTION_TYPE = 'map/setActionType';
 const SET_FILE_TYPE = 'map/setFileType';
 
+const SET_MULTI_SELECT = 'map/setMultiSelect';
+
 export const setViewport = createAction(SET_VIEWPORT);
 export const setLocation = createAction(SET_LOCATION);
 
 export const setActionType = createAction(SET_ACTION_TYPE);
 export const setFileType = createAction(SET_FILE_TYPE);
+
+export const setMultiSelect = createAction(SET_MULTI_SELECT);
 
 // reducers
 const viewport = (state = FRICK_VIEWPORT, action) => {
@@ -66,9 +70,21 @@ const fileType = (state = MapFileType.GPX, action) => {
   }
 };
 
+const multiSelect = (state = false, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case SET_MULTI_SELECT:
+      return payload;
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   viewport,
   location,
   actionType,
   fileType,
+  multiSelect,
 });

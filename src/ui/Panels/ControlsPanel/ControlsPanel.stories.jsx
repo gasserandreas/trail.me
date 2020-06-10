@@ -20,5 +20,6 @@ export const SimpleFilePanel = () => (
     ])}
     onCoordinateDelete={action('onCoordinateDelete')}
     onCoordinateReset={action('onCoordinateReset')}
+    onSetMultiSelect={action('onSetMultiSelect')}
   />
 );

@@ -7,7 +7,8 @@ import MapActions from '../../../constants/MapActions';
 import { removeWaypoints, selectWaypoints, addWaypointBetween } from '../../../entities/waypoints';
 import { waypointsPolylinesSelector, waypointsPendingSelector } from '../../../entities/waypoints/selector';
 
-import { viewportSelector, actionTypeSelector } from '../../../entities/map/selector';
+import { setMultiSelect } from '../../../entities/map';
+import { viewportSelector, actionTypeSelector, multiSelectSelector } from '../../../entities/map/selector';
 
 const ConnectedPolylines = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const ConnectedPolylines = () => {
   const polylines = useSelector(waypointsPolylinesSelector);
   const actionType = useSelector(actionTypeSelector);
   const viewport = useSelector(viewportSelector);
+  const isMultiSelect = useSelector(multiSelectSelector);
   const { zoom } = viewport;
 
   if (waypointsPending) {
@@ -26,13 +28,16 @@ const ConnectedPolylines = () => {
   const handlePolylineClick = (e, startId, endId) => {
     e.originalEvent.stopPropagation();
 
-    switch (actionType) {
-      case MapActions.REMOVE:
-        dispatch(removeWaypoints([startId, endId]));
-        break;
-      default:
-        dispatch(selectWaypoints([startId, endId]));
+    if (actionType === MapActions.REMOVE) {
+      dispatch(removeWaypoints([startId, endId]));
+      return;
     }
+
+    if (!isMultiSelect) {
+      dispatch(setMultiSelect(true));
+    }
+
+    dispatch(selectWaypoints([startId, endId]));
   };
 
   const handlePolylinesDbClick = (e, startId, endId) => {

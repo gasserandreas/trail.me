@@ -7,10 +7,27 @@ import {
   createWaypoint,
   addWaypointIdsInBetween,
   createChunkArray,
+  updateSelectState,
   generateSelectState,
 } from './utils';
 
 import simplify from './simplifyPath';
+
+import { selectedWaypointIdsSelector, waypointsIdsSelector } from './selector';
+
+/* demo only */
+import coordinates from './coordinates.json';
+
+const exampleById = {};
+const exampleIds = [];
+const exampleSelected = {};
+
+coordinates.forEach((coordinate) => {
+  const { id } = coordinate;
+  exampleById[id] = coordinate;
+  exampleSelected[id] = { value: false };
+  exampleIds.push(id);
+});
 
 const SET = 'waypoints/set';
 const SET_PENDING = 'waypoint/setPending';
@@ -25,6 +42,7 @@ const RESET = 'waypoints/reset';
 const SELECTED_RESET = 'waypoints/selectedReset';
 const SELECT = 'waypoints/select';
 const DESELECT = 'waypoints/deselect';
+const SET_SELECTED = 'waypoints/setSelected';
 
 const setPending = createAction(SET_PENDING);
 
@@ -38,6 +56,7 @@ const reset = createAction(RESET);
 const selectedReset = createAction(SELECTED_RESET);
 const select = createAction(SELECT);
 const deselct = createAction(DESELECT);
+const setSelected = createAction(SET_SELECTED);
 
 // complex functions
 export const loadWaypoints = (waypoints) => (dispatch) => {
@@ -126,6 +145,22 @@ export const removeWaypoints = (ids) => (dispatch) => {
   dispatch(remove(ids));
 };
 
+export const removeSelectedWaypoints = () => (dispatch, getStore) => {
+  const store = getStore();
+  const selectedIds = selectedWaypointIdsSelector(store);
+  const ids = waypointsIdsSelector(store);
+  dispatch(remove(selectedIds));
+
+  // select next element
+  const lastSelectedId = selectedIds[selectedIds.length - 1];
+  const nextSelectedIndex = ids.indexOf(lastSelectedId) - 1;
+  const nextSelectedId = nextSelectedIndex < (ids.length - 1) ? ids[nextSelectedIndex] : null;
+
+  if (nextSelectedId) {
+    dispatch(setSelected([nextSelectedId]));
+  }
+};
+
 export const resetWaypoints = () => (dispatch) => {
   dispatch(reset());
 };
@@ -142,6 +177,10 @@ export const deselectWaypoints = (ids) => (dispatch) => {
   dispatch(deselct(ids));
 };
 
+export const setSelectedWaypoints = (ids) => (dispatch) => {
+  dispatch(setSelected(ids));
+};
+
 // reducer
 const pendingReducer = (state = false, action) => {
   const { type, payload } = action;
@@ -155,6 +194,7 @@ const pendingReducer = (state = false, action) => {
 };
 
 const byIdReducer = (state = {}, action) => {
+// const byIdReducer = (state = exampleById, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -189,6 +229,7 @@ const byIdReducer = (state = {}, action) => {
 };
 
 const idsReducer = (state = [], action) => {
+// const idsReducer = (state = exampleIds, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -209,18 +250,22 @@ const idsReducer = (state = [], action) => {
   }
 };
 
-const selectedReducer = (state = [], action) => {
+const selectedReducer = (state = {}, action) => {
+// const selectedReducer = (state = exampleSelected, action) => {
   const { type, payload } = action;
   let newState;
 
   switch (type) {
-    case SELECT:
+    case SET_SELECTED:
       return generateSelectState(state, payload, true);
+    case SELECT:
+      return updateSelectState(state, payload, true);
     case DESELECT:
-      return generateSelectState(state, payload, false);
-    case ADD:
+      return updateSelectState(state, payload, false);
     case ADD_BETWEEN:
-      return generateSelectState(state, payload.ids, false);
+      return generateSelectState(state, payload.ids, true);
+    case ADD:
+      return updateSelectState(state, payload.ids, false);
     case REMOVE:
       // eslint-disable-next-line no-case-declarations
       newState = { ...state };
@@ -229,16 +274,7 @@ const selectedReducer = (state = [], action) => {
       });
       return newState;
     case SELECTED_RESET:
-      return Object.entries(state)
-        .reduce((prev, cur) => {
-          const id = cur[0];
-          return {
-            ...prev,
-            [id]: {
-              value: false,
-            },
-          };
-        }, {});
+      return generateSelectState(state, Object.keys(state), false);
     case RESET:
       return {};
     default:

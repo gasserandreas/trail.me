@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { useDispatch } from 'react-redux';
+import { HotKeys as HotKeysComponent } from 'react-hotkeys';
 
 import {
   BrowserRouter as Router,
@@ -13,6 +14,8 @@ import { loadApplication } from './entities/application';
 import { INDEX } from './paths';
 
 import Layout from './ui/Layout/Layout';
+import withTracker from './ui/Analytics/withTracker';
+import HotKeys from './constants/HotKeys';
 
 const IndexPage = React.lazy(() => import('./pages/index/index'));
 const NotFound = React.lazy(() => import('./pages/not-found'));
@@ -29,6 +32,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+/**
+ * Define HotKeys KeyMap
+ */
+const keyMap = {
+  [HotKeys.DELETE]: ['del', 'backspace'],
+};
+
 const App = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -39,18 +49,20 @@ const App = () => {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <div className={classes.root}>
-        <div className={classes.wrapper}>
-          <Layout>
-            <Router>
-              <Switch>
-                <Route exact path={INDEX} component={IndexPage} />
-                <Route path="*" component={NotFound} />
-              </Switch>
-            </Router>
-          </Layout>
+      <HotKeysComponent keyMap={keyMap}>
+        <div className={classes.root}>
+          <div className={classes.wrapper}>
+            <Layout>
+              <Router>
+                <Switch>
+                  <Route exact path={INDEX} component={withTracker(IndexPage)} />
+                  <Route path="*" component={withTracker(NotFound)} />
+                </Switch>
+              </Router>
+            </Layout>
+          </div>
         </div>
-      </div>
+      </HotKeysComponent>
     </Suspense>
   );
 };

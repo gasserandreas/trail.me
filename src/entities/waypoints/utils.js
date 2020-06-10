@@ -53,9 +53,24 @@ export const createChunkArray = (array, chunkSize = 100) => {
   return chunkArrays;
 };
 
-export const generateSelectState = (state, newIds, value) => ({
+export const generateSelectState = (state, ids, value) => ({
+  ...Object.keys(state).reduce((prev, cur) => ({
+    ...prev,
+    [cur]: {
+      value: false,
+    },
+  }), {}),
+  ...ids.reduce((prev, cur) => ({
+    ...prev,
+    [cur]: {
+      value,
+    },
+  }), {}),
+});
+
+export const updateSelectState = (state, ids, value) => ({
   ...state,
-  ...newIds.reduce((prev, cur) => ({
+  ...ids.reduce((prev, cur) => ({
     ...prev,
     [cur]: {
       value,

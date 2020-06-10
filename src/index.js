@@ -13,24 +13,34 @@ import * as serviceWorker from './serviceWorker';
 
 import configureStore from './config/redux/configureStore';
 import bikeMeTheme from './theme';
-
-// create store object
-const store = configureStore();
+import { AppContextProvider } from './ui/AppContext/AppContext';
+import devInitialReduxStore from './ui/DevUtils/devInitialReduxStore';
 
 const theme = createMuiTheme(bikeMeTheme);
 
-if (process.env.NODE_ENV === 'development') {
+const isDev = process.env.NODE_ENV === 'development';
+
+let initialStore = {};
+
+if (isDev) {
   console.log(theme); // eslint-disable-line no-console
+  console.log('--- Init dev initial Redux store ---'); // eslint-disable-line no-console
+  initialStore = devInitialReduxStore;
 }
+
+// create store object
+const store = configureStore(initialStore);
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Provider store={store}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <AppContextProvider isDev={isDev}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </AppContextProvider>
       </Provider>
     </ThemeProvider>
   </React.StrictMode>,
