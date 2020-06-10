@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/gasserandreas/trail.me/compare/v1.1.0...v1.2.0) (2020-06-10)
+
+
+### Features
+
+* **#45:** enabled backspace deletion ([4a18445](https://github.com/gasserandreas/trail.me/commit/4a18445597707615bea6c3d0a388478c876aae43)), closes [#45](https://github.com/gasserandreas/trail.me/issues/45)
+* **#45:** updated select actions ([97ab201](https://github.com/gasserandreas/trail.me/commit/97ab2016ac66612a535714d839fe28ac70e6bcaf)), closes [#45](https://github.com/gasserandreas/trail.me/issues/45)
+* **#46:** added HotKeys library ([27d10de](https://github.com/gasserandreas/trail.me/commit/27d10de13aca2fc534c1dde0cf6dafd90fd0ae77)), closes [#46](https://github.com/gasserandreas/trail.me/issues/46)
+* **#49:** added AppContext for development process ([43d8a07](https://github.com/gasserandreas/trail.me/commit/43d8a07f076e0ab08de39ddc991665e2fab710c8)), closes [#49](https://github.com/gasserandreas/trail.me/issues/49)
+* **#50:** added Google analytics ([7a8c9ed](https://github.com/gasserandreas/trail.me/commit/7a8c9ed09de34d1bcadf439764adab5be3a9fbdb)), closes [#50](https://github.com/gasserandreas/trail.me/issues/50)
+* **#50:** added Privacy modal ([3f96603](https://github.com/gasserandreas/trail.me/commit/3f966033f28fdd8814a98e414f12c80798bd19a1)), closes [#50](https://github.com/gasserandreas/trail.me/issues/50)
+
 # [1.1.0](https://github.com/gasserandreas/trail.me/compare/v1.0.0...v1.1.0) (2020-05-15)
 
 
