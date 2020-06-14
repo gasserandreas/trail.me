@@ -61,7 +61,7 @@ const deselct = createAction(DESELECT);
 const setSelected = createAction(SET_SELECTED);
 
 // complex functions
-export const loadWaypoints = (waypoints) => (dispatch) => {
+export const loadWaypoints = (waypoints, resetWaypoints = true) => (dispatch) => {
   /**
    * Make sure x and y is set
    */
@@ -76,7 +76,11 @@ export const loadWaypoints = (waypoints) => (dispatch) => {
   const TOLERANCE = 0.00015;
   const simplifiedWaypoints = simplify(converterWaypoints, TOLERANCE, true);
 
-  dispatch(reset());
+  // reset waypoints first
+  if (resetWaypoints) {
+    dispatch(reset());
+  }
+
   dispatch(setPending(true));
 
   // dispatch in chunks

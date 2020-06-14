@@ -21,7 +21,7 @@ import HotKeys from '../../constants/HotKeys';
 
 import { removeSelectedWaypoints } from '../../entities/waypoints';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   page: {
     display: 'flex',
     height: '100%',
@@ -32,7 +32,7 @@ const useStyles = makeStyles(() => ({
   },
   actionPanel: {
     borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
-    width: '300px',
+    width: theme.spacing(40),
     height: '100%',
     display: 'flex',
     flexFlow: 'column',

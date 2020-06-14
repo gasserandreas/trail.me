@@ -24,6 +24,7 @@ export const SimpleFilePanel = () => {
       error={object('error', null)}
       showUpload={boolean('showUpload', true)}
       showDownload={boolean('showDownload', true)}
+      waypointsIds={[]}
       onFilenameChange={action('onFilenameChange')}
       onFiletypeChange={action('onFiletypeChange')}
       onError={action('onError')}
