@@ -8,7 +8,7 @@ export default {
   component: DeleteButtonComponent,
 };
 
-export const Footer = () => (
+export const DeleteButton = () => (
   <DeleteButtonComponent
     onClick={action('onClick')}
   />
