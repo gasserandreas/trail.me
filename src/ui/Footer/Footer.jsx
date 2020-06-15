@@ -35,9 +35,7 @@ const Footer = ({ className }) => {
           {version}
         </span>
       </Typography>
-      <Typography variant="body2" className={clsx(classes.footer, className)}>
-        <PrivacyModal />
-      </Typography>
+      <PrivacyModal />
     </>
   );
 };

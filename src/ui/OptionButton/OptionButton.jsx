@@ -138,7 +138,7 @@ OptionButton.propTypes = {
     key: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   })).isRequired,
-  baseOptionIndex: PropTypes.string.isRequired,
+  baseOptionIndex: PropTypes.number.isRequired,
   onClick: PropTypes.func,
   color: PropTypes.string,
   variant: PropTypes.string,
