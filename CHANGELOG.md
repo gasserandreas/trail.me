@@ -1,3 +1,19 @@
+# [1.3.0](https://github.com/gasserandreas/trail.me/compare/v1.2.0...v1.3.0) (2020-06-16)
+
+
+### Bug Fixes
+
+* **#61:** fixed baseOptionIndex PropTypes issue ([97504c3](https://github.com/gasserandreas/trail.me/commit/97504c3375a1bf086bc1e087ded8afa3f0a5ed64))
+* **#61:** fixed console warning for PrivacyModel ([2970fa0](https://github.com/gasserandreas/trail.me/commit/2970fa0a8d8c2b104c513c630070cc03d401ac85))
+
+
+### Features
+
+* **#56:** enable map to jump to route start ([c07f4b9](https://github.com/gasserandreas/trail.me/commit/c07f4b9ed4d265b5f9d4bb808615d3e0dbc2f20d)), closes [#56](https://github.com/gasserandreas/trail.me/issues/56)
+* **#57:** added concat upload support ([944efd2](https://github.com/gasserandreas/trail.me/commit/944efd2aede67da104f75c41ae6daee1cbfdf793)), closes [#57](https://github.com/gasserandreas/trail.me/issues/57)
+* **#57:** added OptionButton ([5147757](https://github.com/gasserandreas/trail.me/commit/5147757864c628fa80e91ecdff718f6a5e8ef975)), closes [#57](https://github.com/gasserandreas/trail.me/issues/57)
+* **#58:** added HTML tags and icons ([ccd8137](https://github.com/gasserandreas/trail.me/commit/ccd813784cd76d3244cc86570a4dcd51a604b20a)), closes [#58](https://github.com/gasserandreas/trail.me/issues/58)
+
 # [1.2.0](https://github.com/gasserandreas/trail.me/compare/v1.1.0...v1.2.0) (2020-06-10)
 
 
