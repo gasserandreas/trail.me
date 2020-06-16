@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: '60%',
     overflow: 'scroll',
   },
+  link: {
+    fontSize: '0.75rem',
+  }
 }));
 
 export default function TransitionsModal() {
@@ -38,7 +41,7 @@ export default function TransitionsModal() {
 
   return (
     <div>
-      <Link onClick={handleOpen}>Data privacy</Link>
+      <Link onClick={handleOpen} className={classes.link}>Data privacy</Link>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

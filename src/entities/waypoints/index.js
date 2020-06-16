@@ -15,6 +15,8 @@ import simplify from './simplifyPath';
 
 import { selectedWaypointIdsSelector, waypointsIdsSelector } from './selector';
 
+import { setViewportCoordinates } from '../map';
+
 /* demo only */
 import coordinates from './coordinates.json';
 
@@ -59,7 +61,7 @@ const deselct = createAction(DESELECT);
 const setSelected = createAction(SET_SELECTED);
 
 // complex functions
-export const loadWaypoints = (waypoints) => (dispatch) => {
+export const loadWaypoints = (waypoints, resetWaypoints = true) => (dispatch) => {
   /**
    * Make sure x and y is set
    */
@@ -74,7 +76,11 @@ export const loadWaypoints = (waypoints) => (dispatch) => {
   const TOLERANCE = 0.00015;
   const simplifiedWaypoints = simplify(converterWaypoints, TOLERANCE, true);
 
-  dispatch(reset());
+  // reset waypoints first
+  if (resetWaypoints) {
+    dispatch(reset());
+  }
+
   dispatch(setPending(true));
 
   // dispatch in chunks
@@ -96,6 +102,13 @@ export const loadWaypoints = (waypoints) => (dispatch) => {
 
     dispatch(add(payload));
   });
+
+  // get first coordinate and set map center
+  const first = waypoints[0];
+  if (first) {
+    const { lat, lng } = first;
+    dispatch(setViewportCoordinates([lat, lng]));
+  }
 
   dispatch(setPending(false));
 };

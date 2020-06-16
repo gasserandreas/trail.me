@@ -1,6 +1,5 @@
 /* global FileReader */
-import React, { useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDropzone } from 'react-dropzone';
 
@@ -13,15 +12,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 
 import SystemUpdateIcon from '@material-ui/icons/SystemUpdate';
-import PublishIcon from '@material-ui/icons/Publish';
 
 import clsx from 'clsx';
 
 import Panel, { SPACING } from '../Panel';
 import DeleteButton from '../../DeleteButton/DeleteButton';
+import OptionButton from '../../OptionButton/OptionButton';
 import MapFileType from '../../../constants/MapFileType';
-
-import { waypointsIdsSelector } from '../../../entities/waypoints/selector';
+import UploadOptions from '../../../constants/UploadOptions';
 
 const useStyles = makeStyles(() => ({
   fileName: {
@@ -42,6 +40,10 @@ const useStyles = makeStyles(() => ({
   select: {
     width: '100%',
   },
+  downloadButton: {
+    flexShrink: 0,
+    flexGrow: 0,
+  },
 }));
 
 const FilePanel = ({
@@ -56,10 +58,11 @@ const FilePanel = ({
   onClickDownload,
   showUpload,
   showDownload,
+  waypointsIds,
   ...props
 }) => {
   const classes = useStyles();
-  const waypointsIds = useSelector(waypointsIdsSelector);
+  const [uploadOption, setUploadOption] = useState(UploadOptions.RESET_UPLOAD);
 
   const handleOnDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles.length === 0) return;
@@ -70,10 +73,15 @@ const FilePanel = ({
     reader.onerror = () => onError && onError(new Error('Could not download file.'));
     reader.onload = (e) => {
       const text = e.target.result;
-      onClickUpload(e, text);
+
+      // callback text and selected upload option
+      onClickUpload(e, {
+        text,
+        uploadOption,
+      });
     };
     reader.readAsText(file);
-  }, [onClickUpload, onError]);
+  }, [onClickUpload, uploadOption, onError]);
 
   const handleOnDownloadClick = (e) => {
     if (waypointsIds.length === 0) {
@@ -83,9 +91,30 @@ const FilePanel = ({
     onClickDownload(e);
   };
 
-  const { getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps, open } = useDropzone({
     onDrop: handleOnDrop,
+    noClick: true,
+    noKeyboard: true,
   });
+
+  const uploadOptions = [
+    {
+      key: UploadOptions.RESET_UPLOAD,
+      value: 'Upload',
+    },
+    {
+      key: UploadOptions.CONCAT_UPLOAD,
+      value: 'Upload concat',
+    },
+  ];
+
+  const handleOnUploadClick = (e, value) => {
+    const { key } = value;
+    setUploadOption(key);
+
+    // open file upload
+    open();
+  };
 
   return (
     <Panel {...props}>
@@ -124,14 +153,15 @@ const FilePanel = ({
         {showUpload && (
           <div {...getRootProps()}>
             <input {...getInputProps()} />
-            <Button
+            <OptionButton
+              options={uploadOptions}
+              baseOptionIndex={0}
               color="default"
               size="small"
-              endIcon={<PublishIcon />}
+              variant="outlined"
+              onClick={handleOnUploadClick}
               className={classes.buttonMargin}
-            >
-              Upload
-            </Button>
+            />
           </div>
         )}
         {showDownload && (
@@ -140,7 +170,7 @@ const FilePanel = ({
             color="primary"
             size="small"
             endIcon={<SystemUpdateIcon />}
-            className={classes.buttonMargin}
+            className={clsx(classes.buttonMargin, classes.downloadButton)}
             onClick={handleOnDownloadClick}
             disabled={waypointsIds.length === 0}
           >
@@ -165,6 +195,7 @@ FilePanel.propTypes = {
   }),
   showUpload: PropTypes.bool,
   showDownload: PropTypes.bool,
+  waypointsIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   onFilenameChange: PropTypes.func,
   onFiletypeChange: PropTypes.func,
   onError: PropTypes.func,

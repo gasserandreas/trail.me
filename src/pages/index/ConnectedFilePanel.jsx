@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import FilePanel from '../../ui/Panels/FilePanel/FilePanel';
 import MapFileType from '../../constants/MapFileType';
+import UploadOptions from '../../constants/UploadOptions';
 
 import { resetWaypoints, loadWaypoints } from '../../entities/waypoints';
-import { waypointsSelector } from '../../entities/waypoints/selector';
+import { waypointsSelector, waypointsIdsSelector } from '../../entities/waypoints/selector';
 
 import { parseGpx, convertToGpxWaypoints, convertToGpx } from '../../utils/gpx';
 
@@ -15,6 +16,7 @@ const INITIAL_FILENAME = 'export';
 const ConnectedFilePanel = () => {
   const dispatch = useDispatch();
   const waypoints = useSelector(waypointsSelector);
+  const waypointsIds = useSelector(waypointsIdsSelector);
 
   const [filename, setFilename] = useState(INITIAL_FILENAME);
   const [filetype, setFiletype] = useState(MapFileType.GPX);
@@ -54,12 +56,14 @@ const ConnectedFilePanel = () => {
     element.click();
   };
 
-  const handleOnClickUpload = (_, text) => {
+  const handleOnClickUpload = (_, { text, uploadOption }) => {
     const result = parseGpx(text);
     const { name, waypoints: parsedWaypoints } = result;
 
+    const shouldResetWaypoints = uploadOption === UploadOptions.RESET_UPLOAD;
+
     setFilename(name);
-    dispatch(loadWaypoints(parsedWaypoints));
+    dispatch(loadWaypoints(parsedWaypoints, shouldResetWaypoints));
   };
 
   const handleOnError = (newError) => {
@@ -79,6 +83,7 @@ const ConnectedFilePanel = () => {
         onClickReset={handleOnClickReset}
         onClickUpload={handleOnClickUpload}
         onClickDownload={handleOnClickDownload}
+        waypointsIds={waypointsIds}
         showDownload
         showUpload
       />
