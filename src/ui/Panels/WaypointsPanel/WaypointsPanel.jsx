@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { VariableSizeList } from 'react-window';
 
@@ -55,6 +55,7 @@ const WaypointsPanel = ({
 }) => {
   const classes = useStyles();
 
+  const listRef = useRef();
   const [lastClicked, setLastClicked] = useState(null);
 
   const correctedParentHeight = parentHeight - HEIGH_ADJUSTMENT;
@@ -160,7 +161,12 @@ const WaypointsPanel = ({
   return (
     <List className={classes.list}>
       <Divider />
-      <VariableSizeList height={correctedParentHeight} itemSize={() => ROW_HEIGHT} itemCount={waypointIds.length}>
+      <VariableSizeList
+        ref={listRef}
+        height={correctedParentHeight}
+        itemSize={() => ROW_HEIGHT}
+        itemCount={waypointIds.length}
+      >
         {renderRow}
       </VariableSizeList>
       <Divider />

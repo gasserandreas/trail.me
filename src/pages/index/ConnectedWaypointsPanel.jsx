@@ -12,7 +12,7 @@ import {
   waypointsPendingSelector,
 } from '../../entities/waypoints/selector';
 
-import { setMultiSelect } from '../../entities/map';
+import { setMultiSelect, setViewportCoordinates } from '../../entities/map';
 import { multiSelectSelector } from '../../entities/map/selector';
 
 const ConnectedWaypointsPanel = ({ panelHeight }) => {
@@ -34,6 +34,9 @@ const ConnectedWaypointsPanel = ({ panelHeight }) => {
 
   const handleOnWaypointSetSelected = (_, id) => {
     dispatch(setSelectedWaypoints([id]));
+
+    const { lat, lng } = waypointsById[id];
+    dispatch(setViewportCoordinates([lat, lng]));
   };
 
   const handleOnSetMultiSelect = () => {
