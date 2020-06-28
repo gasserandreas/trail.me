@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import MapPanel from '../../ui/Panels/MapPanel/MapPanel';
 
 import { setViewport, setLocation, setActionType } from '../../entities/map';
+import { invertWaypoints } from '../../entities/waypoints';
 import { viewportSelector, actionTypeSelector } from '../../entities/map/selector';
 
 const ConnectedMapPanel = () => {
@@ -29,6 +30,13 @@ const ConnectedMapPanel = () => {
     dispatch(setActionType(newActionType));
   };
 
+  const handleOnCustomActionClick = (_, customActionKey) => {
+    switch (customActionKey) {
+      default:
+        dispatch(invertWaypoints());
+    }
+  };
+
   return (
     <MapPanel
       center={center}
@@ -36,6 +44,7 @@ const ConnectedMapPanel = () => {
       onCenterChange={handleOnCenterChange}
       onMapActionChange={handleOnMapActionChange}
       onLocationUpdate={handleOnLocationUpdate}
+      onCustomActionClick={handleOnCustomActionClick}
     />
   );
 };

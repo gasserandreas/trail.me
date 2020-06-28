@@ -38,6 +38,7 @@ const SET_PENDING = 'waypoint/setPending';
 const ADD = 'waypoints/add';
 const ADD_BETWEEN = 'waypoints/addBetween';
 const UPDATE = 'waypoints/update';
+const INVERT = 'waypoints/invert';
 
 const REMOVE = 'waypoints/remove';
 const RESET = 'waypoints/reset';
@@ -52,6 +53,7 @@ const setPending = createAction(SET_PENDING);
 const add = createAction(ADD);
 const addBetween = createAction(ADD_BETWEEN);
 const update = createAction(UPDATE);
+const invert = createAction(INVERT);
 
 const remove = createAction(REMOVE);
 const reset = createAction(RESET);
@@ -186,6 +188,11 @@ export const removeSelectedWaypoints = () => (dispatch, getStore) => {
   }
 };
 
+export const invertWaypoints = () => (dispatch) => {
+  dispatch(invert());
+  dispatch(calculateStats());
+};
+
 export const resetWaypoints = () => (dispatch) => {
   dispatch(reset());
 
@@ -271,6 +278,8 @@ const idsReducer = (state = [], action) => {
       return addWaypointIdsInBetween(state, ids, position.prev, position.next);
     case REMOVE:
       return [...difference(state, payload)];
+    case INVERT:
+      return state.reverse();
     case RESET:
       return [];
     default:
