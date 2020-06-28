@@ -1,3 +1,14 @@
+# [1.4.0](https://github.com/gasserandreas/trail.me/compare/v1.3.0...v1.4.0) (2020-06-28)
+
+
+### Features
+
+* **#65:** added feature to let map jump to selected coordinate ([775c354](https://github.com/gasserandreas/trail.me/commit/775c35476ca5872f8e5c6f036c81a5e20cf1f123)), closes [#65](https://github.com/gasserandreas/trail.me/issues/65)
+* **#68:** added first stats information ([4b1bd5a](https://github.com/gasserandreas/trail.me/commit/4b1bd5a56ddb9cd9fd1055708d0231a6d347d3ea)), closes [#68](https://github.com/gasserandreas/trail.me/issues/68)
+* **#68:** added more stats details ([d27047f](https://github.com/gasserandreas/trail.me/commit/d27047fdaf998967cc9c90c34a9c50ced23497f5)), closes [#68](https://github.com/gasserandreas/trail.me/issues/68)
+* **#68:** added statistics modul ([ae22827](https://github.com/gasserandreas/trail.me/commit/ae22827b2cb7ea5f3774d1c1fdc94b934f0cd082)), closes [#68](https://github.com/gasserandreas/trail.me/issues/68)
+* **#70:** added more action button ([fc8edae](https://github.com/gasserandreas/trail.me/commit/fc8edae21fc6706c00ff744784788f4cecfd1909)), closes [#70](https://github.com/gasserandreas/trail.me/issues/70)
+
 # [1.3.0](https://github.com/gasserandreas/trail.me/compare/v1.2.0...v1.3.0) (2020-06-16)
 
 
