@@ -36,6 +36,7 @@ export const SimpleMapPanel = () => {
       onCenterChange={handleOnCenterChange}
       onMapActionChange={action('onMapActionChange')}
       onLocationUpdate={action('onLocationUpdate')}
+      onCustomActionClick={action('onCustomActionClick')}
     />
   );
 };

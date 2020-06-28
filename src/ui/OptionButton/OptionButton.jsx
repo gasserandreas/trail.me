@@ -35,15 +35,19 @@ const OptionButton = ({
   size,
   onClick,
   className,
+  hideOptionKeys,
+  disableButtonOnClick,
 }) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
   const classes = useStyles({ size });
 
+  const filteredOptions = useMemo(() => options.filter(({ key }) => !hideOptionKeys.includes(key)), [options, hideOptionKeys]); // eslint-disable-line max-len
+
   const handleMenuItemClick = (event, index) => {
     setOpen(false);
 
-    const option = options[index];
+    const option = filteredOptions[index];
     onClick(event, option);
   };
 
@@ -69,7 +73,11 @@ const OptionButton = ({
   }, [options, baseOptionIndex]);
 
   const handleClick = (event) => {
-    const option = options[baseOptionIndex];
+    if (disableButtonOnClick) {
+      return;
+    }
+
+    const option = filteredOptions[baseOptionIndex];
     onClick(event, option);
   };
 
@@ -113,7 +121,7 @@ const OptionButton = ({
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu">
-                  {options.map(({ key, value }, index) => (
+                  {filteredOptions.map(({ key, value }, index) => (
                     <MenuItem
                       key={key}
                       onClick={(event) => handleMenuItemClick(event, index)}
@@ -139,11 +147,13 @@ OptionButton.propTypes = {
     value: PropTypes.string.isRequired,
   })).isRequired,
   baseOptionIndex: PropTypes.number.isRequired,
+  hideOptionKeys: PropTypes.arrayOf(PropTypes.string),
   onClick: PropTypes.func,
   color: PropTypes.string,
   variant: PropTypes.string,
   size: PropTypes.string,
   className: PropTypes.string,
+  disableButtonOnClick: PropTypes.bool,
 };
 
 OptionButton.defaultProps = {
@@ -152,6 +162,8 @@ OptionButton.defaultProps = {
   variant: 'contained',
   size: 'medium',
   className: '',
+  hideOptionKeys: [],
+  disableButtonOnClick: false,
 };
 
 export default OptionButton;

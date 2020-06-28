@@ -10,8 +10,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import CenterForm from './CenterForm';
 
 import Panel, { PanelContent, SPACING } from '../Panel';
+import OptionButton from '../../OptionButton/OptionButton';
+
 import { FRICK_VIEWPORT } from '../../Map/SwissGeoMap';
 import MapActions from '../../../constants/MapActions';
+import CustomMapActions from '../../../constants/CustomMapActions';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -38,6 +41,7 @@ const MapPanel = ({
   onCenterChange,
   onMapActionChange,
   onLocationUpdate,
+  onCustomActionClick,
   ...props
 }) => {
   const classes = useStyles();
@@ -70,6 +74,22 @@ const MapPanel = ({
     </Button>
     )), [mapAction, onMapActionChange]); // eslint-disable-line
 
+  const moreActionsOptions = [
+    {
+      key: CustomMapActions.MORE_ACTIONS,
+      value: 'More',
+    },
+    {
+      key: CustomMapActions.INVERT_ROUTE,
+      value: 'Invert route',
+    },
+  ];
+
+  const handleOnMoreActionsClick = (e, value) => {
+    const { key } = value;
+    onCustomActionClick(e, key);
+  };
+
   return (
     <Panel title="Map Information" {...props}>
       <PanelContent>
@@ -96,7 +116,7 @@ const MapPanel = ({
             Map Actions
           </Typography>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item xs={8}>
               <div>
                 <ButtonGroup
                   color="primary"
@@ -106,6 +126,19 @@ const MapPanel = ({
                   {mapActionButtons}
                 </ButtonGroup>
               </div>
+            </Grid>
+            <Grid item xs={4}>
+              <OptionButton
+                options={moreActionsOptions}
+                baseOptionIndex={0}
+                color="default"
+                size="small"
+                variant="outlined"
+                onClick={handleOnMoreActionsClick}
+                className={classes.buttonMargin}
+                hideOptionKeys={[CustomMapActions.MORE_ACTIONS]}
+                disableButtonOnClick
+              />
             </Grid>
           </Grid>
         </div>
@@ -120,6 +153,7 @@ MapPanel.propTypes = {
   onCenterChange: PropTypes.func,
   onMapActionChange: PropTypes.func,
   onLocationUpdate: PropTypes.func,
+  onCustomActionClick: PropTypes.func,
 };
 
 MapPanel.defaultProps = {
@@ -128,6 +162,7 @@ MapPanel.defaultProps = {
   onCenterChange: () => {},
   onMapActionChange: () => {},
   onLocationUpdate: () => {},
+  onCustomActionClick: () => {},
 };
 
 export default MapPanel;
