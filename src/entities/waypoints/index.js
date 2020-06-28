@@ -16,6 +16,7 @@ import simplify from './simplifyPath';
 import { selectedWaypointIdsSelector, waypointsIdsSelector } from './selector';
 
 import { setViewportCoordinates } from '../map';
+import { calculateStats, resetStats } from '../statistics';
 
 /* demo only */
 import coordinates from './coordinates.json';
@@ -37,6 +38,7 @@ const SET_PENDING = 'waypoint/setPending';
 const ADD = 'waypoints/add';
 const ADD_BETWEEN = 'waypoints/addBetween';
 const UPDATE = 'waypoints/update';
+const INVERT = 'waypoints/invert';
 
 const REMOVE = 'waypoints/remove';
 const RESET = 'waypoints/reset';
@@ -51,6 +53,7 @@ const setPending = createAction(SET_PENDING);
 const add = createAction(ADD);
 const addBetween = createAction(ADD_BETWEEN);
 const update = createAction(UPDATE);
+const invert = createAction(INVERT);
 
 const remove = createAction(REMOVE);
 const reset = createAction(RESET);
@@ -86,6 +89,8 @@ export const loadWaypoints = (waypoints, resetWaypoints = true) => (dispatch) =>
   // dispatch in chunks
   const chunks = createChunkArray(simplifiedWaypoints, 75);
 
+  let waypointIds = [];
+
   chunks.forEach((chunk) => {
     const byId = {};
     const ids = [];
@@ -100,6 +105,8 @@ export const loadWaypoints = (waypoints, resetWaypoints = true) => (dispatch) =>
 
     const payload = { byId, ids };
 
+    waypointIds = [...waypointIds, ...ids];
+
     dispatch(add(payload));
   });
 
@@ -111,6 +118,9 @@ export const loadWaypoints = (waypoints, resetWaypoints = true) => (dispatch) =>
   }
 
   dispatch(setPending(false));
+
+  // calculate statistics
+  dispatch(calculateStats(waypointIds));
 };
 
 export const addWaypoint = (data) => (dispatch) => {
@@ -125,6 +135,7 @@ export const addWaypoint = (data) => (dispatch) => {
   };
 
   dispatch(add(payload));
+  dispatch(calculateStats());
 };
 
 export const addWaypointBetween = (data, prevId, nextId) => (dispatch) => {
@@ -143,6 +154,7 @@ export const addWaypointBetween = (data, prevId, nextId) => (dispatch) => {
     },
   };
   dispatch(addBetween(payload));
+  dispatch(calculateStats());
 };
 
 export const moveWaypoint = (id, latlng) => (dispatch) => {
@@ -152,10 +164,12 @@ export const moveWaypoint = (id, latlng) => (dispatch) => {
   };
 
   dispatch(update(payload));
+  dispatch(calculateStats());
 };
 
 export const removeWaypoints = (ids) => (dispatch) => {
   dispatch(remove(ids));
+  dispatch(calculateStats());
 };
 
 export const removeSelectedWaypoints = () => (dispatch, getStore) => {
@@ -174,8 +188,16 @@ export const removeSelectedWaypoints = () => (dispatch, getStore) => {
   }
 };
 
+export const invertWaypoints = () => (dispatch) => {
+  dispatch(invert());
+  dispatch(calculateStats());
+};
+
 export const resetWaypoints = () => (dispatch) => {
   dispatch(reset());
+
+  // reset statistics
+  dispatch(resetStats());
 };
 
 export const resetSelectedWaypoints = () => (dispatch) => {
@@ -207,7 +229,6 @@ const pendingReducer = (state = false, action) => {
 };
 
 const byIdReducer = (state = {}, action) => {
-// const byIdReducer = (state = exampleById, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -231,6 +252,8 @@ const byIdReducer = (state = {}, action) => {
         ...state,
         [payload.id]: {
           ...state[payload.id],
+          elevation: null,
+          time: null,
           ...payload,
         },
       };
@@ -242,7 +265,6 @@ const byIdReducer = (state = {}, action) => {
 };
 
 const idsReducer = (state = [], action) => {
-// const idsReducer = (state = exampleIds, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -256,6 +278,8 @@ const idsReducer = (state = [], action) => {
       return addWaypointIdsInBetween(state, ids, position.prev, position.next);
     case REMOVE:
       return [...difference(state, payload)];
+    case INVERT:
+      return state.reverse();
     case RESET:
       return [];
     default:
@@ -264,7 +288,6 @@ const idsReducer = (state = [], action) => {
 };
 
 const selectedReducer = (state = {}, action) => {
-// const selectedReducer = (state = exampleSelected, action) => {
   const { type, payload } = action;
   let newState;
 

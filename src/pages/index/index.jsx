@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import Box from '@material-ui/core/Box';
@@ -16,10 +17,12 @@ import ConnectedFilePanel from './ConnectedFilePanel';
 import ConnectedMapPanel from './ConnectedMapPanel';
 import ConnectedWaypointsPanel from './ConnectedWaypointsPanel';
 import ConnectedControlsPanel from './ConnectedControlsPanel';
+import Statistics from './Statistics';
 
 import HotKeys from '../../constants/HotKeys';
 
 import { removeSelectedWaypoints } from '../../entities/waypoints';
+import { statisticsShouldBeShown } from '../../entities/statistics/selector';
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -29,6 +32,16 @@ const useStyles = makeStyles((theme) => ({
   map: {
     flexGrow: 1,
     flexShrink: 1,
+    position: 'relative',
+  },
+  statistics: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: theme.palette.background.default,
+    zIndex: 1000,
+    borderTop: '1px solid rgba(0, 0, 0, 0.12)',
   },
   actionPanel: {
     borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
@@ -76,6 +89,8 @@ const HomePage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const showStatistics = useSelector(statisticsShouldBeShown);
+
   /**
    * Get parent size and pass to virtualize list
    */
@@ -97,6 +112,11 @@ const HomePage = () => {
     <Page handlers={handlers}>
       <section className={classes.map}>
         <ConnectedMap />
+        {showStatistics && (
+          <div className={classes.statistics}>
+            <Statistics />
+          </div>
+        )}
       </section>
       <Box className={classes.actionPanel}>
         <Typography className={classes.title} variant="h1" component="h1">
