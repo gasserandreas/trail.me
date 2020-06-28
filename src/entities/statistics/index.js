@@ -4,7 +4,10 @@ import moment from 'moment';
 
 import { getDistanceForPoint, getPrevWaypoint } from './utils';
 
-import { waypointsByIdSelector, waypointsIdsSelector } from '../waypoints/selector';
+import {
+  waypointsByIdSelector,
+  waypointsIdsSelector,
+} from '../waypoints/selector';
 
 // action types
 const SET_PENDING = 'analytics/setPending';
@@ -136,7 +139,10 @@ const prevDistanceReducer = (state = {}, action) => {
   }
 };
 
-const heightReducer = (state = {}, action) => {
+const heightReducer = (state = {
+  up: null,
+  down: null,
+}, action) => {
   const { type, payload } = action;
   switch (type) {
     case SET_STATS:
@@ -148,7 +154,11 @@ const heightReducer = (state = {}, action) => {
   }
 };
 
-const timeReducer = (state = {}, action) => {
+const timeReducer = (state = {
+  start: null,
+  end: null,
+  total: null,
+}, action) => {
   const { type, payload } = action;
   switch (type) {
     case SET_STATS:
