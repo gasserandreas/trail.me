@@ -245,6 +245,8 @@ const byIdReducer = (state = {}, action) => {
         ...state,
         [payload.id]: {
           ...state[payload.id],
+          elevation: null,
+          time: null,
           ...payload,
         },
       };
