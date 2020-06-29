@@ -13,7 +13,7 @@ import * as serviceWorker from './serviceWorker';
 
 import configureStore from './config/redux/configureStore';
 import bikeMeTheme from './theme';
-import { AppContextProvider } from './ui/AppContext/AppContext';
+import { AppContextProvider } from './config/AppContext';
 import devInitialReduxStore from './ui/DevUtils/devInitialReduxStore';
 
 const theme = createMuiTheme(bikeMeTheme);

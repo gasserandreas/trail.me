@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import ReactGA from 'react-ga';
 
-import { useIsDev } from '../AppContext/AppContext';
+import { useIsDev } from '../../config/AppContext';
 
 const gaId = 'UA-168721449-1';
 
