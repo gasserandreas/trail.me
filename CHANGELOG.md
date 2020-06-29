@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/gasserandreas/trail.me/compare/v1.4.0...v1.4.1) (2020-06-29)
+
+
+### Bug Fixes
+
+* **#78:** fixed revert redux action ([064a02f](https://github.com/gasserandreas/trail.me/commit/064a02f2efb32ed9c4ed8a4ee5f55e6aea112217))
+
 # [1.4.0](https://github.com/gasserandreas/trail.me/compare/v1.3.0...v1.4.0) (2020-06-28)
 
 
