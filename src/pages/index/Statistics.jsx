@@ -30,9 +30,13 @@ const useStyles = makeStyles({
     marginRight: '1rem',
   },
   text: {
-    marginLeft: '0.5rem',
+    marginLeft: '0.25rem',
+    fontSize: '0.9rem',
   },
-  icon: {},
+  icon: {
+    width: '1.1rem',
+    height: '1.1rem',
+  },
 });
 
 /**
@@ -90,14 +94,14 @@ const Statistics = () => {
 
   if (start) {
     items.push({
-      icon: <Typography>Start: </Typography>,
+      icon: <Typography className={classes.text}>Start: </Typography>,
       value: renderTime(start),
     });
   }
 
   if (end) {
     items.push({
-      icon: <Typography>End: </Typography>,
+      icon: <Typography className={classes.text}>End: </Typography>,
       value: renderTime(end),
     });
   }
