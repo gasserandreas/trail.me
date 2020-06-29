@@ -4,7 +4,7 @@ const colors = {
   primary: {
     light: '#2EB594',
     main: '#00A578',
-    dark: '#00795B',
+    dark: '#00694B',
   },
   red: {
     default: '#FF0000',
@@ -190,6 +190,13 @@ const customTheme = createMuiTheme({
       adornedEnd: {
         '&$marginDense': {
           paddingRight: 0,
+        },
+      },
+    },
+    MuiListItem: {
+      root: {
+        '&$selected': {
+          backgroundColor: 'rgba(0,0,0,0.12)',
         },
       },
     },
