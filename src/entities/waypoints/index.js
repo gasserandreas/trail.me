@@ -279,7 +279,7 @@ const idsReducer = (state = [], action) => {
     case REMOVE:
       return [...difference(state, payload)];
     case INVERT:
-      return state.reverse();
+      return [...state.reverse()];
     case RESET:
       return [];
     default:
