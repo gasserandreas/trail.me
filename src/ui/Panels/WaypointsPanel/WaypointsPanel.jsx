@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { VariableSizeList } from 'react-window';
 
@@ -59,6 +59,24 @@ const WaypointsPanel = ({
   const [lastClicked, setLastClicked] = useState(null);
 
   const correctedParentHeight = parentHeight - HEIGH_ADJUSTMENT;
+
+  useMemo(() => {
+    if (!multiSelect) {
+      // get selected waypoint id
+      const selectedWaypoint = Object.entries(waypointSelectedById)
+        .find((arr) => {
+          const { value } = arr[1];
+          return value === true;
+        });
+
+      if (selectedWaypoint) {
+        // jump to point in list
+        const key = selectedWaypoint[0];
+        const index = waypointIds.indexOf(key);
+        listRef.current.scrollToItem(index);
+      }
+    }
+  }, [waypointIds, waypointSelectedById, multiSelect]);
 
   const handleOnClick = (selectedId) => (e) => {
     const { shiftKey } = e;
