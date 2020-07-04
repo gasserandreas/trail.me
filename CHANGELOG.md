@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/gasserandreas/trail.me/compare/v1.4.1...v1.5.0) (2020-07-04)
+
+
+### Features
+
+* **#82:** waypoint list jumps to selected coordinate ([fdbce26](https://github.com/gasserandreas/trail.me/commit/fdbce26012b4ab461b8a0c5b4993fbe4fcfd0bbe)), closes [#82](https://github.com/gasserandreas/trail.me/issues/82)
+
 ## [1.4.1](https://github.com/gasserandreas/trail.me/compare/v1.4.0...v1.4.1) (2020-06-29)
 
 
