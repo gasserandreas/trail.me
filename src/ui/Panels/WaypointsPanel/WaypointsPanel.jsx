@@ -6,12 +6,18 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
 import Divider from '@material-ui/core/Divider';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
+
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import { SPACING } from '../Panel';
 import { getInBetweenElements } from './util';
@@ -49,6 +55,8 @@ const WaypointsPanel = ({
   onWaypointDeSelect,
   onWaypointSetSelected,
   onSetMultiSelect,
+  onWaypointDelete,
+  onWaypointSplit,
   parentHeight,
   pending,
   multiSelect,
@@ -56,6 +64,12 @@ const WaypointsPanel = ({
   const classes = useStyles();
 
   const listRef = useRef();
+  const anchorEl = useRef();
+
+  const [listAncherPosition, setListAncherPosition] = useState({ top: 0, left: 0, right: 0 });
+  const [listAncherRef, setListAncherRef] = useState(null);
+  const [openedMenuId, setOpenedMenuId] = useState(null);
+
   const [lastClicked, setLastClicked] = useState(null);
 
   const correctedParentHeight = parentHeight - HEIGH_ADJUSTMENT;
@@ -113,6 +127,53 @@ const WaypointsPanel = ({
     }
   };
 
+  // event handler for menu item
+  const handleOnIconClick = (event, id) => {
+    event.stopPropagation();
+
+    setOpenedMenuId(id);
+
+    setListAncherPosition(event.currentTarget.getBoundingClientRect());
+    setListAncherRef(anchorEl.current);
+  };
+
+  const handleOnMenuClose = () => {
+    setListAncherRef(null);
+  };
+
+  const handleSplitWaypoint = (event) => {
+    onWaypointSplit(event, openedMenuId);
+  };
+
+  const handleDeleteWaypoint = (event) => {
+    onWaypointDelete(event, openedMenuId);
+  };
+
+  /**
+   * menu item render
+   */
+
+  const MENU_ITEMS = [
+    {
+      label: 'Split',
+      callback: handleSplitWaypoint,
+    },
+    {
+      label: 'Delete',
+      callback: handleDeleteWaypoint,
+    },
+  ];
+
+  const menuItem = useMemo(() => MENU_ITEMS.map(({ label, callback }) => (
+    <MenuItem onClick={(event) => {
+      handleOnMenuClose();
+      callback(event);
+    }}
+    >
+      {label}
+    </MenuItem>
+  )), [MENU_ITEMS]);
+
   const renderRow = (args) => {
     const { index, style } = args;
 
@@ -156,6 +217,9 @@ const WaypointsPanel = ({
               />
             </ListItemIcon>
           )}
+          {!multiSelect && (
+            <MoreVertIcon onClick={(event) => handleOnIconClick(event, id)} />
+          )}
         </ListItem>
         {index !== (waypointIds.length - 1) && (
           <Divider key={`coordinate-item-divider-${id}`} />
@@ -176,19 +240,39 @@ const WaypointsPanel = ({
     );
   }
 
+  const anchorElStyles = {
+    position: 'fixed',
+    top: listAncherPosition.top,
+    left: listAncherPosition.left,
+    right: listAncherPosition.right,
+    backgroundColor: 'red',
+  };
+
   return (
-    <List className={classes.list}>
-      <Divider />
-      <VariableSizeList
-        ref={listRef}
-        height={correctedParentHeight}
-        itemSize={() => ROW_HEIGHT}
-        itemCount={waypointIds.length}
+    <>
+      <List className={classes.list}>
+        <Divider />
+        <VariableSizeList
+          ref={listRef}
+          height={correctedParentHeight}
+          itemSize={() => ROW_HEIGHT}
+          itemCount={waypointIds.length}
+        >
+          {renderRow}
+        </VariableSizeList>
+        <Divider />
+      </List>
+      <div style={anchorElStyles} ref={anchorEl} />
+      <Menu
+        id="waypoint-list-item-menu"
+        anchorEl={listAncherRef}
+        keepMounted
+        open={Boolean(listAncherRef)}
+        onClose={handleOnMenuClose}
       >
-        {renderRow}
-      </VariableSizeList>
-      <Divider />
-    </List>
+        {menuItem}
+      </Menu>
+    </>
   );
 };
 
@@ -200,6 +284,8 @@ WaypointsPanel.propTypes = {
   onWaypointDeSelect: PropTypes.func,
   onWaypointSetSelected: PropTypes.func,
   onSetMultiSelect: PropTypes.func,
+  onWaypointDelete: PropTypes.func,
+  onWaypointSplit: PropTypes.func,
   parentHeight: PropTypes.number,
   pending: PropTypes.bool,
   multiSelect: PropTypes.bool,
@@ -210,6 +296,8 @@ WaypointsPanel.defaultProps = {
   onWaypointDeSelect: () => {},
   onWaypointSetSelected: () => {},
   onSetMultiSelect: () => {},
+  onWaypointDelete: () => {},
+  onWaypointSplit: () => {},
   parentHeight: null,
   pending: false,
   multiSelect: false,

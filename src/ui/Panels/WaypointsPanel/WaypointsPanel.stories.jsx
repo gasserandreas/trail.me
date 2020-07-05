@@ -35,6 +35,8 @@ export const SimpleCoordinatesPanel = () => (
     waypointSelectedById={selected}
     onWaypointSelect={action('onWaypointSelect')}
     onWaypointDeSelect={action('onWaypointDeSelect')}
+    onWaypointDelete={action('onWaypointDelete')}
+    onWaypointSplit={action('onWaypointSplit')}
     style={{ height: '350px' }}
   />
 );

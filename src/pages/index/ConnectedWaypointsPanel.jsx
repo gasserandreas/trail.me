@@ -43,6 +43,17 @@ const ConnectedWaypointsPanel = ({ panelHeight }) => {
     dispatch(setMultiSelect(true));
   };
 
+  const handleOnWaypointDelete = (_, id) => {
+    console.log('handleOnWaypointDelete'); // eslint-disable-line no-console
+    console.log(id); // eslint-disable-line no-console
+  };
+
+  const handleOnWaypointSplit = (_, id) => {
+    console.log('handleOnWaypointSplit'); // eslint-disable-line no-console
+    console.log(id); // eslint-disable-line no-console
+  };
+
+
   // don't render with no items
   if (waypointsIds.length === 0) {
     return null;
@@ -57,6 +68,8 @@ const ConnectedWaypointsPanel = ({ panelHeight }) => {
       onWaypointDeSelect={handleOnWaypointDeSelect}
       onWaypointSetSelected={handleOnWaypointSetSelected}
       onSetMultiSelect={handleOnSetMultiSelect}
+      onWaypointDelete={handleOnWaypointDelete}
+      onWaypointSplit={handleOnWaypointSplit}
       parentHeight={panelHeight}
       pending={waypointsPending}
       multiSelect={isMultiSelect}
