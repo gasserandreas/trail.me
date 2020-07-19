@@ -3,11 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import ControlsPanel from '../../ui/Panels/ControlsPanel/ControlsPanel';
 
-import { removeWaypoints, resetSelectedWaypoints } from '../../entities/waypoints';
-import { selectedWaypointIdsSelector, waypointsIdsSelector } from '../../entities/waypoints/selector';
+import {
+  enableMultiSelect,
+  disableMultiSelect,
+  removeWaypoints,
+} from '../../entities/route-edit';
 
-import { enableMultiSelect, disableMultiSelect } from '../../entities/route-edit';
-import { multiSelectSelector } from '../../entities/route-edit/selector';
+import {
+  multiSelectSelector,
+  selectedWaypointIdsSelector,
+  waypointsIdsSelector,
+} from '../../entities/route-edit/selector';
 
 const ConnectedCoordinatesPanel = () => {
   const dispatch = useDispatch();
@@ -22,7 +28,6 @@ const ConnectedCoordinatesPanel = () => {
   };
 
   const handleOnCoordinateReset = () => {
-    dispatch(resetSelectedWaypoints());
     dispatch(disableMultiSelect());
   };
 

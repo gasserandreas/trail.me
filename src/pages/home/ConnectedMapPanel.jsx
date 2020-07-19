@@ -6,9 +6,7 @@ import MapPanel from '../../ui/Panels/MapPanel/MapPanel';
 import { setViewport, setLocation } from '../../entities/map';
 import { viewportSelector } from '../../entities/map/selector';
 
-import { invertWaypoints } from '../../entities/waypoints';
-
-import { setActionType } from '../../entities/route-edit';
+import { setActionType, invertWaypoints } from '../../entities/route-edit';
 import { actionTypeSelector } from '../../entities/route-edit/selector';
 
 const ConnectedMapPanel = () => {

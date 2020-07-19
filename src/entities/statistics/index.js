@@ -4,10 +4,15 @@ import moment from 'moment';
 
 import { getDistanceForPoint, getPrevWaypoint } from './utils';
 
+// import {
+//   waypointsByIdSelector,
+//   waypointsIdsSelector,
+// } from '../waypoints/selector';
+
 import {
   waypointsByIdSelector,
   waypointsIdsSelector,
-} from '../waypoints/selector';
+} from '../route-edit/selector';
 
 // action types
 const SET_PENDING = 'analytics/setPending';

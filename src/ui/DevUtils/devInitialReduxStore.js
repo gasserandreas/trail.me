@@ -1,9 +1,9 @@
-import waypoints from './stores/waypoints';
+import routeEdit from './stores/routeEdit';
 import map from './stores/map';
 import statistics from './stores/statistics';
 
 export default {
-  waypoints,
+  routeEdit,
   map,
   statistics,
 };

@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 const WaypointsPanel = ({
   waypointById,
   waypointIds,
-  waypointSelectedById,
+  waypointMeta,
   onWaypointSelect,
   onWaypointDeSelect,
   onWaypointSetSelected,
@@ -77,10 +77,10 @@ const WaypointsPanel = ({
   useMemo(() => {
     if (!multiSelect) {
       // get selected waypoint id
-      const selectedWaypoint = Object.entries(waypointSelectedById)
+      const selectedWaypoint = Object.entries(waypointMeta)
         .find((arr) => {
-          const { value } = arr[1];
-          return value === true;
+          const { selected } = arr[1];
+          return selected === true;
         });
 
       if (selectedWaypoint) {
@@ -90,7 +90,7 @@ const WaypointsPanel = ({
         listRef.current.scrollToItem(index);
       }
     }
-  }, [waypointIds, waypointSelectedById, multiSelect]);
+  }, [waypointIds, waypointMeta, multiSelect]);
 
   const handleOnClick = (selectedId) => (e) => {
     const { shiftKey } = e;
@@ -120,7 +120,7 @@ const WaypointsPanel = ({
      * handle default multi select behaviour
      */
     setLastClicked(selectedId);
-    if (waypointSelectedById[selectedId].value) {
+    if (waypointMeta[selectedId].selected) {
       onWaypointDeSelect(e, [selectedId]);
     } else {
       onWaypointSelect(e, [selectedId]);
@@ -165,10 +165,12 @@ const WaypointsPanel = ({
   ];
 
   const menuItem = useMemo(() => MENU_ITEMS.map(({ label, callback }) => (
-    <MenuItem onClick={(event) => {
-      handleOnMenuClose();
-      callback(event);
-    }}
+    <MenuItem
+      onClick={(event) => {
+        handleOnMenuClose();
+        callback(event);
+      }}
+      key={`menu-item-${label}`}
     >
       {label}
     </MenuItem>
@@ -179,13 +181,14 @@ const WaypointsPanel = ({
 
     const id = waypointIds[index];
     const { lat, lng } = waypointById[id];
+    const meta = waypointMeta[id];
 
     return (
       <span key={`coordinate-item-${id}`}>
         <ListItem
           style={style}
           onClick={handleOnClick(id)}
-          selected={waypointSelectedById[id].value}
+          selected={meta.selected}
           button
           dense
         >
@@ -210,7 +213,7 @@ const WaypointsPanel = ({
           {multiSelect && (
             <ListItemIcon>
               <Checkbox
-                checked={waypointSelectedById[id].value}
+                checked={meta.selected}
                 tabIndex={-1}
                 disableRipple
                 inputProps={{ 'aria-labelledby': id }}
@@ -279,7 +282,7 @@ const WaypointsPanel = ({
 WaypointsPanel.propTypes = {
   waypointById: PropTypes.shape({}).isRequired,
   waypointIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  waypointSelectedById: PropTypes.shape({}).isRequired,
+  waypointMeta: PropTypes.shape({}).isRequired,
   onWaypointSelect: PropTypes.func,
   onWaypointDeSelect: PropTypes.func,
   onWaypointSetSelected: PropTypes.func,
