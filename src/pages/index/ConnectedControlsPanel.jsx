@@ -6,8 +6,8 @@ import ControlsPanel from '../../ui/Panels/ControlsPanel/ControlsPanel';
 import { removeWaypoints, resetSelectedWaypoints } from '../../entities/waypoints';
 import { selectedWaypointIdsSelector, waypointsIdsSelector } from '../../entities/waypoints/selector';
 
-import { setMultiSelect } from '../../entities/map';
-import { multiSelectSelector } from '../../entities/map/selector';
+import { enableMultiSelect, disableMultiSelect } from '../../entities/route-edit';
+import { multiSelectSelector } from '../../entities/route-edit/selector';
 
 const ConnectedCoordinatesPanel = () => {
   const dispatch = useDispatch();
@@ -18,16 +18,16 @@ const ConnectedCoordinatesPanel = () => {
 
   const handleOnCoordinateDelete = () => {
     dispatch(removeWaypoints(selectedWaypointIds));
-    dispatch(setMultiSelect(false));
+    dispatch(disableMultiSelect());
   };
 
   const handleOnCoordinateReset = () => {
     dispatch(resetSelectedWaypoints());
-    dispatch(setMultiSelect(false));
+    dispatch(disableMultiSelect());
   };
 
   const handleOnSetMultiSelect = () => {
-    dispatch(setMultiSelect(true));
+    dispatch(enableMultiSelect());
   };
 
   // don't render with no items

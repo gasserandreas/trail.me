@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addWaypoint } from '../../../entities/waypoints';
 
 import { setViewport } from '../../../entities/map';
-import { viewportSelector, actionTypeSelector } from '../../../entities/map/selector';
+import { viewportSelector } from '../../../entities/map/selector';
+import { actionTypeSelector } from '../../../entities/route-edit/selector';
 
 import SwissGeoMap from '../../../ui/Map/SwissGeoMap';
 

@@ -7,8 +7,10 @@ import MapActions from '../../../constants/MapActions';
 import { removeWaypoints, selectWaypoints, addWaypointBetween } from '../../../entities/waypoints';
 import { waypointsPolylinesSelector, waypointsPendingSelector } from '../../../entities/waypoints/selector';
 
-import { setMultiSelect } from '../../../entities/map';
-import { viewportSelector, actionTypeSelector, multiSelectSelector } from '../../../entities/map/selector';
+import { viewportSelector } from '../../../entities/map/selector';
+
+import { enableMultiSelect } from '../../../entities/route-edit';
+import { actionTypeSelector, multiSelectSelector } from '../../../entities/route-edit/selector';
 
 const ConnectedPolylines = () => {
   const dispatch = useDispatch();
@@ -34,7 +36,7 @@ const ConnectedPolylines = () => {
     }
 
     if (!isMultiSelect) {
-      dispatch(setMultiSelect(true));
+      dispatch(enableMultiSelect());
     }
 
     dispatch(selectWaypoints([startId, endId]));

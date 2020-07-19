@@ -17,7 +17,8 @@ import {
   waypointsPendingSelector,
 } from '../../../entities/waypoints/selector';
 
-import { viewportSelector, actionTypeSelector, multiSelectSelector } from '../../../entities/map/selector';
+import { viewportSelector } from '../../../entities/map/selector';
+import { actionTypeSelector, multiSelectSelector } from '../../../entities/route-edit/selector';
 
 const ZOOM_HIDE_LEVEL = 14;
 

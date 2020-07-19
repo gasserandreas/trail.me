@@ -3,9 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import MapPanel from '../../ui/Panels/MapPanel/MapPanel';
 
-import { setViewport, setLocation, setActionType } from '../../entities/map';
+import { setViewport, setLocation } from '../../entities/map';
+import { viewportSelector } from '../../entities/map/selector';
+
 import { invertWaypoints } from '../../entities/waypoints';
-import { viewportSelector, actionTypeSelector } from '../../entities/map/selector';
+
+import { setActionType } from '../../entities/route-edit';
+import { actionTypeSelector } from '../../entities/route-edit/selector';
 
 const ConnectedMapPanel = () => {
   const dispatch = useDispatch();
