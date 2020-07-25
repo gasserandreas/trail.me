@@ -12,17 +12,20 @@ import Page from '../../ui/Layout/Page';
 import Panel, { PanelContent } from '../../ui/Panels/Panel';
 import Footer from '../../ui/Footer/Footer';
 
-import ConnectedMap from './Map/ConnectedMap';
+import ConnectedMap from './ConnectedMap';
 import ConnectedFilePanel from './ConnectedFilePanel';
 import ConnectedMapPanel from './ConnectedMapPanel';
 import ConnectedWaypointsPanel from './ConnectedWaypointsPanel';
 import ConnectedControlsPanel from './ConnectedControlsPanel';
-import Statistics from './Statistics';
+
+import ConnectedStatistics from './ConnectedStatistics';
 
 import HotKeys from '../../constants/HotKeys';
 
-import { removeSelectedWaypoints } from '../../entities/waypoints';
-import { statisticsShouldBeShown } from '../../entities/statistics/selector';
+import { removeWaypoints } from '../../entities/route-edit';
+import { metaStateSelector } from '../../entities/route-edit/selector';
+
+// import { statisticsShouldBeShown } from '../../entities/statistics/selector';
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -89,7 +92,19 @@ const HomePage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const showStatistics = useSelector(statisticsShouldBeShown);
+  // const showStatistics = useSelector(statisticsShouldBeShown);
+  const showStatistics = false;
+  const meta = useSelector(metaStateSelector);
+
+  const selectedWaypoinIds = Object.entries(meta)
+    .map((key, value) => {
+      if (value.selected) {
+        return key;
+      }
+
+      return undefined;
+    })
+    .filter(Boolean);
 
   /**
    * Get parent size and pass to virtualize list
@@ -105,7 +120,7 @@ const HomePage = () => {
    * HotKeys handler
    */
   const handlers = {
-    [HotKeys.DELETE]: () => dispatch(removeSelectedWaypoints()),
+    [HotKeys.DELETE]: () => dispatch(removeWaypoints(selectedWaypoinIds)),
   };
 
   return (
@@ -114,7 +129,7 @@ const HomePage = () => {
         <ConnectedMap />
         {showStatistics && (
           <div className={classes.statistics}>
-            <Statistics />
+            <ConnectedStatistics />
           </div>
         )}
       </section>

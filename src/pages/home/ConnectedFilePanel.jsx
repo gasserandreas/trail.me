@@ -6,8 +6,11 @@ import FilePanel from '../../ui/Panels/FilePanel/FilePanel';
 import MapFileType from '../../constants/MapFileType';
 import UploadOptions from '../../constants/UploadOptions';
 
-import { resetWaypoints, loadWaypoints } from '../../entities/waypoints';
-import { waypointsSelector, waypointsIdsSelector } from '../../entities/waypoints/selector';
+// import { resetWaypoints, loadWaypoints } from '../../entities/waypoints-old';
+// import { waypointsSelector, waypointsIdsSelector } from '../../entities/waypoints/selector';
+
+import { initNewRoute, addWaypoints } from '../../entities/route-edit';
+import { waypointsSelector, waypointsIdsSelector } from '../../entities/route-edit/selector';
 
 import { parseGpx, convertToGpxWaypoints, convertToGpx } from '../../utils/gpx';
 
@@ -33,8 +36,12 @@ const ConnectedFilePanel = () => {
   };
 
   const handleOnClickReset = () => {
+    // // OLD
+    // setFilename(INITIAL_FILENAME);
+    // dispatch(resetWaypoints());
+
     setFilename(INITIAL_FILENAME);
-    dispatch(resetWaypoints());
+    dispatch(initNewRoute());
   };
 
   const handleOnClickDownload = async () => {
@@ -57,13 +64,23 @@ const ConnectedFilePanel = () => {
   };
 
   const handleOnClickUpload = (_, { text, uploadOption }) => {
+    // OLD
     const result = parseGpx(text);
     const { name, waypoints: parsedWaypoints } = result;
 
-    const shouldResetWaypoints = uploadOption === UploadOptions.RESET_UPLOAD;
+    // const shouldResetWaypoints = uploadOption === UploadOptions.RESET_UPLOAD;
 
     setFilename(name);
-    dispatch(loadWaypoints(parsedWaypoints, shouldResetWaypoints));
+    // dispatch(loadWaypoints(parsedWaypoints, shouldResetWaypoints));
+
+
+    if (uploadOption === UploadOptions.RESET_UPLOAD) {
+      // start new route
+      dispatch(initNewRoute(name, parsedWaypoints));
+    } else {
+      // add waypoints
+      dispatch(addWaypoints(parsedWaypoints));
+    }
   };
 
   const handleOnError = (newError) => {

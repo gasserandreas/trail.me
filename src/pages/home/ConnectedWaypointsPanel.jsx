@@ -4,16 +4,22 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import WaypointsPanel from '../../ui/Panels/WaypointsPanel/WaypointsPanel';
 
-import { selectWaypoints, deselectWaypoints, setSelectedWaypoints } from '../../entities/waypoints';
+import { setViewportCoordinates } from '../../entities/map';
+
 import {
+  enableMultiSelect,
+  selectWaypoints,
+  deSelectWaypoints,
+  setSelectedWaypoint,
+} from '../../entities/route-edit';
+
+import {
+  multiSelectSelector,
   waypointsByIdSelector,
   waypointsIdsSelector,
-  selectedWaypointsSelector,
+  metaStateSelector,
   waypointsPendingSelector,
-} from '../../entities/waypoints/selector';
-
-import { setMultiSelect, setViewportCoordinates } from '../../entities/map';
-import { multiSelectSelector } from '../../entities/map/selector';
+} from '../../entities/route-edit/selector';
 
 const ConnectedWaypointsPanel = ({ panelHeight }) => {
   const dispatch = useDispatch();
@@ -21,7 +27,8 @@ const ConnectedWaypointsPanel = ({ panelHeight }) => {
   const waypointsPending = useSelector(waypointsPendingSelector);
   const waypointsById = useSelector(waypointsByIdSelector);
   const waypointsIds = useSelector(waypointsIdsSelector);
-  const selectedWaypoints = useSelector(selectedWaypointsSelector);
+  const waypointMeta = useSelector(metaStateSelector);
+
   const isMultiSelect = useSelector(multiSelectSelector);
 
   const handleOnWaypointSelect = (_, newSelected) => {
@@ -29,18 +36,18 @@ const ConnectedWaypointsPanel = ({ panelHeight }) => {
   };
 
   const handleOnWaypointDeSelect = (_, newDeselect) => {
-    dispatch(deselectWaypoints(newDeselect));
+    dispatch(deSelectWaypoints(newDeselect));
   };
 
   const handleOnWaypointSetSelected = (_, id) => {
-    dispatch(setSelectedWaypoints([id]));
+    dispatch(setSelectedWaypoint([id]));
 
     const { lat, lng } = waypointsById[id];
     dispatch(setViewportCoordinates([lat, lng]));
   };
 
   const handleOnSetMultiSelect = () => {
-    dispatch(setMultiSelect(true));
+    dispatch(enableMultiSelect());
   };
 
   const handleOnWaypointDelete = (_, id) => {
@@ -63,7 +70,7 @@ const ConnectedWaypointsPanel = ({ panelHeight }) => {
     <WaypointsPanel
       waypointById={waypointsById}
       waypointIds={waypointsIds}
-      waypointSelectedById={selectedWaypoints}
+      waypointMeta={waypointMeta}
       onWaypointSelect={handleOnWaypointSelect}
       onWaypointDeSelect={handleOnWaypointDeSelect}
       onWaypointSetSelected={handleOnWaypointSetSelected}

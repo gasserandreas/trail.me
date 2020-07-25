@@ -11,14 +11,14 @@ import waypoints from './__data__/waypoints.json';
  */
 const byId = {};
 const ids = [];
-const selected = {};
+const meta = {};
 
 waypoints.forEach((waypoint) => {
   const { id } = waypoint;
   byId[id] = waypoint;
   ids.push(id);
-  selected[id] = {
-    value: id === '4f72ec93-d59c-4084-8822-01e78ce38a84' || id === 'c4cd3414-fa91-48dd-a814-080e9f1c4802',
+  meta[id] = {
+    selected: id === '4f72ec93-d59c-4084-8822-01e78ce38a84' || id === 'c4cd3414-fa91-48dd-a814-080e9f1c4802',
   };
 });
 
@@ -32,7 +32,7 @@ export const SimpleCoordinatesPanel = () => (
   <WaypointsPanel
     waypointById={byId}
     waypointIds={ids}
-    waypointSelectedById={selected}
+    waypointMeta={meta}
     onWaypointSelect={action('onWaypointSelect')}
     onWaypointDeSelect={action('onWaypointDeSelect')}
     onWaypointDelete={action('onWaypointDelete')}
