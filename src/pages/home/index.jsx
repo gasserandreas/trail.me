@@ -16,10 +16,9 @@ import Panel, { PanelContent } from '../../ui/Panels/Panel';
 import WaypointsPanel from '../../ui/Panels/WaypointsPanel';
 import FilePanel from '../../ui/Panels/FilePanel';
 import ControlsPanel from '../../ui/Panels/ControlsPanel';
+import MapPanel from '../../ui/Panels/MapPanel';
 
 import ConnectedMap from './ConnectedMap';
-import ConnectedMapPanel from './ConnectedMapPanel';
-// import ConnectedControlsPanel from './ConnectedControlsPanel';
 
 import ConnectedStatistics from './ConnectedStatistics';
 
@@ -144,7 +143,7 @@ const HomePage = () => {
           <FilePanel />
         </div>
         <div className={classes.mapPanel}>
-          <ConnectedMapPanel />
+          <MapPanel />
         </div>
         <div className={classes.controlsPanel}>
           <ControlsPanel />
