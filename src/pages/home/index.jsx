@@ -15,10 +15,11 @@ import Footer from '../../ui/Footer/Footer';
 import Panel, { PanelContent } from '../../ui/Panels/Panel';
 import WaypointsPanel from '../../ui/Panels/WaypointsPanel';
 import FilePanel from '../../ui/Panels/FilePanel';
+import ControlsPanel from '../../ui/Panels/ControlsPanel';
 
 import ConnectedMap from './ConnectedMap';
 import ConnectedMapPanel from './ConnectedMapPanel';
-import ConnectedControlsPanel from './ConnectedControlsPanel';
+// import ConnectedControlsPanel from './ConnectedControlsPanel';
 
 import ConnectedStatistics from './ConnectedStatistics';
 
@@ -146,7 +147,7 @@ const HomePage = () => {
           <ConnectedMapPanel />
         </div>
         <div className={classes.controlsPanel}>
-          <ConnectedControlsPanel />
+          <ControlsPanel />
         </div>
         <div className={classes.coordinatePanel} ref={waypointRef}>
           <WaypointsPanel parentHeight={waypointHeight} />

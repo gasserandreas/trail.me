@@ -2,7 +2,7 @@ import React from 'react';
 import { array } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import ControlsPanel from './ControlsPanel';
+import ControlsPanel from '.';
 import { ActionPanel } from '../util';
 
 export default {
