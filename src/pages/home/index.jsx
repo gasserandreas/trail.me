@@ -17,8 +17,7 @@ import WaypointsPanel from '../../ui/Panels/WaypointsPanel';
 import FilePanel from '../../ui/Panels/FilePanel';
 import ControlsPanel from '../../ui/Panels/ControlsPanel';
 import MapPanel from '../../ui/Panels/MapPanel';
-
-import ConnectedMap from './ConnectedMap';
+import ConnectedMap from '../../ui/Map/ConnectedMap';
 
 import ConnectedStatistics from './ConnectedStatistics';
 
