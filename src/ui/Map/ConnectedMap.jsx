@@ -22,9 +22,9 @@ import {
   metaStateSelector,
 } from '../../entities/route-edit/selector';
 
-import SwissGeoMap from '../../ui/Map/SwissGeoMap';
-import Circle from '../../ui/Map/Circle';
-import Polyline from '../../ui/Map/Polyline';
+import SwissGeoMap from './SwissGeoMap';
+import Circle from './Circle';
+import Polyline from './Polyline';
 
 import MapActions from '../../constants/MapActions';
 
