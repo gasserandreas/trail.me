@@ -14,9 +14,9 @@ import Footer from '../../ui/Footer/Footer';
 
 import Panel, { PanelContent } from '../../ui/Panels/Panel';
 import WaypointsPanel from '../../ui/Panels/WaypointsPanel';
+import FilePanel from '../../ui/Panels/FilePanel';
 
 import ConnectedMap from './ConnectedMap';
-import ConnectedFilePanel from './ConnectedFilePanel';
 import ConnectedMapPanel from './ConnectedMapPanel';
 import ConnectedControlsPanel from './ConnectedControlsPanel';
 
