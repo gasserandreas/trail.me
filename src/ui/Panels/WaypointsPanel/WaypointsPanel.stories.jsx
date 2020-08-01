@@ -1,26 +1,7 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 
-import WaypointsPanel from './WaypointsPanel';
+import WaypointsPanel from '.';
 import { ActionPanel } from '../util';
-
-import waypoints from './__data__/waypoints.json';
-
-/**
- * Calculate demo data
- */
-const byId = {};
-const ids = [];
-const meta = {};
-
-waypoints.forEach((waypoint) => {
-  const { id } = waypoint;
-  byId[id] = waypoint;
-  ids.push(id);
-  meta[id] = {
-    selected: id === '4f72ec93-d59c-4084-8822-01e78ce38a84' || id === 'c4cd3414-fa91-48dd-a814-080e9f1c4802',
-  };
-});
 
 export default {
   title: 'Panels/WaypointsPanel',
@@ -30,13 +11,6 @@ export default {
 
 export const SimpleCoordinatesPanel = () => (
   <WaypointsPanel
-    waypointById={byId}
-    waypointIds={ids}
-    waypointMeta={meta}
-    onWaypointSelect={action('onWaypointSelect')}
-    onWaypointDeSelect={action('onWaypointDeSelect')}
-    onWaypointDelete={action('onWaypointDelete')}
-    onWaypointSplit={action('onWaypointSplit')}
-    style={{ height: '350px' }}
+    parentHeight={350}
   />
 );

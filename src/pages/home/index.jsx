@@ -9,13 +9,15 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Page from '../../ui/Layout/Page';
-import Panel, { PanelContent } from '../../ui/Panels/Panel';
 import Footer from '../../ui/Footer/Footer';
+
+
+import Panel, { PanelContent } from '../../ui/Panels/Panel';
+import WaypointsPanel from '../../ui/Panels/WaypointsPanel';
 
 import ConnectedMap from './ConnectedMap';
 import ConnectedFilePanel from './ConnectedFilePanel';
 import ConnectedMapPanel from './ConnectedMapPanel';
-import ConnectedWaypointsPanel from './ConnectedWaypointsPanel';
 import ConnectedControlsPanel from './ConnectedControlsPanel';
 
 import ConnectedStatistics from './ConnectedStatistics';
@@ -138,7 +140,7 @@ const HomePage = () => {
           Trail.me
         </Typography>
         <div className={classes.filePanel}>
-          <ConnectedFilePanel />
+          <FilePanel />
         </div>
         <div className={classes.mapPanel}>
           <ConnectedMapPanel />
@@ -147,7 +149,7 @@ const HomePage = () => {
           <ConnectedControlsPanel />
         </div>
         <div className={classes.coordinatePanel} ref={waypointRef}>
-          <ConnectedWaypointsPanel panelHeight={waypointHeight} />
+          <WaypointsPanel parentHeight={waypointHeight} />
         </div>
         <div className={classes.footerPanel}>
           <Panel>
