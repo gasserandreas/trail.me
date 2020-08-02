@@ -8,6 +8,7 @@ import difference from 'lodash/difference';
 import MapActions from '../../constants/MapActions';
 
 import { createWaypoint, createWaypoints, createMetaObject } from './utils';
+import { waypointsIdsSelector, splitStateSelector } from './selector';
 
 /**
  * action type redux
@@ -48,6 +49,10 @@ const invert = createAction('route-edit/invert');
 const select = createAction('route-edit/waypoint/select');
 const deSelect = createAction('route-edit/waypoint/deSelect');
 const setSelect = createAction('route-edit/waypoint/setSelected');
+
+const splitStart = createAction('route-edit/waypoint/split/start');
+const splitConfirm = createAction('route-edit/waypoint/split/confirm');
+const splitCancel = createAction('route-edit/waypoint/split/cancel');
 
 /**
  * external (complex) redux actions
@@ -112,6 +117,39 @@ export const setSelectedWaypoint = (waypointId) => (dispatch) => {
   dispatch(setSelect(waypointId));
 };
 
+export const startSplit = (startId) => (dispatch, getStore) => {
+  const store = getStore();
+  const waypointIds = waypointsIdsSelector(store);
+
+  const startIndex = waypointIds.indexOf(startId);
+  const endIndex = startIndex + 1;
+  const endId = waypointIds[endIndex];
+
+  const payload = {
+    startIndex,
+    endIndex,
+    startId,
+    endId,
+  };
+
+  dispatch(splitStart(payload));
+};
+
+export const saveSplit = () => (dispatch, getState) => {
+  const state = getState();
+
+  const { newIds, start, end } = splitStateSelector(state);
+  const payload = { newIds, start, end };
+
+  dispatch(splitConfirm(payload));
+};
+
+export const cancelSplit = () => (dispatch, getState) => {
+  const state = getState();
+  const { newIds } = splitStateSelector(state);
+  dispatch(splitCancel(newIds));
+};
+
 /**
  * byId redux tree
  */
@@ -138,6 +176,11 @@ const waypointsByIdReducer = createReducer({}, {
       state[id] = waypoint;
     });
   },
+  [splitCancel]: (state, action) => {
+    action.payload.forEach((waypointId) => {
+      delete state[waypointId];
+    });
+  },
 });
 
 /**
@@ -157,10 +200,11 @@ const waypointsIdsReducer = createReducer([], {
   },
   [remove]: (state, action) => [...difference(state, action.payload)],
   [invert]: (state) => state.reverse(),
+  [splitCancel]: (state, action) => [...difference(state, action.payload)],
 });
 
 /**
- * selected redux tree
+ * meta redux tree
  */
 const waypointMetaReducer = createReducer({}, {
   [initNewRoute]: (_, action) => action.payload.waypoints.ids.reduce((prev, cur) => ({
@@ -201,6 +245,89 @@ const waypointMetaReducer = createReducer({}, {
       waypoint.selected = action.payload.includes(waypointId);
     });
   },
+  [splitStart]: (state) => {
+    Object.keys(state).forEach((waypointId) => {
+      const waypoint = state[waypointId];
+      waypoint.disabled = true;
+      waypoint.selected = false;
+    });
+  },
+  [splitConfirm]: (state) => {
+    Object.keys(state).forEach((waypointId) => {
+      const waypoint = state[waypointId];
+      waypoint.disabled = false;
+    });
+  },
+  [splitCancel]: (state) => {
+    Object.keys(state).forEach((waypointId) => {
+      const waypoint = state[waypointId];
+      waypoint.disabled = false;
+    });
+  },
+});
+
+/**
+ * split tree
+ */
+const splitReducerInitialState = {
+  enabled: false,
+  start: {
+    id: null,
+    index: 0,
+  },
+  end: {
+    id: null,
+    index: 0,
+  },
+  newIds: [],
+};
+
+const splitReducer = createReducer(splitReducerInitialState, {
+  [splitStart]: (state, action) => {
+    const {
+      startId,
+      endId,
+      startIndex,
+      endIndex,
+    } = action.payload;
+
+    state.enabled = true;
+
+    state.start = {
+      id: startId,
+      index: startIndex,
+    };
+
+    state.end = {
+      id: endId,
+      index: endIndex,
+    };
+  },
+  [splitCancel]: () => splitReducerInitialState,
+  [splitConfirm]: () => splitReducerInitialState,
+  [add]: (state, action) => {
+    const { enabled } = state;
+
+    if (enabled) {
+      action.payload.forEach(({ id }) => {
+        state.newIds.push(id);
+      });
+    }
+  },
+  [addBetween]: (state, action) => {
+    const { enabled } = state;
+
+    if (enabled) {
+      state.newIds.push(action.payload.id);
+    }
+  },
+  [remove]: (state, action) => {
+    const { enabled } = state;
+
+    if (enabled) {
+      state.newIds = [...difference(state.newIds, action.payload)];
+    }
+  },
 });
 
 /**
@@ -224,6 +351,7 @@ const waypointsReducer = combineReducers({
   byId: waypointsByIdReducer,
   ids: waypointsIdsReducer,
   meta: waypointMetaReducer,
+  split: splitReducer,
 });
 
 const routeReducer = combineReducers({

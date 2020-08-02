@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Panel, { SPACING, PanelContent } from '../Panel';
@@ -18,6 +19,7 @@ import {
   multiSelectSelector,
   selectedWaypointIdsSelector,
   waypointsIdsSelector,
+  splitEnabledSelector,
 } from '../../../entities/route-edit/selector';
 
 const useStyles = makeStyles(() => ({
@@ -54,6 +56,7 @@ const ControlsPanel = ({ ...props }) => {
   const selectedWaypointIds = useSelector(selectedWaypointIdsSelector);
   const waypointsIds = useSelector(waypointsIdsSelector);
   const isMultiSelect = useSelector(multiSelectSelector);
+  const splitEnabled = useSelector(splitEnabledSelector);
 
   const numberSelectedItems = useMemo(() => selectedWaypointIds.length, [selectedWaypointIds]);
   const deleteEnabled = numberSelectedItems > 0;
@@ -96,8 +99,17 @@ const ControlsPanel = ({ ...props }) => {
     return null;
   }
 
+  const title = (
+    <span>
+      Coordinats
+      {
+        splitEnabled && (<Typography variant="body2" display="inline"> [split mode enabled]</Typography>)
+      }
+    </span>
+  );
+
   return (
-    <Panel title="Coordinates" {...props}>
+    <Panel title={title} {...props}>
       <PanelContent>
         <div className={classes.controls}>
           <>

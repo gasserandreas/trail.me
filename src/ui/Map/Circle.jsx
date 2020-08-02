@@ -1,22 +1,29 @@
-// import React from 'react';
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import Leaflet from 'leaflet';
 import { Marker } from 'react-leaflet';
-// import { Circle as LCircle } from 'react-leaflet';
 
 import { useTheme } from '@material-ui/core/styles';
 
 const Circle = ({
-  latlng, zoom, selected, ...props
+  latlng, zoom, selected, disabled, ...props
 }) => {
   const theme = useTheme();
-  const { palette: { primary } } = theme;
+  const { palette } = theme;
+  const { primary } = palette;
+
+  function getColor(isSelected, isDisabled) {
+    if (isDisabled) {
+      return palette.grey[400];
+    }
+
+    return isSelected ? primary.dark : primary.main;
+  }
 
   const circleCenter = [latlng.lat, latlng.lng];
   const radius = (102 - 5 * zoom);
-  const color = selected ? primary.dark : primary.main;
+  const color = getColor(selected, disabled);
 
   const circleIcon = useMemo(() => Leaflet.divIcon({
     iconSize: [radius, radius],
@@ -39,29 +46,6 @@ const Circle = ({
   );
 };
 
-// const Circle = ({
-//   latlng, zoom, selected, ...props
-// }) => {
-//   const theme = useTheme();
-//   const { palette: { primary } } = theme;
-
-//   const circleCenter = [latlng.lat, latlng.lng];
-//   const radius = (102 - 5 * zoom);
-//   const color = selected ? primary.dark : primary.light;
-//   const fillOpacity = 1;
-
-//   return (
-//     <LCircle
-//       center={circleCenter}
-//       radius={radius}
-//       color={color}
-//       fillOpacity={fillOpacity}
-//       {...props}
-//       fill
-//     />
-//   );
-// };
-
 Circle.propTypes = {
   latlng: PropTypes.shape({
     lat: PropTypes.number.isRequired,
@@ -69,11 +53,13 @@ Circle.propTypes = {
   }).isRequired,
   zoom: PropTypes.number,
   selected: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 Circle.defaultProps = {
   zoom: 13,
   selected: false,
+  disabled: false,
 };
 
 export default Circle;

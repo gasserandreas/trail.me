@@ -18,8 +18,10 @@ import {
   actionTypeSelector,
   multiSelectSelector,
   waypointsSelector,
+  waypointsIdsSelector,
   waypointsPolylinesSelector,
   metaStateSelector,
+  splitStateSelector,
 } from '../../entities/route-edit/selector';
 
 import SwissGeoMap from './SwissGeoMap';
@@ -38,7 +40,9 @@ const ConnectedMap = () => {
 
   const polylines = useSelector(waypointsPolylinesSelector);
   const waypoints = useSelector(waypointsSelector);
+  const waypointIds = useSelector(waypointsIdsSelector);
   const waypointMeta = useSelector(metaStateSelector);
+  const splitMeta = useSelector(splitStateSelector);
 
   // handle map viewport
   const viewport = useSelector(viewportSelector);
@@ -54,6 +58,10 @@ const ConnectedMap = () => {
   const handleCircleClick = (e, id) => {
     e.originalEvent.stopPropagation();
 
+    if (waypointMeta[id].disabled) {
+      return;
+    }
+
     if (actionType === MapActions.REMOVE) {
       dispatch(removeWaypoints([id]));
       return;
@@ -68,6 +76,10 @@ const ConnectedMap = () => {
   };
 
   const handleOnDragend = (e, id) => {
+    if (waypointMeta[id].disabled) {
+      return;
+    }
+
     const { target: { _latlng } } = e;
     dispatch(moveWaypoint(id, _latlng));
   };
@@ -79,7 +91,13 @@ const ConnectedMap = () => {
     e.originalEvent.stopPropagation();
 
     if (actionType === MapActions.REMOVE) {
-      dispatch(removeWaypoints([startId, endId]));
+      if (!waypointMeta[startId].disabled) {
+        dispatch(removeWaypoints([startId]));
+      }
+
+      if (!waypointMeta[startId].disabled) {
+        dispatch(removeWaypoints([endId]));
+      }
       return;
     }
 
@@ -93,6 +111,10 @@ const ConnectedMap = () => {
   const handlePolylinesDbClick = (e, startId, endId) => {
     e.originalEvent.stopPropagation();
 
+    if (waypointMeta[endId].disabled) {
+      return;
+    }
+
     const { latlng: { lat, lng } } = e;
 
     const data = { lat, lng };
@@ -105,7 +127,19 @@ const ConnectedMap = () => {
 
     switch (actionType) {
       case MapActions.ADD:
-        dispatch(addWaypoint(latlng));
+        if (splitMeta.enabled) {
+          /**
+           * add new waypoints in between in split mode
+           */
+          const endIndex = waypointIds.indexOf(splitMeta.end.id);
+
+          const startId = waypointIds[endIndex - 1];
+          const endId = waypointIds[endIndex];
+
+          dispatch(addWaypointBetween(latlng, startId, endId));
+        } else {
+          dispatch(addWaypoint(latlng));
+        }
         break;
       default:
     }
@@ -119,6 +153,7 @@ const ConnectedMap = () => {
       onClick={(e) => handleCircleClick(e, id)}
       onDragend={(e) => handleOnDragend(e, id)}
       selected={waypointMeta[id].selected}
+      disabled={waypointMeta[id].disabled}
     />
   ));
 
@@ -128,6 +163,7 @@ const ConnectedMap = () => {
     startPosition,
     endPosition,
     selected,
+    disabled,
   }, i) => (
     <Polyline
       key={`waypoint-polyline-${i}`}
@@ -137,6 +173,7 @@ const ConnectedMap = () => {
       endLatlng={endPosition}
       zoom={zoom}
       selected={selected}
+      disabled={disabled}
       smoothFactor={3}
     />
   ));
