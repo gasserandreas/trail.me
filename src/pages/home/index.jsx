@@ -17,6 +17,7 @@ import WaypointsPanel from '../../ui/Panels/WaypointsPanel';
 import FilePanel from '../../ui/Panels/FilePanel';
 import ControlsPanel from '../../ui/Panels/ControlsPanel';
 import MapPanel from '../../ui/Panels/MapPanel';
+import SplitPanel from '../../ui/Panels/SplitPanel';
 import ConnectedMap from '../../ui/Map/ConnectedMap';
 
 import ConnectedStatistics from './ConnectedStatistics';
@@ -24,7 +25,7 @@ import ConnectedStatistics from './ConnectedStatistics';
 import HotKeys from '../../constants/HotKeys';
 
 import { removeWaypoints } from '../../entities/route-edit';
-import { metaStateSelector } from '../../entities/route-edit/selector';
+import { metaStateSelector, splitEnabledSelector } from '../../entities/route-edit/selector';
 
 // import { statisticsShouldBeShown } from '../../entities/statistics/selector';
 
@@ -76,6 +77,10 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 1,
     overflowY: 'scroll',
   },
+  splitPanel: {
+    flexGrow: 0,
+    flexShrink: 0,
+  },
   title: {
     padding: '1rem',
     fontWeight: 600,
@@ -96,6 +101,7 @@ const HomePage = () => {
   // const showStatistics = useSelector(statisticsShouldBeShown);
   const showStatistics = false;
   const meta = useSelector(metaStateSelector);
+  const splitEnabled = useSelector(splitEnabledSelector);
 
   const selectedWaypoinIds = Object.entries(meta)
     .map((key, value) => {
@@ -150,6 +156,11 @@ const HomePage = () => {
         <div className={classes.coordinatePanel} ref={waypointRef}>
           <WaypointsPanel parentHeight={waypointHeight} />
         </div>
+        {splitEnabled && (
+          <div className={classes.splitPanel}>
+            <SplitPanel />
+          </div>
+        )}
         <div className={classes.footerPanel}>
           <Panel>
             <PanelContent>

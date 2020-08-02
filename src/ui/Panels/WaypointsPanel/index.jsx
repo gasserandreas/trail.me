@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, batch } from 'react-redux';
 
 import { VariableSizeList } from 'react-window';
 
@@ -18,11 +18,17 @@ import {
   selectWaypoints,
   deSelectWaypoints,
   setSelectedWaypoint,
+  startSplit,
+  setActionType,
 } from '../../../entities/route-edit';
-import { waypointsIdsSelector, multiSelectSelector, metaStateSelector } from '../../../entities/route-edit/selector';
+import {
+  multiSelectSelector, metaStateSelector, waypointsIdsForListSelector
+} from '../../../entities/route-edit/selector';
 
 import { SPACING } from '../Panel';
 import { getInBetweenElements } from './util';
+
+import MapActions from '../../../constants/MapActions';
 
 const ROW_HEIGHT = 56;
 const HEIGH_ADJUSTMENT = 2; // 2 * 1 px Dividerg
@@ -57,7 +63,7 @@ const WaypointPanel = ({
   const correctedParentHeight = parentHeight - HEIGH_ADJUSTMENT;
 
   const dispatch = useDispatch();
-  const waypointIds = useSelector(waypointsIdsSelector);
+  const waypointIds = useSelector(waypointsIdsForListSelector);
   const isMultiSelect = useSelector(multiSelectSelector);
   const waypointMeta = useSelector(metaStateSelector);
 
@@ -93,11 +99,11 @@ const WaypointPanel = ({
     setListAncherRef(null);
   };
 
-  // eslint-disable-next-line
-  const handleSplitWaypoint = (event) => {
-    // eslint-disable-next-line
-    console.log('handleSplitWaypoint');
-    // onWaypointSplitStart(event, openedMenuId);
+  const handleSplitWaypoint = () => {
+    batch(() => {
+      dispatch(startSplit(openedMenuId));
+      dispatch(setActionType(MapActions.ADD));
+    });
   };
 
   const handleDeleteWaypoint = () => {
@@ -147,6 +153,9 @@ const WaypointPanel = ({
     {
       label: 'Split',
       callback: handleSplitWaypoint,
+      meta: {
+        disabled: openedMenuId === waypointIds[waypointIds.length - 1],
+      }
     },
     {
       label: 'Delete',
@@ -154,13 +163,14 @@ const WaypointPanel = ({
     },
   ];
 
-  const menuItem = useMemo(() => MENU_ITEMS.map(({ label, callback }) => (
+  const menuItem = useMemo(() => MENU_ITEMS.map(({ label, callback, meta }) => (
     <MenuItem
       onClick={(event) => {
         handleOnMenuClose();
         callback(event);
       }}
       key={`menu-item-${label}`}
+      disabled={meta && meta.disabled}
     >
       {label}
     </MenuItem>
