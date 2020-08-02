@@ -1,3 +1,12 @@
+# [1.6.0](https://github.com/gasserandreas/trail.me/compare/v1.5.0...v1.6.0) (2020-08-02)
+
+
+### Features
+
+* **#48:** refactored FilePanel ([302431c](https://github.com/gasserandreas/trail.me/commit/302431c14ae83f17bcc70317591202916df7a593)), closes [#48](https://github.com/gasserandreas/trail.me/issues/48)
+* **#85:** added context menu for list item ([2b24019](https://github.com/gasserandreas/trail.me/commit/2b24019a110dc04599ac5fe9de52ad0da4d62883)), closes [#85](https://github.com/gasserandreas/trail.me/issues/85)
+* **#86:** enabled split modification ([2d5d866](https://github.com/gasserandreas/trail.me/commit/2d5d8665b421832bf97366d4ca5724fd78bc520a)), closes [#86](https://github.com/gasserandreas/trail.me/issues/86)
+
 # [1.5.0](https://github.com/gasserandreas/trail.me/compare/v1.4.1...v1.5.0) (2020-07-04)
 
 
