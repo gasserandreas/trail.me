@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -12,9 +12,14 @@ import CenterForm from './CenterForm';
 import Panel, { PanelContent, SPACING } from '../Panel';
 import OptionButton from '../../OptionButton/OptionButton';
 
-import { FRICK_VIEWPORT } from '../../Map/SwissGeoMap';
 import MapActions from '../../../constants/MapActions';
 import CustomMapActions from '../../../constants/CustomMapActions';
+
+import { setViewport, setLocation } from '../../../entities/map';
+import { viewportSelector } from '../../../entities/map/selector';
+
+import { setActionType, invertWaypoints } from '../../../entities/route-edit';
+import { actionTypeSelector } from '../../../entities/route-edit/selector';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -35,21 +40,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MapPanel = ({
-  center,
-  mapAction,
-  onCenterChange,
-  onMapActionChange,
-  onLocationUpdate,
-  onCustomActionClick,
-  ...props
-}) => {
+const MapPanel = ({ ...props }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  const handleMapActionClick = (newMapAction) => (e) => {
-    if (onMapActionChange) {
-      onMapActionChange(e, newMapAction);
-    }
+  const viewport = useSelector(viewportSelector);
+  const actionType = useSelector(actionTypeSelector);
+
+  const center = useMemo(() => viewport.center, [viewport]);
+
+  const handleMapActionClick = (newActionType) => () => {
+    dispatch(setActionType(newActionType));
+  };
+
+  const onCenterChange = (_, newCenter) => {
+    const newViewport = {
+      ...viewport,
+      center: newCenter,
+    };
+    dispatch(setViewport(newViewport));
   };
 
   const handleOnLocationUpdate = (e, newCenter) => {
@@ -57,22 +66,20 @@ const MapPanel = ({
       onCenterChange(e, newCenter);
     }
 
-    if (onLocationUpdate) {
-      onLocationUpdate(e, newCenter);
-    }
+    dispatch(setLocation(newCenter));
   };
 
   // eslint-disable-next-line no-unused-vars
   const mapActionButtons = useMemo(() => Object.entries(MapActions).map(([_, value], i) => (
     <Button
       key={`mouse-action-button-${i}`}
-      variant={mapAction === value ? 'contained' : 'outlined'}
-      selected={mapAction === value}
+      variant={actionType === value ? 'contained' : 'outlined'}
+      selected={actionType === value}
       onClick={handleMapActionClick(value)}
     >
       {value}
     </Button>
-    )), [mapAction, onMapActionChange]); // eslint-disable-line
+  )), [actionType]); // eslint-disable-line
 
   const moreActionsOptions = [
     {
@@ -86,8 +93,10 @@ const MapPanel = ({
   ];
 
   const handleOnMoreActionsClick = (e, value) => {
-    const { key } = value;
-    onCustomActionClick(e, key);
+    switch (value.key) {
+      default:
+        dispatch(invertWaypoints());
+    }
   };
 
   return (
@@ -147,22 +156,8 @@ const MapPanel = ({
   );
 };
 
-MapPanel.propTypes = {
-  center: PropTypes.arrayOf(PropTypes.number),
-  mapAction: PropTypes.string,
-  onCenterChange: PropTypes.func,
-  onMapActionChange: PropTypes.func,
-  onLocationUpdate: PropTypes.func,
-  onCustomActionClick: PropTypes.func,
-};
+MapPanel.propTypes = {};
 
-MapPanel.defaultProps = {
-  center: [FRICK_VIEWPORT.center[0], FRICK_VIEWPORT.center[1]],
-  mapAction: MapActions.SELECT,
-  onCenterChange: () => {},
-  onMapActionChange: () => {},
-  onLocationUpdate: () => {},
-  onCustomActionClick: () => {},
-};
+MapPanel.defaultProps = {};
 
 export default MapPanel;

@@ -17,7 +17,7 @@ import Layout from './ui/Layout/Layout';
 import withTracker from './ui/Analytics/withTracker';
 import HotKeys from './constants/HotKeys';
 
-const IndexPage = React.lazy(() => import('./pages/index/index'));
+const HomePage = React.lazy(() => import('./pages/home'));
 const NotFound = React.lazy(() => import('./pages/not-found'));
 
 const useStyles = makeStyles(() => ({
@@ -55,7 +55,7 @@ const App = () => {
             <Layout>
               <Router>
                 <Switch>
-                  <Route exact path={INDEX} component={withTracker(IndexPage)} />
+                  <Route exact path={INDEX} component={withTracker(HomePage)} />
                   <Route path="*" component={withTracker(NotFound)} />
                 </Switch>
               </Router>

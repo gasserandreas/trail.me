@@ -1,11 +1,26 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector, batch } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Panel, { SPACING, PanelContent } from '../Panel';
 import DeleteButton from '../../DeleteButton/DeleteButton';
+
+import {
+  enableMultiSelect,
+  setSelectedWaypoint,
+  disableMultiSelect,
+  removeWaypoints,
+} from '../../../entities/route-edit';
+
+import {
+  multiSelectSelector,
+  selectedWaypointIdsSelector,
+  waypointsIdsSelector,
+  splitEnabledSelector,
+} from '../../../entities/route-edit/selector';
 
 const useStyles = makeStyles(() => ({
   fileName: {
@@ -34,17 +49,16 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const ControlsPanel = ({
-  isMultiSelect,
-  selectedCoordinates,
-  onCoordinateDelete,
-  onCoordinateReset,
-  onSetMultiSelect,
-  ...props
-}) => {
+const ControlsPanel = ({ ...props }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  const numberSelectedItems = useMemo(() => selectedCoordinates.length, [selectedCoordinates]);
+  const selectedWaypointIds = useSelector(selectedWaypointIdsSelector);
+  const waypointsIds = useSelector(waypointsIdsSelector);
+  const isMultiSelect = useSelector(multiSelectSelector);
+  const splitEnabled = useSelector(splitEnabledSelector);
+
+  const numberSelectedItems = useMemo(() => selectedWaypointIds.length, [selectedWaypointIds]);
   const deleteEnabled = numberSelectedItems > 0;
 
   const deleteText = React.useMemo(() => {
@@ -58,28 +72,44 @@ const ControlsPanel = ({
     }
   }, [numberSelectedItems]);
 
-  const handleOnDeleteClick = (e) => {
+  const handleOnDeleteClick = () => {
     if (!deleteEnabled) {
       return;
     }
 
-    if (onCoordinateDelete) {
-      onCoordinateDelete(e);
-    }
+    batch(() => {
+      dispatch(removeWaypoints(selectedWaypointIds));
+      dispatch(disableMultiSelect());
+    });
   };
 
-  const handleOnCancelClick = (e) => {
-    if (onCoordinateReset) {
-      onCoordinateReset(e);
-    }
+  const handleOnCancelClick = () => {
+    batch(() => {
+      dispatch(disableMultiSelect());
+      dispatch(setSelectedWaypoint([]));
+    });
   };
 
-  const handleOnSelectClick = (e) => {
-    onSetMultiSelect(e);
+  const handleOnSelectClick = () => {
+    dispatch(enableMultiSelect());
   };
+
+  // don't render with no items
+  if (waypointsIds.length === 0) {
+    return null;
+  }
+
+  const title = (
+    <span>
+      Coordinats
+      {
+        splitEnabled && (<Typography variant="body2" display="inline"> [split mode enabled]</Typography>)
+      }
+    </span>
+  );
 
   return (
-    <Panel title="Coordinates" {...props}>
+    <Panel title={title} {...props}>
       <PanelContent>
         <div className={classes.controls}>
           <>
@@ -114,19 +144,8 @@ const ControlsPanel = ({
   );
 };
 
-ControlsPanel.propTypes = {
-  isMultiSelect: PropTypes.bool,
-  selectedCoordinates: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onCoordinateDelete: PropTypes.func,
-  onCoordinateReset: PropTypes.func,
-  onSetMultiSelect: PropTypes.func,
-};
+ControlsPanel.propTypes = {};
 
-ControlsPanel.defaultProps = {
-  isMultiSelect: false,
-  onCoordinateDelete: () => {},
-  onCoordinateReset: () => {},
-  onSetMultiSelect: () => {},
-};
+ControlsPanel.defaultProps = {};
 
 export default ControlsPanel;

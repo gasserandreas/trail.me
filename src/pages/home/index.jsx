@@ -9,20 +9,25 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Page from '../../ui/Layout/Page';
-import Panel, { PanelContent } from '../../ui/Panels/Panel';
 import Footer from '../../ui/Footer/Footer';
 
-import ConnectedMap from './Map/ConnectedMap';
-import ConnectedFilePanel from './ConnectedFilePanel';
-import ConnectedMapPanel from './ConnectedMapPanel';
-import ConnectedWaypointsPanel from './ConnectedWaypointsPanel';
-import ConnectedControlsPanel from './ConnectedControlsPanel';
-import Statistics from './Statistics';
+
+import Panel, { PanelContent } from '../../ui/Panels/Panel';
+import WaypointsPanel from '../../ui/Panels/WaypointsPanel';
+import FilePanel from '../../ui/Panels/FilePanel';
+import ControlsPanel from '../../ui/Panels/ControlsPanel';
+import MapPanel from '../../ui/Panels/MapPanel';
+import SplitPanel from '../../ui/Panels/SplitPanel';
+import ConnectedMap from '../../ui/Map/ConnectedMap';
+
+import ConnectedStatistics from './ConnectedStatistics';
 
 import HotKeys from '../../constants/HotKeys';
 
-import { removeSelectedWaypoints } from '../../entities/waypoints';
-import { statisticsShouldBeShown } from '../../entities/statistics/selector';
+import { removeWaypoints } from '../../entities/route-edit';
+import { metaStateSelector, splitEnabledSelector } from '../../entities/route-edit/selector';
+
+// import { statisticsShouldBeShown } from '../../entities/statistics/selector';
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -72,6 +77,10 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 1,
     overflowY: 'scroll',
   },
+  splitPanel: {
+    flexGrow: 0,
+    flexShrink: 0,
+  },
   title: {
     padding: '1rem',
     fontWeight: 600,
@@ -89,7 +98,20 @@ const HomePage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const showStatistics = useSelector(statisticsShouldBeShown);
+  // const showStatistics = useSelector(statisticsShouldBeShown);
+  const showStatistics = false;
+  const meta = useSelector(metaStateSelector);
+  const splitEnabled = useSelector(splitEnabledSelector);
+
+  const selectedWaypoinIds = Object.entries(meta)
+    .map((key, value) => {
+      if (value.selected) {
+        return key;
+      }
+
+      return undefined;
+    })
+    .filter(Boolean);
 
   /**
    * Get parent size and pass to virtualize list
@@ -105,7 +127,7 @@ const HomePage = () => {
    * HotKeys handler
    */
   const handlers = {
-    [HotKeys.DELETE]: () => dispatch(removeSelectedWaypoints()),
+    [HotKeys.DELETE]: () => dispatch(removeWaypoints(selectedWaypoinIds)),
   };
 
   return (
@@ -114,7 +136,7 @@ const HomePage = () => {
         <ConnectedMap />
         {showStatistics && (
           <div className={classes.statistics}>
-            <Statistics />
+            <ConnectedStatistics />
           </div>
         )}
       </section>
@@ -123,17 +145,22 @@ const HomePage = () => {
           Trail.me
         </Typography>
         <div className={classes.filePanel}>
-          <ConnectedFilePanel />
+          <FilePanel />
         </div>
         <div className={classes.mapPanel}>
-          <ConnectedMapPanel />
+          <MapPanel />
         </div>
         <div className={classes.controlsPanel}>
-          <ConnectedControlsPanel />
+          <ControlsPanel />
         </div>
         <div className={classes.coordinatePanel} ref={waypointRef}>
-          <ConnectedWaypointsPanel panelHeight={waypointHeight} />
+          <WaypointsPanel parentHeight={waypointHeight} />
         </div>
+        {splitEnabled && (
+          <div className={classes.splitPanel}>
+            <SplitPanel />
+          </div>
+        )}
         <div className={classes.footerPanel}>
           <Panel>
             <PanelContent>

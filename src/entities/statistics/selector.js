@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import { waypointsIdsSelector } from '../waypoints/selector';
+// import { waypointsIdsSelector } from '../waypoints/selector';
 
 export const statisticsStateSelector = (state) => state.statistics;
 
@@ -16,10 +16,12 @@ export const statisticsDistanceSelector = createSelector(
     .reduce((prev, cur) => prev + cur, 0),
 );
 
-export const statisticsNumberOfCoordinatesSelector = createSelector(
-  waypointsIdsSelector,
-  (ids) => ids.length,
-);
+// export const statisticsNumberOfCoordinatesSelector = createSelector(
+//   waypointsIdsSelector,
+//   (ids) => ids.length,
+// );
+
+export const statisticsNumberOfCoordinatesSelector = () => 0;
 
 export const statisticsPendingSelector = createSelector(
   statisticsStateSelector,
