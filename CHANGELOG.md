@@ -1,3 +1,18 @@
+# [1.7.0](https://github.com/gasserandreas/trail.me/compare/v1.6.1...v1.7.0) (2020-08-09)
+
+
+### Bug Fixes
+
+* **#96:** disabled controls panel for empty split mode ([405d971](https://github.com/gasserandreas/trail.me/commit/405d97147b9b421fc1384397e65a3d39302923ab)), closes [#96](https://github.com/gasserandreas/trail.me/issues/96)
+
+
+### Features
+
+* **#93:** improved map performance ([35cd948](https://github.com/gasserandreas/trail.me/commit/35cd948786eef02a4963447fa29e8098a0d0356f)), closes [#93](https://github.com/gasserandreas/trail.me/issues/93)
+* **#96:** added empty waypoint message ([27a95f6](https://github.com/gasserandreas/trail.me/commit/27a95f6771a9e633b81e10a17bac2318e6136b9c)), closes [#96](https://github.com/gasserandreas/trail.me/issues/96)
+* **#96:** disabled circles on high zoom level ([665f1f5](https://github.com/gasserandreas/trail.me/commit/665f1f5793068596423ededc6d3098eb6e58b4f9)), closes [#96](https://github.com/gasserandreas/trail.me/issues/96)
+* **#96:** improved action butto handling on split ([774c4ba](https://github.com/gasserandreas/trail.me/commit/774c4bae6b9ba3baf4ae0b283908ea138b39c8d4)), closes [#96](https://github.com/gasserandreas/trail.me/issues/96)
+
 ## [1.6.1](https://github.com/gasserandreas/trail.me/compare/v1.6.0...v1.6.1) (2020-08-09)
 
 
