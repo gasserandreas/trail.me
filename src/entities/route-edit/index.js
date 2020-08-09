@@ -9,6 +9,9 @@ import MapActions from '../../constants/MapActions';
 
 import { createWaypoint, createWaypoints, createMetaObject } from './utils';
 import { waypointsIdsSelector, splitStateSelector } from './selector';
+import simplify from './simplifyPath';
+
+import { setViewportCoordinates } from '../map';
 
 /**
  * action type redux
@@ -57,8 +60,17 @@ const splitCancel = createAction('route-edit/waypoint/split/cancel');
 /**
  * external (complex) redux actions
  */
-export const initNewRoute = (name, waypoints) => (dispatch) => {
-  dispatch(initRoute(name, waypoints));
+export const initNewRoute = (name, waypoints = []) => (dispatch) => {
+  const TOLERANCE = 0.00015;
+  const simplifiedWaypoints = simplify(waypoints, TOLERANCE, true);
+
+  // set viewport to first waypoint
+  if (waypoints.length > 0) {
+    const { lat, lng } = waypoints[0];
+    dispatch(setViewportCoordinates([lat, lng]));
+  }
+
+  dispatch(initRoute(name, simplifiedWaypoints));
 };
 
 export const addWaypoint = (waypoint) => (dispatch) => {
@@ -154,7 +166,7 @@ export const cancelSplit = () => (dispatch, getState) => {
  * byId redux tree
  */
 const waypointsByIdReducer = createReducer({}, {
-  [initNewRoute]: (_, action) => action.payload.waypoints.byId,
+  [initRoute]: (_, action) => action.payload.waypoints.byId,
   [add]: (state, action) => {
     action.payload.forEach((waypoint) => {
       const { id } = waypoint;
@@ -187,7 +199,7 @@ const waypointsByIdReducer = createReducer({}, {
 * ids redux tree
 */
 const waypointsIdsReducer = createReducer([], {
-  [initNewRoute]: (_, action) => action.payload.waypoints.ids,
+  [initRoute]: (_, action) => action.payload.waypoints.ids,
   [add]: (state, action) => [...state, ...action.payload.map((waypoint) => waypoint.id)],
   [addBetween]: (state, action) => {
     const { id, previousId } = action.payload;
@@ -207,7 +219,7 @@ const waypointsIdsReducer = createReducer([], {
  * meta redux tree
  */
 const waypointMetaReducer = createReducer({}, {
-  [initNewRoute]: (_, action) => action.payload.waypoints.ids.reduce((prev, cur) => ({
+  [initRoute]: (_, action) => action.payload.waypoints.ids.reduce((prev, cur) => ({
     ...prev,
     [cur]: createMetaObject(),
   }), {}),

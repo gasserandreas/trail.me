@@ -22,8 +22,11 @@ import {
   setActionType,
 } from '../../../entities/route-edit';
 import {
-  multiSelectSelector, metaStateSelector, waypointsIdsForListSelector
+  multiSelectSelector, metaStateSelector, waypointsIdsForListSelector, waypointsByIdSelector
 } from '../../../entities/route-edit/selector';
+
+
+import { setViewportCoordinates } from '../../../entities/map';
 
 import { SPACING } from '../Panel';
 import { getInBetweenElements } from './util';
@@ -64,6 +67,7 @@ const WaypointPanel = ({
 
   const dispatch = useDispatch();
   const waypointIds = useSelector(waypointsIdsForListSelector);
+  const waypointsById = useSelector(waypointsByIdSelector);
   const isMultiSelect = useSelector(multiSelectSelector);
   const waypointMeta = useSelector(metaStateSelector);
 
@@ -129,7 +133,12 @@ const WaypointPanel = ({
      * simple select allowed only
      */
     if (!isMultiSelect) {
-      dispatch(setSelectedWaypoint([id]));
+      const { lat, lng } = waypointsById[id];
+      batch(() => {
+        dispatch(setSelectedWaypoint([id]));
+        dispatch(setViewportCoordinates([lat, lng]));
+      });
+
       setLastClicked(id);
       return;
     }
