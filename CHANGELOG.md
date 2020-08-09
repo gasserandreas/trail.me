@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/gasserandreas/trail.me/compare/v1.6.0...v1.6.1) (2020-08-09)
+
+
+### Bug Fixes
+
+* **#92:** fixed upload bug ([a1889c3](https://github.com/gasserandreas/trail.me/commit/a1889c329704604056123a6099c1d4224b29f076))
+
 # [1.6.0](https://github.com/gasserandreas/trail.me/compare/v1.5.0...v1.6.0) (2020-08-02)
 
 
