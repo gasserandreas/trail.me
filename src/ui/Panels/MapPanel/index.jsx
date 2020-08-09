@@ -19,7 +19,11 @@ import { setViewport, setLocation } from '../../../entities/map';
 import { viewportSelector } from '../../../entities/map/selector';
 
 import { setActionType, invertWaypoints } from '../../../entities/route-edit';
-import { actionTypeSelector } from '../../../entities/route-edit/selector';
+import {
+  actionTypeSelector,
+  splitEnabledSelector,
+  waypointsIdsForListSelector,
+} from '../../../entities/route-edit/selector';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -46,8 +50,13 @@ const MapPanel = ({ ...props }) => {
 
   const viewport = useSelector(viewportSelector);
   const actionType = useSelector(actionTypeSelector);
+  const splitEnabled = useSelector(splitEnabledSelector);
+  const waypointIds = useSelector(waypointsIdsForListSelector);
 
   const center = useMemo(() => viewport.center, [viewport]);
+  const disabledOptionButton = useMemo(() => (
+    splitEnabled || waypointIds.length === 0
+  ), [splitEnabled, waypointIds]);
 
   const handleMapActionClick = (newActionType) => () => {
     dispatch(setActionType(newActionType));
@@ -147,6 +156,7 @@ const MapPanel = ({ ...props }) => {
                 className={classes.buttonMargin}
                 hideOptionKeys={[CustomMapActions.MORE_ACTIONS]}
                 disableButtonOnClick
+                disabled={disabledOptionButton}
               />
             </Grid>
           </Grid>

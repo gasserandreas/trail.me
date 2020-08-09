@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setViewport } from '../../entities/map';
@@ -7,26 +7,17 @@ import { viewportSelector } from '../../entities/map/selector';
 import {
   addWaypoint,
   addWaypointBetween,
-  removeWaypoints,
-  moveWaypoint,
-  enableMultiSelect,
-  selectWaypoints,
-  setSelectedWaypoint,
 } from '../../entities/route-edit';
 
 import {
   actionTypeSelector,
-  multiSelectSelector,
-  waypointsSelector,
   waypointsIdsSelector,
-  waypointsPolylinesSelector,
-  metaStateSelector,
   splitStateSelector,
 } from '../../entities/route-edit/selector';
 
 import SwissGeoMap from './SwissGeoMap';
-import Circle from './Circle';
-import Polyline from './Polyline';
+import ConnectedCircle from './circles/connected';
+import ConnectedPolyline from './polylines/connected';
 
 import MapActions from '../../constants/MapActions';
 
@@ -36,89 +27,18 @@ const ConnectedMap = () => {
   const dispatch = useDispatch();
 
   const actionType = useSelector(actionTypeSelector);
-  const isMultiSelect = useSelector(multiSelectSelector);
 
-  const polylines = useSelector(waypointsPolylinesSelector);
-  const waypoints = useSelector(waypointsSelector);
   const waypointIds = useSelector(waypointsIdsSelector);
-  const waypointMeta = useSelector(metaStateSelector);
   const splitMeta = useSelector(splitStateSelector);
 
   // handle map viewport
   const viewport = useSelector(viewportSelector);
   const { zoom } = viewport;
 
+  const showCircles = useMemo(() => zoom >= ZOOM_HIDE_LEVEL, [zoom]);
+
   const handleOnViewportChanged = (newViewport) => {
     dispatch(setViewport(newViewport));
-  };
-
-  /**
-   * circle action handlers
-   */
-  const handleCircleClick = (e, id) => {
-    e.originalEvent.stopPropagation();
-
-    if (waypointMeta[id].disabled) {
-      return;
-    }
-
-    if (actionType === MapActions.REMOVE) {
-      dispatch(removeWaypoints([id]));
-      return;
-    }
-
-    if (isMultiSelect) {
-      dispatch(selectWaypoints([id]));
-      return;
-    }
-
-    dispatch(setSelectedWaypoint(id));
-  };
-
-  const handleOnDragend = (e, id) => {
-    if (waypointMeta[id].disabled) {
-      return;
-    }
-
-    const { target: { _latlng } } = e;
-    dispatch(moveWaypoint(id, _latlng));
-  };
-
-  /**
-   * polylines action handlers
-   */
-  const handlePolylineClick = (e, startId, endId) => {
-    e.originalEvent.stopPropagation();
-
-    if (actionType === MapActions.REMOVE) {
-      if (!waypointMeta[startId].disabled) {
-        dispatch(removeWaypoints([startId]));
-      }
-
-      if (!waypointMeta[startId].disabled) {
-        dispatch(removeWaypoints([endId]));
-      }
-      return;
-    }
-
-    if (!isMultiSelect) {
-      dispatch(enableMultiSelect());
-    }
-
-    dispatch(selectWaypoints([startId, endId]));
-  };
-
-  const handlePolylinesDbClick = (e, startId, endId) => {
-    e.originalEvent.stopPropagation();
-
-    if (waypointMeta[endId].disabled) {
-      return;
-    }
-
-    const { latlng: { lat, lng } } = e;
-
-    const data = { lat, lng };
-    dispatch(addWaypointBetween(data, startId, endId));
   };
 
   // map action handlers
@@ -145,38 +65,13 @@ const ConnectedMap = () => {
     }
   };
 
-  const circleItems = zoom >= ZOOM_HIDE_LEVEL && waypoints.map(({ id, lat, lng }, i) => (
-    <Circle
-      key={`waypoint-circle-${i}`}
-      latlng={{ lat, lng }}
-      zoom={zoom}
-      onClick={(e) => handleCircleClick(e, id)}
-      onDragend={(e) => handleOnDragend(e, id)}
-      selected={waypointMeta[id].selected}
-      disabled={waypointMeta[id].disabled}
-    />
-  ));
+  const circleItems = useMemo(() => waypointIds.map((id) => (
+    showCircles && <ConnectedCircle key={`waypoint-circle-${id}`} id={id} />
+  )), [waypointIds, showCircles]);
 
-  const polylinesItems = polylines.map(({
-    startCoordinateId,
-    endCoordinateId,
-    startPosition,
-    endPosition,
-    selected,
-    disabled,
-  }, i) => (
-    <Polyline
-      key={`waypoint-polyline-${i}`}
-      onClick={(e) => handlePolylineClick(e, startCoordinateId, endCoordinateId)}
-      onDblClick={(e) => handlePolylinesDbClick(e, startCoordinateId, endCoordinateId)}
-      startLatlng={startPosition}
-      endLatlng={endPosition}
-      zoom={zoom}
-      selected={selected}
-      disabled={disabled}
-      smoothFactor={3}
-    />
-  ));
+  const polylinesItems = useMemo(() => waypointIds.map((id) => (
+    <ConnectedPolyline key={`waypoint-polyline-${id}`} id={id} />
+  )), [waypointIds, splitMeta]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <SwissGeoMap

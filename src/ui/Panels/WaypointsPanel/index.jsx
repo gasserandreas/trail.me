@@ -11,6 +11,7 @@ import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 
 import WaypointListItem from './WaypointListItem';
+import EmptyPanel from './EmptyPanel';
 
 import {
   removeWaypoint,
@@ -213,20 +214,25 @@ const WaypointPanel = ({
     backgroundColor: 'red',
   };
 
+  const itemCount = waypointIds.length;
+
   return (
     <>
-      <List className={classes.list}>
-        <Divider />
-        <VariableSizeList
-          ref={listRef}
-          height={correctedParentHeight}
-          itemSize={() => ROW_HEIGHT}
-          itemCount={waypointIds.length}
-        >
-          {renderRow}
-        </VariableSizeList>
-        <Divider />
-      </List>
+      { itemCount > 0 ? (
+        <List className={classes.list}>
+          { itemCount > 0 && <Divider />}
+          <Divider />
+          <VariableSizeList
+            ref={listRef}
+            height={correctedParentHeight}
+            itemSize={() => ROW_HEIGHT}
+            itemCount={itemCount}
+          >
+            {renderRow}
+          </VariableSizeList>
+          <Divider />
+        </List>
+      ) : <EmptyPanel />}
       <div style={anchorElStyles} ref={anchorEl} />
       <Menu
         id="waypoint-list-item-menu"
