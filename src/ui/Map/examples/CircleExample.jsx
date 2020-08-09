@@ -1,7 +1,7 @@
 import React, { useState, useRef, useMemo } from 'react';
 
 import SwissGeoMap, { FRICK_VIEWPORT } from '../SwissGeoMap';
-import Circle from '../Circle';
+import Circle from '../circles';
 
 import EXAMPLE_COORDINATES from './coordinates.json';
 

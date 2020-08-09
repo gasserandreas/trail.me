@@ -102,7 +102,7 @@ export const splitNewIdsSelector = createSelector(
 /**
  * combined selector
  */
-export const waypointsPolylinesSelector = createSelector(
+export const waypointsPolylinesByIdSelector = createSelector(
   waypointsStateSelector,
   splitEnabledSelector,
   splitNewIdsSelector,
@@ -111,44 +111,49 @@ export const waypointsPolylinesSelector = createSelector(
   ({ byId, ids, meta }, enabled, newIds, splitStart, splitEnd) => {
     if (ids.length === 0 || ids.length === 1) return [];
 
-    const newPolylines = [];
+    const polylinesById = {};
 
     const splitIndex = ids.indexOf(splitEnd.id);
     const firstIds = enabled ? [...ids.slice(0, splitIndex)] : ids;
     const secondIds = enabled ? [...ids.slice(splitIndex)] : [];
 
     [firstIds, secondIds].forEach((waypointIds) => {
-      let lastCoordinate = null;
+      let lastWaypoint = null;
 
       waypointIds.forEach((id) => {
         const coordinate = byId[id];
 
-        if (lastCoordinate) {
+        if (lastWaypoint) {
           const polyline = {
-            startCoordinateId: lastCoordinate.id,
-            endCoordinateId: id,
+            startWaypointId: lastWaypoint.id,
+            endWaypointId: id,
             startPosition: {
-              lat: lastCoordinate.lat,
-              lng: lastCoordinate.lng,
+              lat: lastWaypoint.lat,
+              lng: lastWaypoint.lng,
             },
             endPosition: {
               lat: coordinate.lat,
               lng: coordinate.lng,
             },
             // selected if both coordinates are selected
-            selected: meta[lastCoordinate.id].selected && meta[id].selected,
-            disabled: meta[lastCoordinate.id].disabled && meta[id].disabled,
+            selected: meta[lastWaypoint.id].selected && meta[id].selected,
+            disabled: meta[lastWaypoint.id].disabled && meta[id].disabled,
           };
-          newPolylines.push(polyline);
+          polylinesById[lastWaypoint.id] = polyline;
         }
 
         // save last coordinate for reference
-        lastCoordinate = coordinate;
+        lastWaypoint = coordinate;
       });
     });
 
-    return newPolylines;
+    return polylinesById;
   }
+);
+
+export const waypointsPolylinesSelector = createSelector(
+  waypointsPolylinesByIdSelector,
+  (byId) => Object.values(byId),
 );
 
 export const waypointsIdsForListSelector = createSelector(

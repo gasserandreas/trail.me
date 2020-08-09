@@ -6,8 +6,8 @@ import { Marker } from 'react-leaflet';
 
 import { useTheme } from '@material-ui/core/styles';
 
-const Circle = ({
-  latlng, zoom, selected, disabled, ...props
+const Circle = React.memo(({
+  latlng, selected, disabled, ...props
 }) => {
   const theme = useTheme();
   const { palette } = theme;
@@ -22,7 +22,7 @@ const Circle = ({
   }
 
   const circleCenter = [latlng.lat, latlng.lng];
-  const radius = (102 - 5 * zoom);
+  const radius = 26;
   const color = getColor(selected, disabled);
 
   const circleIcon = useMemo(() => Leaflet.divIcon({
@@ -44,20 +44,18 @@ const Circle = ({
       {...props}
     />
   );
-};
+});
 
 Circle.propTypes = {
   latlng: PropTypes.shape({
     lat: PropTypes.number.isRequired,
     lng: PropTypes.number.isRequired,
   }).isRequired,
-  zoom: PropTypes.number,
   selected: PropTypes.bool,
   disabled: PropTypes.bool,
 };
 
 Circle.defaultProps = {
-  zoom: 13,
   selected: false,
   disabled: false,
 };
