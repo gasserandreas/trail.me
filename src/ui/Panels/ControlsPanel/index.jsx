@@ -18,7 +18,7 @@ import {
 import {
   multiSelectSelector,
   selectedWaypointIdsSelector,
-  waypointsIdsSelector,
+  waypointsIdsForListSelector,
   splitEnabledSelector,
 } from '../../../entities/route-edit/selector';
 
@@ -54,7 +54,7 @@ const ControlsPanel = ({ ...props }) => {
   const dispatch = useDispatch();
 
   const selectedWaypointIds = useSelector(selectedWaypointIdsSelector);
-  const waypointsIds = useSelector(waypointsIdsSelector);
+  const waypointsIds = useSelector(waypointsIdsForListSelector);
   const isMultiSelect = useSelector(multiSelectSelector);
   const splitEnabled = useSelector(splitEnabledSelector);
 

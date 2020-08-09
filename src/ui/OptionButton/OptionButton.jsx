@@ -37,6 +37,7 @@ const OptionButton = ({
   className,
   hideOptionKeys,
   disableButtonOnClick,
+  ...props
 }) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
@@ -90,6 +91,7 @@ const OptionButton = ({
         ref={anchorRef}
         className={className}
         aria-label="split button"
+        {...props}
       >
         <Button
           className={classes.baseButton}

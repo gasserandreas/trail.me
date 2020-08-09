@@ -71,7 +71,6 @@ const Connected = ({ id }) => {
 
   return (
     <Circle
-      key={`waypoint-circle-${id}`}
       latlng={{ lat, lng }}
       onClick={handleCircleClick}
       onDragend={handleOnDragend}

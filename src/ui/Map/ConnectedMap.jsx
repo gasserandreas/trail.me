@@ -21,6 +21,7 @@ import ConnectedPolyline from './polylines/connected';
 
 import MapActions from '../../constants/MapActions';
 
+const ZOOM_HIDE_LEVEL = 14;
 
 const ConnectedMap = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,9 @@ const ConnectedMap = () => {
 
   // handle map viewport
   const viewport = useSelector(viewportSelector);
+  const { zoom } = viewport;
+
+  const showCircles = useMemo(() => zoom >= ZOOM_HIDE_LEVEL, [zoom]);
 
   const handleOnViewportChanged = (newViewport) => {
     dispatch(setViewport(newViewport));
@@ -62,11 +66,11 @@ const ConnectedMap = () => {
   };
 
   const circleItems = useMemo(() => waypointIds.map((id) => (
-    <ConnectedCircle id={id} />
-  )), [waypointIds]);
+    showCircles && <ConnectedCircle key={`waypoint-circle-${id}`} id={id} />
+  )), [waypointIds, showCircles]);
 
   const polylinesItems = useMemo(() => waypointIds.map((id) => (
-    <ConnectedPolyline id={id} />
+    <ConnectedPolyline key={`waypoint-polyline-${id}`} id={id} />
   )), [waypointIds, splitMeta]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

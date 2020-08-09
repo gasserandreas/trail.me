@@ -74,7 +74,6 @@ const Connected = ({ id }) => {
 
   return (
     <Polyline
-      key={`waypoint-polyline-${id}`}
       onClick={handlePolylineClick}
       onDblClick={handlePolylinesDbClick}
       startLatlng={startPosition}

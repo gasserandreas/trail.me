@@ -13,12 +13,21 @@ import simplify from './simplifyPath';
 
 import { setViewportCoordinates } from '../map';
 
+const initRoute = createAction('route-edit/initNew', (name, waypoints) => ({
+  payload: {
+    id: uuid.v4(),
+    name: name || 'new route',
+    waypoints: createWaypoints(waypoints),
+  },
+}));
+
 /**
  * action type redux
  */
 export const setActionType = createAction('route-edit/setActionType');
-const actionTypeReducer = createReducer(MapActions.SELECT, {
+const actionTypeReducer = createReducer(MapActions.ADD, {
   [setActionType]: (_, action) => action.payload,
+  [initRoute]: () => MapActions.ADD,
 });
 
 /**
@@ -35,14 +44,6 @@ const multiSelectReducer = createReducer(false, {
 /**
  * internal redux action ONLY
  */
-export const initRoute = createAction('route-edit/initNew', (name, waypoints) => ({
-  payload: {
-    id: uuid.v4(),
-    name: name || 'new route',
-    waypoints: createWaypoints(waypoints),
-  },
-}));
-
 const add = createAction('route-edit/add');
 const addBetween = createAction('route-edit/addBetween');
 const remove = createAction('route-edit/remove');
