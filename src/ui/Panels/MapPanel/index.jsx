@@ -19,7 +19,11 @@ import { setViewport, setLocation } from '../../../entities/map';
 import { viewportSelector } from '../../../entities/map/selector';
 
 import { setActionType, invertWaypoints } from '../../../entities/route-edit';
-import { actionTypeSelector, splitEnabledSelector, waypointsIdsForListSelector } from '../../../entities/route-edit/selector';
+import {
+  actionTypeSelector,
+  splitEnabledSelector,
+  waypointsIdsForListSelector,
+} from '../../../entities/route-edit/selector';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -50,7 +54,9 @@ const MapPanel = ({ ...props }) => {
   const waypointIds = useSelector(waypointsIdsForListSelector);
 
   const center = useMemo(() => viewport.center, [viewport]);
-  const disabledOptionButton = useMemo(() => splitEnabled || waypointIds.length === 0, [splitEnabled, waypointIds]);
+  const disabledOptionButton = useMemo(() => (
+    splitEnabled || waypointIds.length === 0
+  ), [splitEnabled, waypointIds]);
 
   const handleMapActionClick = (newActionType) => () => {
     dispatch(setActionType(newActionType));
