@@ -4,7 +4,7 @@ import React, {
 import { Marker, Popup, Polyline } from 'react-leaflet';
 
 import SwissGeoMap, { FRICK_VIEWPORT } from '../SwissGeoMap';
-import Circle from '../Circle';
+import Circle from '../circles';
 
 const INITIAL_LOCATION_STATE = {
   hasLocation: false,

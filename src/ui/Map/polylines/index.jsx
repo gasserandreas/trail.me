@@ -4,8 +4,8 @@ import { Polyline as LPolyline } from 'react-leaflet';
 
 import { useTheme } from '@material-ui/core/styles';
 
-const Polyline = ({
-  startLatlng, endLatlng, zoom, selected, disabled, ...props
+const Polyline = React.memo(({
+  startLatlng, endLatlng, selected, disabled, ...props
 }) => {
   const theme = useTheme();
   const { palette } = theme;
@@ -20,7 +20,6 @@ const Polyline = ({
   }
 
   const weight = 8;
-  // const color = selected ? primary.dark : primary.main;
   const color = getColor(selected, disabled);
   const fillOpacity = 1;
 
@@ -37,7 +36,7 @@ const Polyline = ({
       fill
     />
   );
-};
+});
 
 Polyline.propTypes = {
   startLatlng: PropTypes.shape({
@@ -48,14 +47,12 @@ Polyline.propTypes = {
     lat: PropTypes.number.isRequired,
     lng: PropTypes.number.isRequired,
   }).isRequired,
-  zoom: PropTypes.number,
   selected: PropTypes.bool,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
 Polyline.defaultProps = {
-  zoom: 13,
   selected: false,
   disabled: false,
   onClick: null,
