@@ -62,11 +62,11 @@ const ConnectedMap = () => {
   };
 
   const circleItems = useMemo(() => waypointIds.map((id) => (
-    <ConnectedCircle id={id} />
+    <ConnectedCircle key={`waypoint-circle-${id}`} id={id} />
   )), [waypointIds]);
 
   const polylinesItems = useMemo(() => waypointIds.map((id) => (
-    <ConnectedPolyline id={id} />
+    <ConnectedPolyline key={`waypoint-polyline-${id}`} id={id} />
   )), [waypointIds, splitMeta]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

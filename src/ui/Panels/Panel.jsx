@@ -57,16 +57,13 @@ const Panel = ({
         {title}
       </Typography>
       )}
-      {/* <Divider className={classes.divider} /> */}
-      {/* <div className={classes.spacing}> */}
       {children}
-      {/* </div> */}
     </Box>
   );
 };
 
 Panel.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.node,
   children: PropTypes.node.isRequired,
   noSpacing: PropTypes.bool,
 };
