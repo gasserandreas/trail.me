@@ -1,5 +1,5 @@
 /* global FileReader,  Blob */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 
@@ -23,7 +23,7 @@ import UploadOptions from '../../../constants/UploadOptions';
 import { parseGpx, convertToGpxWaypoints, convertToGpx } from '../../../utils/gpx';
 
 import { initNewRoute, addWaypoints } from '../../../entities/route-edit';
-import { waypointsSelector, waypointsIdsSelector } from '../../../entities/route-edit/selector';
+import { waypointsSelector, waypointsIdsSelector, splitEnabledSelector } from '../../../entities/route-edit/selector';
 
 const INITIAL_FILENAME = 'export';
 
@@ -60,11 +60,14 @@ const FilePanel = ({
 
   const waypoints = useSelector(waypointsSelector);
   const waypointsIds = useSelector(waypointsIdsSelector);
+  const splitEnabled = useSelector(splitEnabledSelector);
 
   const [uploadOption, setUploadOption] = useState(UploadOptions.RESET_UPLOAD);
   const [filename, setFilename] = useState(INITIAL_FILENAME);
   const [filetype, setFiletype] = useState(MapFileType.GPX);
   const [error, setError] = useState(null);
+
+  const disabled = useMemo(() => splitEnabled, [splitEnabled]);
 
   const handleOnDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles.length === 0) return;
@@ -98,9 +101,8 @@ const FilePanel = ({
   }, [uploadOption, dispatch]);
 
   const handleOnDownloadClick = async () => {
-    if (waypointsIds.length === 0) {
-      return;
-    }
+    if (disabled) return;
+    if (waypointsIds.length === 0) return;
 
     /**
      * create download data
@@ -163,6 +165,8 @@ const FilePanel = ({
   ];
 
   const handleOnUploadClick = (e, value) => {
+    if (disabled) return;
+
     const { key } = value;
     setUploadOption(key);
 
@@ -185,6 +189,7 @@ const FilePanel = ({
                 className={classes.fileName}
                 value={filename}
                 onChange={handleOnChangeFilename}
+                disabled={disabled}
               />
             </Grid>
             <Grid item xs={3}>
@@ -192,7 +197,7 @@ const FilePanel = ({
                 value={filetype}
                 onChange={handleOnChangeFiletype}
                 className={classes.select}
-                disabled
+                disabled={true || disabled} // TODO: enabled option button later to support different filetypes
               >
                 {Object.entries(MapFileType).map(([_, value]) => ( // eslint-disable-line no-unused-vars
                   <MenuItem key={`filetype-${value}`} value={value}>
@@ -205,7 +210,7 @@ const FilePanel = ({
           </Grid>
         </div>
         <div className={clsx(classes.controls, classes.spacing)}>
-          <DeleteButton size="small" onClick={handleOnClickReset}>Reset</DeleteButton>
+          <DeleteButton size="small" onClick={handleOnClickReset} disabled={disabled}>Reset</DeleteButton>
           <div {...getRootProps()}>
             <input {...getInputProps()} />
             <OptionButton
@@ -216,6 +221,7 @@ const FilePanel = ({
               variant="outlined"
               onClick={handleOnUploadClick}
               className={classes.buttonMargin}
+              disabled={disabled}
             />
           </div>
           <Button
@@ -225,7 +231,7 @@ const FilePanel = ({
             endIcon={<SystemUpdateIcon />}
             className={clsx(classes.buttonMargin, classes.downloadButton)}
             onClick={handleOnDownloadClick}
-            disabled={waypointsIds.length === 0}
+            disabled={disabled || waypointsIds.length === 0}
           >
             Download
           </Button>
