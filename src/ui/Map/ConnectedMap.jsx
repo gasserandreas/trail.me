@@ -12,7 +12,6 @@ import {
 import {
   actionTypeSelector,
   waypointsIdsSelector,
-  waypointsPolylinesSelector,
   splitStateSelector,
 } from '../../entities/route-edit/selector';
 
@@ -28,7 +27,6 @@ const ConnectedMap = () => {
 
   const actionType = useSelector(actionTypeSelector);
 
-  const polylines = useSelector(waypointsPolylinesSelector);
   const waypointIds = useSelector(waypointsIdsSelector);
   const splitMeta = useSelector(splitStateSelector);
 
@@ -67,9 +65,9 @@ const ConnectedMap = () => {
     <ConnectedCircle id={id} />
   )), [waypointIds]);
 
-  const polylinesItems = useMemo(() => polylines.map(({ startWaypointId }) => (
-    <ConnectedPolyline id={startWaypointId} />
-  )), [polylines]);
+  const polylinesItems = useMemo(() => waypointIds.map((id) => (
+    <ConnectedPolyline id={id} />
+  )), [waypointIds, splitMeta]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <SwissGeoMap
