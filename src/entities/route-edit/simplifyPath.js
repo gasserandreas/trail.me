@@ -10,35 +10,35 @@
 
 // square distance between 2 points
 export function getSqDist(p1, p2) {
-  const dx = p1.x - p2.x;
-  const dy = p1.y - p2.y;
+  const dlat = p1.lat - p2.lat;
+  const dlng = p1.lng - p2.lng;
 
-  return dx * dx + dy * dy;
+  return dlat * dlat + dlng * dlng;
 }
 
 // square distance from a point to a segment
 export function getSqSegDist(p, p1, p2) {
-  let { x } = p1;
-  let { y } = p1;
-  let dx = p2.x - x;
-  let dy = p2.y - y;
+  let { lat } = p1;
+  let { lng } = p1;
+  let dlat = p2.lat - lat;
+  let dlng = p2.lng - lng;
 
-  if (dx !== 0 || dy !== 0) {
-    const t = ((p.x - x) * dx + (p.y - y) * dy) / (dx * dx + dy * dy);
+  if (dlat !== 0 || dlng !== 0) {
+    const t = ((p.lat - lat) * dlat + (p.lng - lng) * dlng) / (dlat * dlat + dlng * dlng);
 
     if (t > 1) {
-      x = p2.x;
-      y = p2.y;
+      lat = p2.lat;
+      lng = p2.y;
     } else if (t > 0) {
-      x += dx * t;
-      y += dy * t;
+      lat += dlat * t;
+      lng += dlng * t;
     }
   }
 
-  dx = p.x - x;
-  dy = p.y - y;
+  dlat = p.lat - lat;
+  dlng = p.lng - lng;
 
-  return dx * dx + dy * dy;
+  return dlat * dlat + dlng * dlng;
 }
 // rest of the code doesn't care about point format
 
