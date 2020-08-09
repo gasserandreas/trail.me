@@ -5,8 +5,11 @@ export function createWaypoints(waypoints = []) {
   const ids = [];
 
   waypoints.forEach((waypoint) => {
-    const id = uuid.v4();
-    byId[id] = waypoint;
+    const id = waypoint.id || uuid.v4();
+    byId[id] = {
+      ...waypoint,
+      id,
+    };
     ids.push(id);
   });
 
