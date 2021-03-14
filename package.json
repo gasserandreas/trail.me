@@ -29,6 +29,7 @@
     "react-window": "^1.8.5",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "redux-undo": "^1.0.1",
     "reselect": "^4.0.0",
     "ric-shim": "^1.0.0",
     "uuid": "^7.0.3",

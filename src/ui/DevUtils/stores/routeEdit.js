@@ -20,9 +20,16 @@ export default {
   actionType: MapActions.SELECT,
   multiSelect: false,
   waypoints: {
-    byId,
-    ids,
-    meta,
+    past: [],
+    present: {
+      byId,
+      ids,
+      meta,
+    },
+    future: [],
+    _latestUnfiltered: {},
+    index: 4,
+    limit: 5,
   },
   route: {
     id: '',

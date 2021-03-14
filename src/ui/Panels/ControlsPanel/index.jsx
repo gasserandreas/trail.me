@@ -1,12 +1,14 @@
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
 
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Panel, { SPACING, PanelContent } from '../Panel';
 import DeleteButton from '../../DeleteButton/DeleteButton';
+import { Undo, Redo } from '../../UndoRedoButton';
 
 import {
   enableMultiSelect,
@@ -128,15 +130,19 @@ const ControlsPanel = ({ ...props }) => {
                 Select
               </Button>
             )}
-            {deleteEnabled && (
-              <DeleteButton
-                onClick={handleOnDeleteClick}
-                disabled={numberSelectedItems === 0}
-                className={classes.button}
-              >
-                {deleteText}
-              </DeleteButton>
-            )}
+            <Box>
+              <Undo />
+              <Redo />
+              {deleteEnabled && (
+                <DeleteButton
+                  onClick={handleOnDeleteClick}
+                  disabled={numberSelectedItems === 0}
+                  className={classes.button}
+                >
+                  {deleteText}
+                </DeleteButton>
+              )}
+            </Box>
           </>
         </div>
       </PanelContent>

@@ -22,7 +22,17 @@ export const multiSelectSelector = createSelector(
  */
 export const waypointsStateSelector = createSelector(
   routeEditStateSelector,
-  ({ waypoints }) => waypoints,
+  ({ waypoints }) => waypoints.present,
+);
+
+export const waypointsStatePastSelector = createSelector(
+  routeEditStateSelector,
+  ({ waypoints }) => waypoints.past,
+);
+
+export const waypointsStateFutureSelector = createSelector(
+  routeEditStateSelector,
+  ({ waypoints }) => waypoints.future,
 );
 
 export const waypointsByIdSelector = createSelector(

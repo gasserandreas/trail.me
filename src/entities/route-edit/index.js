@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { combineReducers } from 'redux';
 import { createAction, createReducer } from '@reduxjs/toolkit';
+import undoable, { excludeAction } from 'redux-undo';
 import * as uuid from 'uuid';
 
 import difference from 'lodash/difference';
@@ -375,6 +376,11 @@ const routeReducer = combineReducers({
 export default combineReducers({
   actionType: actionTypeReducer,
   multiSelect: multiSelectReducer,
-  waypoints: waypointsReducer,
+  waypoints: undoable(
+    waypointsReducer,
+    {
+      filter: excludeAction([select, deSelect, setSelect]),
+    },
+  ),
   route: routeReducer,
 });
