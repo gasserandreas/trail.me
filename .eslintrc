@@ -30,7 +30,8 @@
     "eslint/no-plus-plus": "off",
     "comma-dangle": "off",
     "react/jsx-props-no-spreading": "off",
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "no-unused-vars": "warn"
   },
   "overrides": [
     {

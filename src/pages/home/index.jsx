@@ -11,7 +11,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Page from '../../ui/Layout/Page';
 import Footer from '../../ui/Footer/Footer';
 
-
 import Panel, { PanelContent } from '../../ui/Panels/Panel';
 import WaypointsPanel from '../../ui/Panels/WaypointsPanel';
 import FilePanel from '../../ui/Panels/FilePanel';
@@ -147,9 +146,9 @@ const HomePage = () => {
         <div className={classes.filePanel}>
           <FilePanel />
         </div>
-        <div className={classes.mapPanel}>
+        {/* <div className={classes.mapPanel}>
           <MapPanel />
-        </div>
+        </div> */}
         <div className={classes.controlsPanel}>
           <ControlsPanel />
         </div>

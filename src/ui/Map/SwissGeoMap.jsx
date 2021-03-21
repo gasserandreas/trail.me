@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { CRS } from 'leaflet';
-import { Map, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer, useMapEvent } from 'react-leaflet';
 
 import { makeStyles } from '@material-ui/core';
 import MapActions from '../../constants/MapActions';
@@ -30,10 +30,34 @@ export const FRICK_VIEWPORT = {
   zoom: 15,
 };
 
+const ClickHandler = ({ onClick }) => {
+  useMapEvent('click', onClick);
+  return null;
+};
+
+const MoveHandler = ({ onMoveend }) => {
+  useMapEvent('moveend', onMoveend);
+  return null;
+};
+
 const SwissGeoMap = React.forwardRef(({
-  noStyles, children, mapAction, ...props
+  noStyles, children, mapAction, onViewportChanged, onClick, ...props
 }, ref) => {
   const classes = useStyles({ mapAction });
+
+  const [map, setMap] = useState(null);
+
+  const onMoveend = useCallback(() => {
+    const { lat, lng } = map.getCenter();
+    const zoom = map.getZoom();
+
+    const viewport = {
+      center: [lat, lng],
+      zoom,
+    };
+
+    onViewportChanged(viewport);
+  }, [map]);
 
   const newProps = {
     ...props,
@@ -49,20 +73,29 @@ const SwissGeoMap = React.forwardRef(({
 
   return (
     <span className={classes.map}>
-      <Map
+      <MapContainer
         csr={CRS.EPSG3857}
         worldCopyJump={false}
+        whenCreated={setMap}
         {...newProps}
         ref={ref}
       >
-        <TileLayer url={SWISS_GEO_URL} />
-        {children}
-      </Map>
+        {map && (
+          <>
+            <TileLayer url={SWISS_GEO_URL} />
+            <ClickHandler onClick={onClick} />
+            <MoveHandler onMoveend={onMoveend} />
+            {children}
+          </>
+        )}
+      </MapContainer>
     </span>
   );
 });
 
 SwissGeoMap.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  onViewportChanged: PropTypes.func.isRequired,
   noStyles: PropTypes.bool,
   children: PropTypes.node.isRequired,
   mapAction: PropTypes.string,
