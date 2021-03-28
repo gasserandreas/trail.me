@@ -41,8 +41,8 @@
     "test": "react-scripts test",
     "test:coverage": "yarn test -- --coverage",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public",
+    "storybook": "EXTEND_ESLINT=true start-storybook -p 9009 -s public",
+    "build-storybook": "EXTEND_ESLINT=true build-storybook -s public",
     "lint": "eslint -c ./.eslintrc './src/**/{*.js,*.jsx}'",
     "lint:fix": "eslint -c ./.eslintrc './src/**/{*.js,*.jsx}' --fix"
   },
@@ -67,6 +67,13 @@
     "@semantic-release/git": "^9.0.0",
     "@semantic-release/npm": "^7.0.10",
     "@semantic-release/release-notes-generator": "^9.0.2",
+    "@storybook/addon-actions": "^6.1.21",
+    "@storybook/addon-knobs": "^6.1.21",
+    "@storybook/addon-links": "^6.1.21",
+    "@storybook/addon-viewport": "^6.1.21",
+    "@storybook/addons": "^6.1.21",
+    "@storybook/preset-create-react-app": "^3.1.7",
+    "@storybook/react": "^6.1.21",
     "@testing-library/dom": "^7.30.0",
     "eslint": "^7.22.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -78,13 +85,6 @@
     "jest-fetch-mock": "^3.0.3",
     "redux-mock-store": "^1.5.4",
     "semantic-release": "^17.4.2",
-    "@storybook/addon-actions": "^6.1.21",
-    "@storybook/addon-knobs": "^6.1.21",
-    "@storybook/addon-links": "^6.1.21",
-    "@storybook/addon-viewport": "^6.1.21",
-    "@storybook/addons": "^6.1.21",
-    "@storybook/preset-create-react-app": "^3.1.7",
-    "@storybook/react": "^6.1.21",
     "source-map-explorer": "^2.5.2"
   }
 }

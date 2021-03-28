@@ -1,10 +1,15 @@
 {
   "extends": ["airbnb"],
+  "ignorePatterns": ["!**/*", ".storybook/*"],
   "globals": {
     "window": true,
     "fetch": true,
     "document": true,
-    "navigator": true
+    "navigator": true,
+    "FileReader": true,
+    "Blob": true,
+    "requestAnimationFrame": true,
+    "DOMParser": true
   },
   "plugins": [
     "react-hooks",

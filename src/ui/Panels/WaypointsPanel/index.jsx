@@ -26,7 +26,6 @@ import {
   multiSelectSelector, metaStateSelector, waypointsIdsForListSelector, waypointsByIdSelector
 } from '../../../entities/route-edit/selector';
 
-
 import { setViewportCoordinates } from '../../../entities/map';
 
 import { SPACING } from '../Panel';
