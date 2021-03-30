@@ -91,7 +91,7 @@ const SwissGeoMap = React.forwardRef(({
     };
 
     onViewportChanged(viewport);
-  }, [map]);
+  }, [map, onViewportChanged]);
 
   const newProps = {
     ...props,

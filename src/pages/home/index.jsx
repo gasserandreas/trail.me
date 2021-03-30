@@ -172,7 +172,7 @@ const HomePage = () => {
   );
 };
 
-export default function () {
+export default function Home() {
   const { path } = useRouteMatch();
   return (
     <Switch>
