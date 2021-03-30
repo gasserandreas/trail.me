@@ -1,7 +1,16 @@
-import React, { useState, useCallback } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import { CRS } from 'leaflet';
-import { MapContainer, TileLayer, useMapEvent } from 'react-leaflet';
+import {
+  MapContainer,
+  TileLayer,
+  useMapEvent,
+} from 'react-leaflet';
 
 import { makeStyles } from '@material-ui/core';
 import MapActions from '../../constants/MapActions';
@@ -41,19 +50,44 @@ const MoveHandler = ({ onMoveend }) => {
 };
 
 const SwissGeoMap = React.forwardRef(({
-  noStyles, children, mapAction, onViewportChanged, onClick, ...props
+  noStyles, children, mapAction, onViewportChanged, onClick, zoom, center, ...props
 }, ref) => {
   const classes = useStyles({ mapAction });
 
   const [map, setMap] = useState(null);
+  /**
+   * this is used to prevent moveend callbacks on map setView executions.
+   * Explanation: leaflet automatically fires onMoveEnd / onMoveStart actions if viewport
+   * is changed programmatically. This behavior leads into while-true loops since we are
+   * also listening to onMoveEnd events for user drag actions.
+   *
+   * Direct value access through useRef is used to ensure flag is set BEFORE setView is
+   * fired programmatically.
+   */
+  const disableMoveEndRef = useRef(false);
+
+  useEffect(() => {
+    if (map) {
+      disableMoveEndRef.current = true;
+      map.setView(center, zoom);
+      disableMoveEndRef.current = false;
+    }
+  }, [zoom, center, map]);
 
   const onMoveend = useCallback(() => {
+    /**
+     * do not update if viewport was set programmatically
+     */
+    if (disableMoveEndRef?.current) {
+      return;
+    }
+
     const { lat, lng } = map.getCenter();
-    const zoom = map.getZoom();
+    const newZoom = map.getZoom();
 
     const viewport = {
       center: [lat, lng],
-      zoom,
+      zoom: newZoom,
     };
 
     onViewportChanged(viewport);
@@ -77,6 +111,8 @@ const SwissGeoMap = React.forwardRef(({
         csr={CRS.EPSG3857}
         worldCopyJump={false}
         whenCreated={setMap}
+        zoom={zoom}
+        center={center}
         {...newProps}
         ref={ref}
       >
@@ -96,8 +132,10 @@ const SwissGeoMap = React.forwardRef(({
 SwissGeoMap.propTypes = {
   onClick: PropTypes.func.isRequired,
   onViewportChanged: PropTypes.func.isRequired,
-  noStyles: PropTypes.bool,
   children: PropTypes.node.isRequired,
+  zoom: PropTypes.number.isRequired,
+  center: PropTypes.shape({}).isRequired,
+  noStyles: PropTypes.bool,
   mapAction: PropTypes.string,
 };
 

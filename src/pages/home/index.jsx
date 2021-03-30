@@ -146,9 +146,9 @@ const HomePage = () => {
         <div className={classes.filePanel}>
           <FilePanel />
         </div>
-        {/* <div className={classes.mapPanel}>
+        <div className={classes.mapPanel}>
           <MapPanel />
-        </div> */}
+        </div>
         <div className={classes.controlsPanel}>
           <ControlsPanel />
         </div>
