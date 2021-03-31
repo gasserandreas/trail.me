@@ -1,4 +1,3 @@
-/* global FileReader,  Blob */
 import React, { useCallback, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDropzone } from 'react-dropzone';

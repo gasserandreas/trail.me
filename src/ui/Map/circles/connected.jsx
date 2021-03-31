@@ -69,11 +69,15 @@ const Connected = ({ id }) => {
     dispatch(moveWaypoint(id, _latlng));
   };
 
+  const eventHandlers = {
+    click: handleCircleClick,
+    dragend: handleOnDragend,
+  };
+
   return (
     <Circle
       latlng={{ lat, lng }}
-      onClick={handleCircleClick}
-      onDragend={handleOnDragend}
+      eventHandlers={eventHandlers}
       selected={selected}
       disabled={disabled}
     />

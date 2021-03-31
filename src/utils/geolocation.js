@@ -1,4 +1,3 @@
-
 // eslint-disable-next-line import/prefer-default-export
 export function getLocation() {
   return new Promise((resolve, reject) => {

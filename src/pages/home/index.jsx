@@ -11,7 +11,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Page from '../../ui/Layout/Page';
 import Footer from '../../ui/Footer/Footer';
 
-
 import Panel, { PanelContent } from '../../ui/Panels/Panel';
 import WaypointsPanel from '../../ui/Panels/WaypointsPanel';
 import FilePanel from '../../ui/Panels/FilePanel';
@@ -173,7 +172,7 @@ const HomePage = () => {
   );
 };
 
-export default function () {
+export default function Home() {
   const { path } = useRouteMatch();
   return (
     <Switch>

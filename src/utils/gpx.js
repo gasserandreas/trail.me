@@ -1,4 +1,3 @@
-/* global DOMParser */
 import createGpx from 'gps-to-gpx';
 
 export const convertToGpxWaypoints = (waypoints) => waypoints.map(({

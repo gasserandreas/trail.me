@@ -39,7 +39,7 @@ describe('application: simple action test suite', () => {
 });
 
 describe('application: complex actions test suite', () => {
-  it('should execute loadApplication', async (done) => {
+  it('should execute loadApplication', async () => {
     const user = {};
     const expectedActions = [
       applicationWillLoad(),
@@ -54,8 +54,6 @@ describe('application: complex actions test suite', () => {
     await loadApplication()(dispatch);
     // test actions
     expect(store.getActions()).toEqual(expectedActions);
-
-    done();
   });
 });
 
