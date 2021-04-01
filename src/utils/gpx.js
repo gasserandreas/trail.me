@@ -59,3 +59,7 @@ export const parseGpx = (text) => {
     waypoints,
   };
 };
+
+export const __testables__ = {
+  getValue,
+};
