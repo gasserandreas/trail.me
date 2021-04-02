@@ -1,4 +1,9 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, {
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+} from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch, batch } from 'react-redux';
 
@@ -25,7 +30,6 @@ import {
 import {
   multiSelectSelector, metaStateSelector, waypointsIdsForListSelector, waypointsByIdSelector
 } from '../../../entities/route-edit/selector';
-
 
 import { setViewportCoordinates } from '../../../entities/map';
 
@@ -100,20 +104,20 @@ const WaypointPanel = ({
     setListAncherRef(anchorEl.current);
   };
 
-  const handleOnMenuClose = () => {
+  const handleOnMenuClose = useCallback(() => {
     setListAncherRef(null);
-  };
+  }, [setListAncherRef]);
 
-  const handleSplitWaypoint = () => {
+  const handleSplitWaypoint = useCallback(() => {
     batch(() => {
       dispatch(startSplit(openedMenuId));
       dispatch(setActionType(MapActions.ADD));
     });
-  };
+  }, [dispatch, openedMenuId]);
 
-  const handleDeleteWaypoint = () => {
+  const handleDeleteWaypoint = useCallback(() => {
     dispatch(removeWaypoint(openedMenuId));
-  };
+  }, [dispatch, openedMenuId]);
 
   const handleOnClick = (id) => (e) => {
     const { shiftKey } = e;
@@ -155,36 +159,38 @@ const WaypointPanel = ({
     }
   };
 
-  /**
-   * menu item render
-   */
+  const menuItem = useMemo(() => {
+    /**
+     * menu item render
+     */
 
-  const MENU_ITEMS = [
-    {
-      label: 'Split',
-      callback: handleSplitWaypoint,
-      meta: {
-        disabled: openedMenuId === waypointIds[waypointIds.length - 1],
-      }
-    },
-    {
-      label: 'Delete',
-      callback: handleDeleteWaypoint,
-    },
-  ];
+    const MENU_ITEMS = [
+      {
+        label: 'Split',
+        callback: handleSplitWaypoint,
+        meta: {
+          disabled: openedMenuId === waypointIds[waypointIds.length - 1],
+        }
+      },
+      {
+        label: 'Delete',
+        callback: handleDeleteWaypoint,
+      },
+    ];
 
-  const menuItem = useMemo(() => MENU_ITEMS.map(({ label, callback, meta }) => (
-    <MenuItem
-      onClick={(event) => {
-        handleOnMenuClose();
-        callback(event);
-      }}
-      key={`menu-item-${label}`}
-      disabled={meta && meta.disabled}
-    >
-      {label}
-    </MenuItem>
-  )), [MENU_ITEMS]);
+    return MENU_ITEMS.map(({ label, callback, meta }) => (
+      <MenuItem
+        onClick={(event) => {
+          handleOnMenuClose();
+          callback(event);
+        }}
+        key={`menu-item-${label}`}
+        disabled={meta && meta.disabled}
+      >
+        {label}
+      </MenuItem>
+    ));
+  }, [waypointIds, openedMenuId, handleDeleteWaypoint, handleSplitWaypoint, handleOnMenuClose]);
 
   const renderRow = (args) => {
     const { index, style } = args;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useForm } from 'react-hook-form';
+import { useFormik } from 'formik';
+// import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import Grid from '@material-ui/core/Grid';
@@ -23,6 +24,19 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const centerFormSchema = yup.object().shape({
+  lat: yup
+    .number()
+    .min(-90)
+    .max(90)
+    .required(),
+  lng: yup
+    .number()
+    .min(-180)
+    .max(180)
+    .required(),
+});
+
 const CenterForm = ({
   center, onChange, onLocationClick, onLocationUpdate
 }) => {
@@ -30,37 +44,31 @@ const CenterForm = ({
   const [locationPending, setLocationPending] = useState(false);
   const [locationError, setLocationError] = useState(null);
 
-  const centerFormSchema = yup.object().shape({
-    lat: yup
-      .number()
-      .min(-90)
-      .max(90)
-      .required(),
-    lng: yup
-      .number()
-      .min(-180)
-      .max(180)
-      .required(),
-  });
-
-  const {
-    register, errors, getValues, setValue
-  } = useForm({
-    mode: 'onBlur',
-    validationSchema: centerFormSchema,
-    defaultValues: {
+  const formik = useFormik({
+    initialValues: {
       lat: FRICK_VIEWPORT.center[0],
       lng: FRICK_VIEWPORT.center[1],
     },
+    validationSchema: centerFormSchema,
   });
+
+  const {
+    errors,
+    values,
+    setValues,
+    handleBlur,
+    handleChange,
+  } = formik;
 
   const handleOnBlur = (e) => {
     if (Object.keys(errors).length !== 0) return;
 
-    const { lat, lng } = getValues();
+    const { lat, lng } = values;
     const newCenter = [Number(lat), Number(lng)];
 
     onChange(e, newCenter);
+
+    handleBlur(e);
   };
 
   const handleOnLocationClick = async (e) => {
@@ -87,10 +95,10 @@ const CenterForm = ({
 
   useEffect(() => {
     const [lat, lng] = center;
-    setValue([
-      { lat },
-      { lng },
-    ]);
+    setValues({
+      lat,
+      lng,
+    });
   }, [center]); // eslint-disable-line
 
   return (
@@ -100,19 +108,23 @@ const CenterForm = ({
           <Input
             name="lat"
             margin="dense"
-            inputRef={register}
+            value={values.lat}
+            onChange={handleChange}
             error={!!errors.lat}
             onBlur={handleOnBlur}
             disabled={locationPending}
+            type="number"
           />
         </Grid>
         <Grid item xs={5}>
           <Input
             name="lng"
             margin="dense"
-            inputRef={register}
+            value={values.lng}
+            onChange={handleChange}
             error={!!errors.lng}
             disabled={locationPending}
+            type="number"
           />
         </Grid>
         <Grid item xs={2}>

@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+// import { useMapEvents } from 'react-leaflet';
+
 import { setViewport } from '../../entities/map';
 import { viewportSelector } from '../../entities/map/selector';
 
@@ -33,7 +35,7 @@ const ConnectedMap = () => {
 
   // handle map viewport
   const viewport = useSelector(viewportSelector);
-  const { zoom } = viewport;
+  const { zoom, center } = viewport;
 
   const showCircles = useMemo(() => zoom >= ZOOM_HIDE_LEVEL, [zoom]);
 
@@ -75,7 +77,8 @@ const ConnectedMap = () => {
 
   return (
     <SwissGeoMap
-      viewport={viewport}
+      zoom={zoom}
+      center={center}
       onViewportChanged={handleOnViewportChanged}
       onClick={handleOnMapClick}
       doubleClickZoom={false}

@@ -72,10 +72,14 @@ const Connected = ({ id }) => {
     dispatch(addWaypointBetween(data, startWaypointId, endWaypointId));
   };
 
+  const eventHandlers = {
+    click: handlePolylineClick,
+    dblclick: handlePolylinesDbClick,
+  };
+
   return (
     <Polyline
-      onClick={handlePolylineClick}
-      onDblClick={handlePolylinesDbClick}
+      eventHandlers={eventHandlers}
       startLatlng={startPosition}
       endLatlng={endPosition}
       selected={selected}
