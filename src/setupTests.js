@@ -4,6 +4,8 @@ import jestFetchMock from 'jest-fetch-mock';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
+import '@testing-library/jest-dom';
+
 // setup fetch-mock
 global.fetch = jestFetchMock;
 
