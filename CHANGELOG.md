@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/gasserandreas/trail.me/compare/v1.7.0...v1.7.1) (2021-04-02)
+
+
+### Bug Fixes
+
+* **#101:** updated dependencies and increased test case coverage ([db5ba82](https://github.com/gasserandreas/trail.me/commit/db5ba8214928508ffb786ef0c04f48bf0bc40aaf)), closes [#101](https://github.com/gasserandreas/trail.me/issues/101) [#101](https://github.com/gasserandreas/trail.me/issues/101) [#101](https://github.com/gasserandreas/trail.me/issues/101) [#101](https://github.com/gasserandreas/trail.me/issues/101) [#40](https://github.com/gasserandreas/trail.me/issues/40) [#40](https://github.com/gasserandreas/trail.me/issues/40) [#40](https://github.com/gasserandreas/trail.me/issues/40) [#40](https://github.com/gasserandreas/trail.me/issues/40)
+
 # [1.7.0](https://github.com/gasserandreas/trail.me/compare/v1.6.1...v1.7.0) (2020-08-09)
 
 
