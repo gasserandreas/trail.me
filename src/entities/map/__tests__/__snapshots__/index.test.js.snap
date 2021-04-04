@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`map: simple action test suite should create setLocation action 1`] = `
+Object {
+  "payload": Array [
+    47.50424339058062,
+    8.026628494262697,
+  ],
+  "type": "map/setLocation",
+}
+`;
+
+exports[`map: simple action test suite should create setViewport action 1`] = `
+Object {
+  "payload": Object {
+    "center": Array [
+      47.50424339058062,
+      8.026628494262697,
+    ],
+    "zoom": 15,
+  },
+  "type": "map/setViewport",
+}
+`;
+
+exports[`map: simple action test suite should create setViewportCoordinates action 1`] = `
+Object {
+  "payload": Array [
+    47,
+    8,
+  ],
+  "type": "map/setViewportCoordinates",
+}
+`;

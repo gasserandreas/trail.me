@@ -16,7 +16,7 @@ import MapActions from '../../../constants/MapActions';
 import CustomMapActions from '../../../constants/CustomMapActions';
 
 import { setViewport, setLocation } from '../../../entities/map';
-import { viewportSelector } from '../../../entities/map/selector';
+import { viewportSelector } from '../../../entities/map/selectors';
 
 import { setActionType, invertWaypoints } from '../../../entities/route-edit';
 import {
