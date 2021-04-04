@@ -48,3 +48,7 @@ export default combineReducers({
   byId: byIdReducer,
   ids: idsReducer,
 });
+
+export const __testables__ = {
+  createWaypoints,
+};

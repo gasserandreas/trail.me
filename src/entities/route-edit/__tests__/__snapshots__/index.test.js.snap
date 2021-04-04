@@ -1,0 +1,205 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`entities/route-edit simple action test suite should create add action 1`] = `
+Object {
+  "payload": Array [
+    Object {
+      "id": "4f72ec93-d59c-4084-8822-01e78ce38a84",
+      "lat": 47.505528707,
+      "lng": 8.021819313,
+    },
+    Object {
+      "id": "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+      "lat": 47.503772414,
+      "lng": 8.013305263,
+    },
+  ],
+  "type": "route-edit/add",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create addBetween action 1`] = `
+Object {
+  "payload": Object {
+    "id": "4f72ec93-d59c-4084-8822-01e78ce38a84",
+    "waypoint": Object {
+      "id": "4f72ec93-d59c-4084-8822-01e78ce38a84",
+      "lat": 47.505528707,
+      "lng": 8.021819313,
+    },
+  },
+  "type": "route-edit/addBetween",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create deSelect action 1`] = `
+Object {
+  "payload": Array [
+    "4f72ec93-d59c-4084-8822-01e78ce38a84",
+    "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+  ],
+  "type": "route-edit/waypoint/deSelect",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create disableMultiSelect action 1`] = `
+Object {
+  "payload": undefined,
+  "type": "route-edit/disableMultiSelect",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create enableMultiSelect action 1`] = `
+Object {
+  "payload": undefined,
+  "type": "route-edit/enableMultiSelect",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create initReducer action 1`] = `
+Object {
+  "payload": Object {
+    "id": "650b4c7d-e291-40a8-b13f-830fa8c5b770",
+    "name": "mocked name",
+    "waypoints": Object {
+      "byId": Object {
+        "4f72ec93-d59c-4084-8822-01e78ce38a84": Object {
+          "id": "4f72ec93-d59c-4084-8822-01e78ce38a84",
+          "lat": 47.505528707,
+          "lng": 8.021819313,
+        },
+        "c4cd3414-fa91-48dd-a814-080e9f1c4802": Object {
+          "id": "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+          "lat": 47.503772414,
+          "lng": 8.013305263,
+        },
+      },
+      "ids": Array [
+        "4f72ec93-d59c-4084-8822-01e78ce38a84",
+        "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+      ],
+    },
+  },
+  "type": "route-edit/initNew",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create initReducer action 2`] = `
+Object {
+  "payload": Object {
+    "id": "650b4c7d-e291-40a8-b13f-830fa8c5b770",
+    "name": "new route",
+    "waypoints": Object {
+      "byId": Object {
+        "4f72ec93-d59c-4084-8822-01e78ce38a84": Object {
+          "id": "4f72ec93-d59c-4084-8822-01e78ce38a84",
+          "lat": 47.505528707,
+          "lng": 8.021819313,
+        },
+        "c4cd3414-fa91-48dd-a814-080e9f1c4802": Object {
+          "id": "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+          "lat": 47.503772414,
+          "lng": 8.013305263,
+        },
+      },
+      "ids": Array [
+        "4f72ec93-d59c-4084-8822-01e78ce38a84",
+        "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+      ],
+    },
+  },
+  "type": "route-edit/initNew",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create invert action 1`] = `
+Object {
+  "payload": undefined,
+  "type": "route-edit/invert",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create remove action 1`] = `
+Object {
+  "payload": Array [
+    "4f72ec93-d59c-4084-8822-01e78ce38a84",
+    "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+  ],
+  "type": "route-edit/remove",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create select action 1`] = `
+Object {
+  "payload": Array [
+    "4f72ec93-d59c-4084-8822-01e78ce38a84",
+    "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+  ],
+  "type": "route-edit/waypoint/select",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create setActionType action 1`] = `
+Object {
+  "payload": undefined,
+  "type": "route-edit/setActionType",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create setSelect action 1`] = `
+Object {
+  "payload": Array [
+    "4f72ec93-d59c-4084-8822-01e78ce38a84",
+    "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+  ],
+  "type": "route-edit/waypoint/setSelected",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create splitCancel action 1`] = `
+Object {
+  "payload": Array [
+    "4f72ec93-d59c-4084-8822-01e78ce38a84",
+    "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+  ],
+  "type": "route-edit/waypoint/split/cancel",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create splitConfirm action 1`] = `
+Object {
+  "payload": Array [
+    "4f72ec93-d59c-4084-8822-01e78ce38a84",
+    "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+  ],
+  "type": "route-edit/waypoint/split/confirm",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create splitStart action 1`] = `
+Object {
+  "payload": Array [
+    "4f72ec93-d59c-4084-8822-01e78ce38a84",
+    "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+  ],
+  "type": "route-edit/waypoint/split/start",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create update action 1`] = `
+Object {
+  "payload": Array [
+    Object {
+      "id": "4f72ec93-d59c-4084-8822-01e78ce38a84",
+      "lat": 47.505528707,
+      "lng": 8.021819313,
+    },
+    Object {
+      "id": "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+      "lat": 47.503772414,
+      "lng": 8.013305263,
+    },
+  ],
+  "type": "route-edit/update",
+}
+`;

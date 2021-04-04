@@ -271,7 +271,13 @@ const waypointMetaReducer = createReducer({}, {
       waypoint.disabled = false;
     });
   },
-  [splitCancel]: (state) => {
+  [splitCancel]: (state, action) => {
+    // remove unused waypoints
+    action.payload.forEach((waypointId) => {
+      delete state[waypointId];
+    });
+
+    // reset meta state
     Object.keys(state).forEach((waypointId) => {
       const waypoint = state[waypointId];
       waypoint.disabled = false;
@@ -347,14 +353,14 @@ const splitReducer = createReducer(splitReducerInitialState, {
  * loaded route tree
  */
 const loadedRouteReducer = createReducer('', {
-  [initNewRoute]: (_, action) => action.payload.id,
+  [initRoute]: (_, action) => action.payload.id,
 });
 
 /**
 * route name tree
 */
 const routeNameReducer = createReducer('', {
-  [initNewRoute]: (_, action) => action.payload.name,
+  [initRoute]: (_, action) => action.payload.name,
 });
 
 /**
@@ -378,3 +384,19 @@ export default combineReducers({
   waypoints: waypointsReducer,
   route: routeReducer,
 });
+
+export const __testables__ = {
+  initRoute,
+  add,
+  addBetween,
+  remove,
+  update,
+  invert,
+  select,
+  deSelect,
+  setSelect,
+  splitStart,
+  splitConfirm,
+  splitCancel,
+  splitReducerInitialState,
+};
