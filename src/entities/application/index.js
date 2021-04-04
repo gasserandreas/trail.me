@@ -21,29 +21,9 @@ export const applicationDidLoad = () => ({
   payload: AppStatus.APPLICATION_DID_LOAD,
 });
 
-export const applicationUserSetSuccess = (user) => ({
-  type: APPLICATION_USER_SET,
-  payload: user,
-});
-
-export const applicationUserSetFailure = (error) => ({
-  type: APPLICATION_USER_SET,
-  payload: error,
-  error: true,
-});
-
 // complex actions
 export const loadApplication = () => (async (dispatch) => {
   dispatch(applicationWillLoad());
-
-  // try to auth user
-  try {
-    const user = {};
-    dispatch(applicationUserSetSuccess(user));
-  } catch (error) {
-    dispatch(applicationUserSetFailure(error));
-  }
-
   return dispatch(applicationDidLoad());
 });
 
@@ -57,16 +37,6 @@ const status = (state = AppStatus.INITIAL, action) => {
   }
 };
 
-const user = (state = null, action) => {
-  switch (action.type) {
-    case APPLICATION_USER_SET:
-      return action.payload;
-    default:
-      return state;
-  }
-};
-
 export default combineReducers({
   status,
-  user,
 });
