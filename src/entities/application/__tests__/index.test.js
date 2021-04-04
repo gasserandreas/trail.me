@@ -4,8 +4,6 @@ import reducer, {
   APPLICATION_STATUS_SET,
   applicationWillLoad,
   applicationDidLoad,
-  APPLICATION_USER_SET,
-  applicationUserSetSuccess,
   loadApplication,
 } from '../index';
 
@@ -27,23 +25,12 @@ describe('application: simple action test suite', () => {
     };
     expect(applicationDidLoad()).toEqual(expectedAction);
   });
-
-  it('should create applicationUserSetSuccess action', () => {
-    const user = {};
-    const expectedAction = {
-      type: APPLICATION_USER_SET,
-      payload: user,
-    };
-    expect(applicationUserSetSuccess(user)).toEqual(expectedAction);
-  });
 });
 
 describe('application: complex actions test suite', () => {
   it('should execute loadApplication', async () => {
-    const user = {};
     const expectedActions = [
       applicationWillLoad(),
-      applicationUserSetSuccess(user),
       applicationDidLoad(),
     ];
 
@@ -60,7 +47,6 @@ describe('application: complex actions test suite', () => {
 describe('application: reducers test suite', () => {
   const initialState = {
     status: AppStatus.INITIAL,
-    user: null,
   };
 
   it('should return the initial state', () => {
@@ -79,22 +65,6 @@ describe('application: reducers test suite', () => {
     ).toEqual({
       ...initialState,
       status: AppStatus.APPLICATION_DID_LOAD,
-    });
-  });
-
-  it('should handle APPLICATION_USER_SET', () => {
-    // create new action
-    const user = {};
-    const action = applicationUserSetSuccess(user);
-
-    expect(
-      reducer(
-        initialState, // use initial state
-        action // dispatch action
-      )
-    ).toEqual({
-      ...initialState,
-      user,
     });
   });
 });
