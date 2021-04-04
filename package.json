@@ -40,6 +40,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:coverage": "yarn test -- --coverage",
+    "test:coverage:report": "CI=true yarn test -- --coverage",
     "eject": "react-scripts eject",
     "storybook": "EXTEND_ESLINT=true start-storybook -p 9009 -s public",
     "build-storybook": "EXTEND_ESLINT=true build-storybook -s public",
