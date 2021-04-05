@@ -20,7 +20,7 @@ import {
   selectedWaypointIdsSelector,
   waypointsIdsForListSelector,
   splitEnabledSelector,
-} from '../../../entities/route-edit/selector';
+} from '../../../entities/route-edit/selectors';
 
 const useStyles = makeStyles(() => ({
   fileName: {

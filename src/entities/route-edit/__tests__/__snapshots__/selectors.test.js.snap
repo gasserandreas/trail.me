@@ -1,0 +1,370 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`entities/editRoute/selectors test suite waypointsPolylinesByIdSelector should return polyline state 1`] = `
+Object {
+  "094d7343-8069-4d65-927f-346bd82874ea": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.501374892,
+      "lng": 8.007041289,
+    },
+    "endWaypointId": "8f53b295-4dfd-471a-b6e0-12340de78b15",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.502039961,
+      "lng": 8.008972931,
+    },
+    "startWaypointId": "094d7343-8069-4d65-927f-346bd82874ea",
+  },
+  "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.502039961,
+      "lng": 8.008972931,
+    },
+    "endWaypointId": "094d7343-8069-4d65-927f-346bd82874ea",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.502844487,
+      "lng": 8.009977021,
+    },
+    "startWaypointId": "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+  },
+  "372bd3d7-d670-4b17-9bd6-a8a6b19376f9": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.493657152,
+      "lng": 7.994219111,
+    },
+    "endWaypointId": "5a5c7cc5-6549-476e-834f-05e5ca5afca6",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.494823785,
+      "lng": 7.994762124,
+    },
+    "startWaypointId": "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+  },
+  "38b9da25-3869-4ef1-9e30-81e339279f3e": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.494823785,
+      "lng": 7.994762124,
+    },
+    "endWaypointId": "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.494322437,
+      "lng": 7.996150313,
+    },
+    "startWaypointId": "38b9da25-3869-4ef1-9e30-81e339279f3e",
+  },
+  "4f72ec93-d59c-4084-8822-01e78ce38a84": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.503772414,
+      "lng": 8.013305263,
+    },
+    "endWaypointId": "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.505528707,
+      "lng": 8.021819313,
+    },
+    "startWaypointId": "4f72ec93-d59c-4084-8822-01e78ce38a84",
+  },
+  "6533177a-9900-4900-a124-7d175d17ea7e": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.494322437,
+      "lng": 7.996150313,
+    },
+    "endWaypointId": "38b9da25-3869-4ef1-9e30-81e339279f3e",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.496056339,
+      "lng": 8.00028254,
+    },
+    "startWaypointId": "6533177a-9900-4900-a124-7d175d17ea7e",
+  },
+  "8f53b295-4dfd-471a-b6e0-12340de78b15": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.49891268,
+      "lng": 8.00475876,
+    },
+    "endWaypointId": "f37225e3-6578-4f56-8255-d9ccf5baa337",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.501374892,
+      "lng": 8.007041289,
+    },
+    "startWaypointId": "8f53b295-4dfd-471a-b6e0-12340de78b15",
+  },
+  "c4cd3414-fa91-48dd-a814-080e9f1c4802": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.502844487,
+      "lng": 8.009977021,
+    },
+    "endWaypointId": "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.503772414,
+      "lng": 8.013305263,
+    },
+    "startWaypointId": "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+  },
+  "f37225e3-6578-4f56-8255-d9ccf5baa337": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.496056339,
+      "lng": 8.00028254,
+    },
+    "endWaypointId": "6533177a-9900-4900-a124-7d175d17ea7e",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.49891268,
+      "lng": 8.00475876,
+    },
+    "startWaypointId": "f37225e3-6578-4f56-8255-d9ccf5baa337",
+  },
+}
+`;
+
+exports[`entities/editRoute/selectors test suite waypointsPolylinesByIdSelector should return polyline state 2`] = `Array []`;
+
+exports[`entities/editRoute/selectors test suite waypointsPolylinesByIdSelector should return polyline state 3`] = `Array []`;
+
+exports[`entities/editRoute/selectors test suite waypointsPolylinesByIdSelector should return polyline state 4`] = `
+Object {
+  "094d7343-8069-4d65-927f-346bd82874ea": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.501374892,
+      "lng": 8.007041289,
+    },
+    "endWaypointId": "8f53b295-4dfd-471a-b6e0-12340de78b15",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.502039961,
+      "lng": 8.008972931,
+    },
+    "startWaypointId": "094d7343-8069-4d65-927f-346bd82874ea",
+  },
+  "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.502039961,
+      "lng": 8.008972931,
+    },
+    "endWaypointId": "094d7343-8069-4d65-927f-346bd82874ea",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.502844487,
+      "lng": 8.009977021,
+    },
+    "startWaypointId": "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+  },
+  "38b9da25-3869-4ef1-9e30-81e339279f3e": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.494823785,
+      "lng": 7.994762124,
+    },
+    "endWaypointId": "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.494322437,
+      "lng": 7.996150313,
+    },
+    "startWaypointId": "38b9da25-3869-4ef1-9e30-81e339279f3e",
+  },
+  "4f72ec93-d59c-4084-8822-01e78ce38a84": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.503772414,
+      "lng": 8.013305263,
+    },
+    "endWaypointId": "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.505528707,
+      "lng": 8.021819313,
+    },
+    "startWaypointId": "4f72ec93-d59c-4084-8822-01e78ce38a84",
+  },
+  "6533177a-9900-4900-a124-7d175d17ea7e": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.494322437,
+      "lng": 7.996150313,
+    },
+    "endWaypointId": "38b9da25-3869-4ef1-9e30-81e339279f3e",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.496056339,
+      "lng": 8.00028254,
+    },
+    "startWaypointId": "6533177a-9900-4900-a124-7d175d17ea7e",
+  },
+  "8f53b295-4dfd-471a-b6e0-12340de78b15": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.49891268,
+      "lng": 8.00475876,
+    },
+    "endWaypointId": "f37225e3-6578-4f56-8255-d9ccf5baa337",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.501374892,
+      "lng": 8.007041289,
+    },
+    "startWaypointId": "8f53b295-4dfd-471a-b6e0-12340de78b15",
+  },
+  "c4cd3414-fa91-48dd-a814-080e9f1c4802": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.502844487,
+      "lng": 8.009977021,
+    },
+    "endWaypointId": "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.503772414,
+      "lng": 8.013305263,
+    },
+    "startWaypointId": "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+  },
+  "f37225e3-6578-4f56-8255-d9ccf5baa337": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.496056339,
+      "lng": 8.00028254,
+    },
+    "endWaypointId": "6533177a-9900-4900-a124-7d175d17ea7e",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.49891268,
+      "lng": 8.00475876,
+    },
+    "startWaypointId": "f37225e3-6578-4f56-8255-d9ccf5baa337",
+  },
+}
+`;
+
+exports[`entities/editRoute/selectors test suite waypointsPolylinesByIdSelector should return polyline state 5`] = `
+Object {
+  "094d7343-8069-4d65-927f-346bd82874ea": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.501374892,
+      "lng": 8.007041289,
+    },
+    "endWaypointId": "8f53b295-4dfd-471a-b6e0-12340de78b15",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.502039961,
+      "lng": 8.008972931,
+    },
+    "startWaypointId": "094d7343-8069-4d65-927f-346bd82874ea",
+  },
+  "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.502039961,
+      "lng": 8.008972931,
+    },
+    "endWaypointId": "094d7343-8069-4d65-927f-346bd82874ea",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.502844487,
+      "lng": 8.009977021,
+    },
+    "startWaypointId": "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+  },
+  "38b9da25-3869-4ef1-9e30-81e339279f3e": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.494823785,
+      "lng": 7.994762124,
+    },
+    "endWaypointId": "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.494322437,
+      "lng": 7.996150313,
+    },
+    "startWaypointId": "38b9da25-3869-4ef1-9e30-81e339279f3e",
+  },
+  "4f72ec93-d59c-4084-8822-01e78ce38a84": Object {
+    "disabled": undefined,
+    "endPosition": Object {
+      "lat": 47.503772414,
+      "lng": 8.013305263,
+    },
+    "endWaypointId": "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+    "selected": undefined,
+    "startPosition": Object {
+      "lat": 47.505528707,
+      "lng": 8.021819313,
+    },
+    "startWaypointId": "4f72ec93-d59c-4084-8822-01e78ce38a84",
+  },
+  "6533177a-9900-4900-a124-7d175d17ea7e": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.494322437,
+      "lng": 7.996150313,
+    },
+    "endWaypointId": "38b9da25-3869-4ef1-9e30-81e339279f3e",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.496056339,
+      "lng": 8.00028254,
+    },
+    "startWaypointId": "6533177a-9900-4900-a124-7d175d17ea7e",
+  },
+  "8f53b295-4dfd-471a-b6e0-12340de78b15": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.49891268,
+      "lng": 8.00475876,
+    },
+    "endWaypointId": "f37225e3-6578-4f56-8255-d9ccf5baa337",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.501374892,
+      "lng": 8.007041289,
+    },
+    "startWaypointId": "8f53b295-4dfd-471a-b6e0-12340de78b15",
+  },
+  "c4cd3414-fa91-48dd-a814-080e9f1c4802": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.502844487,
+      "lng": 8.009977021,
+    },
+    "endWaypointId": "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+    "selected": undefined,
+    "startPosition": Object {
+      "lat": 47.503772414,
+      "lng": 8.013305263,
+    },
+    "startWaypointId": "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+  },
+  "f37225e3-6578-4f56-8255-d9ccf5baa337": Object {
+    "disabled": false,
+    "endPosition": Object {
+      "lat": 47.496056339,
+      "lng": 8.00028254,
+    },
+    "endWaypointId": "6533177a-9900-4900-a124-7d175d17ea7e",
+    "selected": false,
+    "startPosition": Object {
+      "lat": 47.49891268,
+      "lng": 8.00475876,
+    },
+    "startWaypointId": "f37225e3-6578-4f56-8255-d9ccf5baa337",
+  },
+}
+`;

@@ -7,7 +7,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 
 import { SPACING } from '../Panel';
 
-import { splitEnabledSelector } from '../../../entities/route-edit/selector';
+import { splitEnabledSelector } from '../../../entities/route-edit/selectors';
 
 const useStyles = makeStyles(() => ({
   root: {
