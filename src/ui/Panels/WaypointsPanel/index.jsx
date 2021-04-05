@@ -29,7 +29,7 @@ import {
 } from '../../../entities/route-edit';
 import {
   multiSelectSelector, metaStateSelector, waypointsIdsForListSelector, waypointsByIdSelector
-} from '../../../entities/route-edit/selector';
+} from '../../../entities/route-edit/selectors';
 
 import { setViewportCoordinates } from '../../../entities/map';
 

@@ -24,7 +24,7 @@ import ConnectedStatistics from './ConnectedStatistics';
 import HotKeys from '../../constants/HotKeys';
 
 import { removeWaypoints } from '../../entities/route-edit';
-import { metaStateSelector, splitEnabledSelector } from '../../entities/route-edit/selector';
+import { metaStateSelector, splitEnabledSelector } from '../../entities/route-edit/selectors';
 
 // import { statisticsShouldBeShown } from '../../entities/statistics/selector';
 

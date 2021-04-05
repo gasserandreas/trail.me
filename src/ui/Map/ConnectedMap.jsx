@@ -15,7 +15,7 @@ import {
   actionTypeSelector,
   waypointsIdsSelector,
   splitStateSelector,
-} from '../../entities/route-edit/selector';
+} from '../../entities/route-edit/selectors';
 
 import SwissGeoMap from './SwissGeoMap';
 import ConnectedCircle from './circles/connected';

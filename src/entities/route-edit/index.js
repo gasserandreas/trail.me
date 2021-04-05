@@ -8,7 +8,7 @@ import difference from 'lodash/difference';
 import MapActions from '../../constants/MapActions';
 
 import { createWaypoint, createWaypoints, createMetaObject } from './utils';
-import { waypointsIdsSelector, splitStateSelector } from './selector';
+import { waypointsIdsSelector, splitStateSelector } from './selectors';
 import simplify from './simplifyPath';
 
 import { setViewportCoordinates } from '../map';

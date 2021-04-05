@@ -23,7 +23,7 @@ import {
   actionTypeSelector,
   splitEnabledSelector,
   waypointsIdsForListSelector,
-} from '../../../entities/route-edit/selector';
+} from '../../../entities/route-edit/selectors';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
