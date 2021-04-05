@@ -27,6 +27,8 @@ import reducer, {
 import { createMetaObject, createWaypoint } from '../utils';
 import MapActions from '../../../constants/MapActions';
 
+import mockedWaypoints from '../__data__/mockedWaypoints.json';
+
 jest.mock('uuid', () => ({
   __esModule: true,
   v4: () => '650b4c7d-e291-40a8-b13f-830fa8c5b770',
@@ -37,18 +39,18 @@ jest.mock('../simplifyPath', () => ({
   default: jest.fn().mockImplementation((waypoints) => waypoints),
 }));
 
-const mockedWaypoints = [
-  {
-    id: '4f72ec93-d59c-4084-8822-01e78ce38a84',
-    lat: 47.505528707,
-    lng: 8.021819313,
-  },
-  {
-    id: 'c4cd3414-fa91-48dd-a814-080e9f1c4802',
-    lat: 47.503772414,
-    lng: 8.013305263,
-  }
-];
+// const mockedWaypoints = [
+//   {
+//     id: '4f72ec93-d59c-4084-8822-01e78ce38a84',
+//     lat: 47.505528707,
+//     lng: 8.021819313,
+//   },
+//   {
+//     id: 'c4cd3414-fa91-48dd-a814-080e9f1c4802',
+//     lat: 47.503772414,
+//     lng: 8.013305263,
+//   }
+// ];
 
 describe('entities/route-edit simple action test suite', () => {
   it('should create initReducer action', () => {
