@@ -7,11 +7,6 @@ export const actionTypeSelector = createSelector(
   ({ actionType }) => actionType,
 );
 
-export const fileTypeSelector = createSelector(
-  routeEditStateSelector,
-  ({ fileType }) => fileType,
-);
-
 export const multiSelectSelector = createSelector(
   routeEditStateSelector,
   ({ multiSelect }) => multiSelect,
@@ -20,7 +15,7 @@ export const multiSelectSelector = createSelector(
 /**
  * waypoint selectors
  */
-export const waypointsStateSelector = createSelector(
+const waypointsStateSelector = createSelector(
   routeEditStateSelector,
   ({ waypoints }) => waypoints,
 );
@@ -79,12 +74,12 @@ export const splitStateSelector = createSelector(
   ({ split }) => split,
 );
 
-export const splitStartSelector = createSelector(
+const splitStartSelector = createSelector(
   splitStateSelector,
   ({ start }) => start,
 );
 
-export const splitEndSelector = createSelector(
+const splitEndSelector = createSelector(
   splitStateSelector,
   ({ end }) => end,
 );
@@ -94,7 +89,7 @@ export const splitEnabledSelector = createSelector(
   ({ enabled }) => enabled,
 );
 
-export const splitNewIdsSelector = createSelector(
+const splitNewIdsSelector = createSelector(
   splitStateSelector,
   ({ newIds }) => newIds,
 );
@@ -105,10 +100,8 @@ export const splitNewIdsSelector = createSelector(
 export const waypointsPolylinesByIdSelector = createSelector(
   waypointsStateSelector,
   splitEnabledSelector,
-  splitNewIdsSelector,
-  splitStartSelector,
   splitEndSelector,
-  ({ byId, ids, meta }, enabled, newIds, splitStart, splitEnd) => {
+  ({ byId, ids, meta }, enabled, splitEnd) => {
     if (ids.length === 0 || ids.length === 1) return [];
 
     const polylinesById = {};
@@ -151,11 +144,6 @@ export const waypointsPolylinesByIdSelector = createSelector(
   }
 );
 
-export const waypointsPolylinesSelector = createSelector(
-  waypointsPolylinesByIdSelector,
-  (byId) => Object.values(byId),
-);
-
 export const waypointsIdsForListSelector = createSelector(
   waypointsIdsSelector,
   splitEnabledSelector,
@@ -169,4 +157,9 @@ export const waypointsIdsForListSelector = createSelector(
   },
 );
 
-export const waypointsPendingSelector = () => false;
+export const __testables__ = {
+  waypointsStateSelector,
+  splitStartSelector,
+  splitEndSelector,
+  splitNewIdsSelector,
+};

@@ -22,7 +22,7 @@ import UploadOptions from '../../../constants/UploadOptions';
 import { parseGpx, convertToGpxWaypoints, convertToGpx } from '../../../utils/gpx';
 
 import { initNewRoute, addWaypoints } from '../../../entities/route-edit';
-import { waypointsSelector, waypointsIdsSelector, splitEnabledSelector } from '../../../entities/route-edit/selector';
+import { waypointsSelector, waypointsIdsSelector, splitEnabledSelector } from '../../../entities/route-edit/selectors';
 
 const INITIAL_FILENAME = 'export';
 

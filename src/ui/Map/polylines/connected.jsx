@@ -18,7 +18,7 @@ import {
   multiSelectSelector,
   metaStateSelector,
   waypointsPolylinesByIdSelector,
-} from '../../../entities/route-edit/selector';
+} from '../../../entities/route-edit/selectors';
 
 const Connected = ({ id }) => {
   const dispatch = useDispatch();

@@ -1,0 +1,437 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`entities/route-edit simple action test suite should create add action 1`] = `
+Object {
+  "payload": Array [
+    Object {
+      "id": "4f72ec93-d59c-4084-8822-01e78ce38a84",
+      "lat": 47.505528707,
+      "lng": 8.021819313,
+    },
+    Object {
+      "id": "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+      "lat": 47.503772414,
+      "lng": 8.013305263,
+    },
+    Object {
+      "id": "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+      "lat": 47.502844487,
+      "lng": 8.009977021,
+    },
+    Object {
+      "id": "094d7343-8069-4d65-927f-346bd82874ea",
+      "lat": 47.502039961,
+      "lng": 8.008972931,
+    },
+    Object {
+      "id": "8f53b295-4dfd-471a-b6e0-12340de78b15",
+      "lat": 47.501374892,
+      "lng": 8.007041289,
+    },
+    Object {
+      "id": "f37225e3-6578-4f56-8255-d9ccf5baa337",
+      "lat": 47.49891268,
+      "lng": 8.00475876,
+    },
+    Object {
+      "id": "6533177a-9900-4900-a124-7d175d17ea7e",
+      "lat": 47.496056339,
+      "lng": 8.00028254,
+    },
+    Object {
+      "id": "38b9da25-3869-4ef1-9e30-81e339279f3e",
+      "lat": 47.494322437,
+      "lng": 7.996150313,
+    },
+    Object {
+      "id": "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+      "lat": 47.494823785,
+      "lng": 7.994762124,
+    },
+    Object {
+      "id": "5a5c7cc5-6549-476e-834f-05e5ca5afca6",
+      "lat": 47.493657152,
+      "lng": 7.994219111,
+    },
+  ],
+  "type": "route-edit/add",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create addBetween action 1`] = `
+Object {
+  "payload": Object {
+    "id": "4f72ec93-d59c-4084-8822-01e78ce38a84",
+    "waypoint": Object {
+      "id": "4f72ec93-d59c-4084-8822-01e78ce38a84",
+      "lat": 47.505528707,
+      "lng": 8.021819313,
+    },
+  },
+  "type": "route-edit/addBetween",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create deSelect action 1`] = `
+Object {
+  "payload": Array [
+    "4f72ec93-d59c-4084-8822-01e78ce38a84",
+    "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+    "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+    "094d7343-8069-4d65-927f-346bd82874ea",
+    "8f53b295-4dfd-471a-b6e0-12340de78b15",
+    "f37225e3-6578-4f56-8255-d9ccf5baa337",
+    "6533177a-9900-4900-a124-7d175d17ea7e",
+    "38b9da25-3869-4ef1-9e30-81e339279f3e",
+    "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+    "5a5c7cc5-6549-476e-834f-05e5ca5afca6",
+  ],
+  "type": "route-edit/waypoint/deSelect",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create disableMultiSelect action 1`] = `
+Object {
+  "payload": undefined,
+  "type": "route-edit/disableMultiSelect",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create enableMultiSelect action 1`] = `
+Object {
+  "payload": undefined,
+  "type": "route-edit/enableMultiSelect",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create initReducer action 1`] = `
+Object {
+  "payload": Object {
+    "id": "650b4c7d-e291-40a8-b13f-830fa8c5b770",
+    "name": "mocked name",
+    "waypoints": Object {
+      "byId": Object {
+        "094d7343-8069-4d65-927f-346bd82874ea": Object {
+          "id": "094d7343-8069-4d65-927f-346bd82874ea",
+          "lat": 47.502039961,
+          "lng": 8.008972931,
+        },
+        "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca": Object {
+          "id": "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+          "lat": 47.502844487,
+          "lng": 8.009977021,
+        },
+        "372bd3d7-d670-4b17-9bd6-a8a6b19376f9": Object {
+          "id": "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+          "lat": 47.494823785,
+          "lng": 7.994762124,
+        },
+        "38b9da25-3869-4ef1-9e30-81e339279f3e": Object {
+          "id": "38b9da25-3869-4ef1-9e30-81e339279f3e",
+          "lat": 47.494322437,
+          "lng": 7.996150313,
+        },
+        "4f72ec93-d59c-4084-8822-01e78ce38a84": Object {
+          "id": "4f72ec93-d59c-4084-8822-01e78ce38a84",
+          "lat": 47.505528707,
+          "lng": 8.021819313,
+        },
+        "5a5c7cc5-6549-476e-834f-05e5ca5afca6": Object {
+          "id": "5a5c7cc5-6549-476e-834f-05e5ca5afca6",
+          "lat": 47.493657152,
+          "lng": 7.994219111,
+        },
+        "6533177a-9900-4900-a124-7d175d17ea7e": Object {
+          "id": "6533177a-9900-4900-a124-7d175d17ea7e",
+          "lat": 47.496056339,
+          "lng": 8.00028254,
+        },
+        "8f53b295-4dfd-471a-b6e0-12340de78b15": Object {
+          "id": "8f53b295-4dfd-471a-b6e0-12340de78b15",
+          "lat": 47.501374892,
+          "lng": 8.007041289,
+        },
+        "c4cd3414-fa91-48dd-a814-080e9f1c4802": Object {
+          "id": "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+          "lat": 47.503772414,
+          "lng": 8.013305263,
+        },
+        "f37225e3-6578-4f56-8255-d9ccf5baa337": Object {
+          "id": "f37225e3-6578-4f56-8255-d9ccf5baa337",
+          "lat": 47.49891268,
+          "lng": 8.00475876,
+        },
+      },
+      "ids": Array [
+        "4f72ec93-d59c-4084-8822-01e78ce38a84",
+        "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+        "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+        "094d7343-8069-4d65-927f-346bd82874ea",
+        "8f53b295-4dfd-471a-b6e0-12340de78b15",
+        "f37225e3-6578-4f56-8255-d9ccf5baa337",
+        "6533177a-9900-4900-a124-7d175d17ea7e",
+        "38b9da25-3869-4ef1-9e30-81e339279f3e",
+        "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+        "5a5c7cc5-6549-476e-834f-05e5ca5afca6",
+      ],
+    },
+  },
+  "type": "route-edit/initNew",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create initReducer action 2`] = `
+Object {
+  "payload": Object {
+    "id": "650b4c7d-e291-40a8-b13f-830fa8c5b770",
+    "name": "new route",
+    "waypoints": Object {
+      "byId": Object {
+        "094d7343-8069-4d65-927f-346bd82874ea": Object {
+          "id": "094d7343-8069-4d65-927f-346bd82874ea",
+          "lat": 47.502039961,
+          "lng": 8.008972931,
+        },
+        "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca": Object {
+          "id": "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+          "lat": 47.502844487,
+          "lng": 8.009977021,
+        },
+        "372bd3d7-d670-4b17-9bd6-a8a6b19376f9": Object {
+          "id": "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+          "lat": 47.494823785,
+          "lng": 7.994762124,
+        },
+        "38b9da25-3869-4ef1-9e30-81e339279f3e": Object {
+          "id": "38b9da25-3869-4ef1-9e30-81e339279f3e",
+          "lat": 47.494322437,
+          "lng": 7.996150313,
+        },
+        "4f72ec93-d59c-4084-8822-01e78ce38a84": Object {
+          "id": "4f72ec93-d59c-4084-8822-01e78ce38a84",
+          "lat": 47.505528707,
+          "lng": 8.021819313,
+        },
+        "5a5c7cc5-6549-476e-834f-05e5ca5afca6": Object {
+          "id": "5a5c7cc5-6549-476e-834f-05e5ca5afca6",
+          "lat": 47.493657152,
+          "lng": 7.994219111,
+        },
+        "6533177a-9900-4900-a124-7d175d17ea7e": Object {
+          "id": "6533177a-9900-4900-a124-7d175d17ea7e",
+          "lat": 47.496056339,
+          "lng": 8.00028254,
+        },
+        "8f53b295-4dfd-471a-b6e0-12340de78b15": Object {
+          "id": "8f53b295-4dfd-471a-b6e0-12340de78b15",
+          "lat": 47.501374892,
+          "lng": 8.007041289,
+        },
+        "c4cd3414-fa91-48dd-a814-080e9f1c4802": Object {
+          "id": "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+          "lat": 47.503772414,
+          "lng": 8.013305263,
+        },
+        "f37225e3-6578-4f56-8255-d9ccf5baa337": Object {
+          "id": "f37225e3-6578-4f56-8255-d9ccf5baa337",
+          "lat": 47.49891268,
+          "lng": 8.00475876,
+        },
+      },
+      "ids": Array [
+        "4f72ec93-d59c-4084-8822-01e78ce38a84",
+        "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+        "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+        "094d7343-8069-4d65-927f-346bd82874ea",
+        "8f53b295-4dfd-471a-b6e0-12340de78b15",
+        "f37225e3-6578-4f56-8255-d9ccf5baa337",
+        "6533177a-9900-4900-a124-7d175d17ea7e",
+        "38b9da25-3869-4ef1-9e30-81e339279f3e",
+        "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+        "5a5c7cc5-6549-476e-834f-05e5ca5afca6",
+      ],
+    },
+  },
+  "type": "route-edit/initNew",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create invert action 1`] = `
+Object {
+  "payload": undefined,
+  "type": "route-edit/invert",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create remove action 1`] = `
+Object {
+  "payload": Array [
+    "4f72ec93-d59c-4084-8822-01e78ce38a84",
+    "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+    "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+    "094d7343-8069-4d65-927f-346bd82874ea",
+    "8f53b295-4dfd-471a-b6e0-12340de78b15",
+    "f37225e3-6578-4f56-8255-d9ccf5baa337",
+    "6533177a-9900-4900-a124-7d175d17ea7e",
+    "38b9da25-3869-4ef1-9e30-81e339279f3e",
+    "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+    "5a5c7cc5-6549-476e-834f-05e5ca5afca6",
+  ],
+  "type": "route-edit/remove",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create select action 1`] = `
+Object {
+  "payload": Array [
+    "4f72ec93-d59c-4084-8822-01e78ce38a84",
+    "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+    "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+    "094d7343-8069-4d65-927f-346bd82874ea",
+    "8f53b295-4dfd-471a-b6e0-12340de78b15",
+    "f37225e3-6578-4f56-8255-d9ccf5baa337",
+    "6533177a-9900-4900-a124-7d175d17ea7e",
+    "38b9da25-3869-4ef1-9e30-81e339279f3e",
+    "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+    "5a5c7cc5-6549-476e-834f-05e5ca5afca6",
+  ],
+  "type": "route-edit/waypoint/select",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create setActionType action 1`] = `
+Object {
+  "payload": undefined,
+  "type": "route-edit/setActionType",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create setSelect action 1`] = `
+Object {
+  "payload": Array [
+    "4f72ec93-d59c-4084-8822-01e78ce38a84",
+    "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+    "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+    "094d7343-8069-4d65-927f-346bd82874ea",
+    "8f53b295-4dfd-471a-b6e0-12340de78b15",
+    "f37225e3-6578-4f56-8255-d9ccf5baa337",
+    "6533177a-9900-4900-a124-7d175d17ea7e",
+    "38b9da25-3869-4ef1-9e30-81e339279f3e",
+    "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+    "5a5c7cc5-6549-476e-834f-05e5ca5afca6",
+  ],
+  "type": "route-edit/waypoint/setSelected",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create splitCancel action 1`] = `
+Object {
+  "payload": Array [
+    "4f72ec93-d59c-4084-8822-01e78ce38a84",
+    "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+    "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+    "094d7343-8069-4d65-927f-346bd82874ea",
+    "8f53b295-4dfd-471a-b6e0-12340de78b15",
+    "f37225e3-6578-4f56-8255-d9ccf5baa337",
+    "6533177a-9900-4900-a124-7d175d17ea7e",
+    "38b9da25-3869-4ef1-9e30-81e339279f3e",
+    "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+    "5a5c7cc5-6549-476e-834f-05e5ca5afca6",
+  ],
+  "type": "route-edit/waypoint/split/cancel",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create splitConfirm action 1`] = `
+Object {
+  "payload": Array [
+    "4f72ec93-d59c-4084-8822-01e78ce38a84",
+    "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+    "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+    "094d7343-8069-4d65-927f-346bd82874ea",
+    "8f53b295-4dfd-471a-b6e0-12340de78b15",
+    "f37225e3-6578-4f56-8255-d9ccf5baa337",
+    "6533177a-9900-4900-a124-7d175d17ea7e",
+    "38b9da25-3869-4ef1-9e30-81e339279f3e",
+    "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+    "5a5c7cc5-6549-476e-834f-05e5ca5afca6",
+  ],
+  "type": "route-edit/waypoint/split/confirm",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create splitStart action 1`] = `
+Object {
+  "payload": Array [
+    "4f72ec93-d59c-4084-8822-01e78ce38a84",
+    "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+    "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+    "094d7343-8069-4d65-927f-346bd82874ea",
+    "8f53b295-4dfd-471a-b6e0-12340de78b15",
+    "f37225e3-6578-4f56-8255-d9ccf5baa337",
+    "6533177a-9900-4900-a124-7d175d17ea7e",
+    "38b9da25-3869-4ef1-9e30-81e339279f3e",
+    "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+    "5a5c7cc5-6549-476e-834f-05e5ca5afca6",
+  ],
+  "type": "route-edit/waypoint/split/start",
+}
+`;
+
+exports[`entities/route-edit simple action test suite should create update action 1`] = `
+Object {
+  "payload": Array [
+    Object {
+      "id": "4f72ec93-d59c-4084-8822-01e78ce38a84",
+      "lat": 47.505528707,
+      "lng": 8.021819313,
+    },
+    Object {
+      "id": "c4cd3414-fa91-48dd-a814-080e9f1c4802",
+      "lat": 47.503772414,
+      "lng": 8.013305263,
+    },
+    Object {
+      "id": "3023a7b8-f6f4-40a5-8730-0a4ab1f2caca",
+      "lat": 47.502844487,
+      "lng": 8.009977021,
+    },
+    Object {
+      "id": "094d7343-8069-4d65-927f-346bd82874ea",
+      "lat": 47.502039961,
+      "lng": 8.008972931,
+    },
+    Object {
+      "id": "8f53b295-4dfd-471a-b6e0-12340de78b15",
+      "lat": 47.501374892,
+      "lng": 8.007041289,
+    },
+    Object {
+      "id": "f37225e3-6578-4f56-8255-d9ccf5baa337",
+      "lat": 47.49891268,
+      "lng": 8.00475876,
+    },
+    Object {
+      "id": "6533177a-9900-4900-a124-7d175d17ea7e",
+      "lat": 47.496056339,
+      "lng": 8.00028254,
+    },
+    Object {
+      "id": "38b9da25-3869-4ef1-9e30-81e339279f3e",
+      "lat": 47.494322437,
+      "lng": 7.996150313,
+    },
+    Object {
+      "id": "372bd3d7-d670-4b17-9bd6-a8a6b19376f9",
+      "lat": 47.494823785,
+      "lng": 7.994762124,
+    },
+    Object {
+      "id": "5a5c7cc5-6549-476e-834f-05e5ca5afca6",
+      "lat": 47.493657152,
+      "lng": 7.994219111,
+    },
+  ],
+  "type": "route-edit/update",
+}
+`;

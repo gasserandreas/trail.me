@@ -7,7 +7,7 @@ import { getDistanceForPoint, getPrevWaypoint } from './utils';
 import {
   waypointsByIdSelector,
   waypointsIdsSelector,
-} from '../route-edit/selector';
+} from '../route-edit/selectors';
 
 // action types
 const SET_PENDING = 'analytics/setPending';

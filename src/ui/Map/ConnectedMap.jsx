@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 // import { useMapEvents } from 'react-leaflet';
 
 import { setViewport } from '../../entities/map';
-import { viewportSelector } from '../../entities/map/selector';
+import { viewportSelector } from '../../entities/map/selectors';
 
 import {
   addWaypoint,
@@ -15,7 +15,7 @@ import {
   actionTypeSelector,
   waypointsIdsSelector,
   splitStateSelector,
-} from '../../entities/route-edit/selector';
+} from '../../entities/route-edit/selectors';
 
 import SwissGeoMap from './SwissGeoMap';
 import ConnectedCircle from './circles/connected';

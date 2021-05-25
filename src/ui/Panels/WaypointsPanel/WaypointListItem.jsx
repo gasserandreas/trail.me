@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-import { waypointsByIdSelector, metaStateSelector } from '../../../entities/route-edit/selector';
+import { waypointsByIdSelector, metaStateSelector } from '../../../entities/route-edit/selectors';
 
 import { shortenCoordinate } from '../../../utils/coordinate';
 

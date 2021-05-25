@@ -16,7 +16,7 @@ import {
   multiSelectSelector,
   waypointsByIdSelector,
   metaStateSelector,
-} from '../../../entities/route-edit/selector';
+} from '../../../entities/route-edit/selectors';
 
 import MapActions from '../../../constants/MapActions';
 
