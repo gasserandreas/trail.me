@@ -6,10 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setViewport } from '../../entities/map';
 import { viewportSelector } from '../../entities/map/selectors';
 
-import {
-  addWaypoint,
-  addWaypointBetween,
-} from '../../entities/route-edit';
+import { addWaypoint, addWaypointBetween } from '../../entities/route-edit';
 
 import {
   actionTypeSelector,
@@ -67,13 +64,19 @@ const ConnectedMap = () => {
     }
   };
 
-  const circleItems = useMemo(() => waypointIds.map((id) => (
-    showCircles && <ConnectedCircle key={`waypoint-circle-${id}`} id={id} />
-  )), [waypointIds, showCircles]);
+  const circleItems = useMemo(
+    () =>
+      waypointIds.map(
+        (id) => showCircles && <ConnectedCircle key={`waypoint-circle-${id}`} id={id} />,
+      ),
+    [waypointIds, showCircles],
+  );
 
-  const polylinesItems = useMemo(() => waypointIds.map((id) => (
-    <ConnectedPolyline key={`waypoint-polyline-${id}`} id={id} />
-  )), [waypointIds, splitMeta]); // eslint-disable-line react-hooks/exhaustive-deps
+  const polylinesItems = useMemo(
+    () => waypointIds.map((id) => <ConnectedPolyline key={`waypoint-polyline-${id}`} id={id} />),
+    // eslint-disable-next-line
+    [waypointIds, splitMeta],
+  ); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <SwissGeoMap

@@ -26,9 +26,12 @@ export function createWaypoint(data) {
   };
 }
 
-export function createMetaObject(id, initialMeta = {
-  selected: false,
-  disabled: false,
-}) {
+export function createMetaObject(
+  id,
+  initialMeta = {
+    selected: false,
+    disabled: false,
+  },
+) {
   return initialMeta;
 }

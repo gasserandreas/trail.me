@@ -1,15 +1,7 @@
-import reducer, {
-  setViewport,
-  setViewportCoordinates,
-  setLocation,
-  __testables__,
-} from '../index';
+import reducer, { setViewport, setViewportCoordinates, setLocation, TESTABLES } from '../index';
 
 const mockedViewport = {
-  center: [
-    47.50424339058062,
-    8.026628494262697,
-  ],
+  center: [47.50424339058062, 8.026628494262697],
   zoom: 15,
 };
 
@@ -29,7 +21,7 @@ describe('map: simple action test suite', () => {
 
 describe('application: reducers test suite', () => {
   const initialState = {
-    viewport: __testables__.FRICK_VIEWPORT,
+    viewport: TESTABLES.FRICK_VIEWPORT,
     location: [],
   };
 
@@ -40,12 +32,7 @@ describe('application: reducers test suite', () => {
   it('should handle SET_VIEWPORT', () => {
     const action = setViewport(mockedViewport);
 
-    expect(
-      reducer(
-        initialState,
-        action,
-      )
-    ).toEqual({
+    expect(reducer(initialState, action)).toEqual({
       ...initialState,
       viewport: {
         center: mockedViewport.center,
@@ -57,12 +44,7 @@ describe('application: reducers test suite', () => {
   it('should handle SET_VIEWPORT_COORDINATES', () => {
     const action = setViewportCoordinates(mockedViewport.center);
 
-    expect(
-      reducer(
-        initialState,
-        action,
-      )
-    ).toEqual({
+    expect(reducer(initialState, action)).toEqual({
       ...initialState,
       viewport: {
         ...initialState.viewport,
@@ -74,12 +56,7 @@ describe('application: reducers test suite', () => {
   it('should handle SET_LOCATION', () => {
     const action = setLocation(mockedViewport.center);
 
-    expect(
-      reducer(
-        initialState,
-        action,
-      )
-    ).toEqual({
+    expect(reducer(initialState, action)).toEqual({
       ...initialState,
       location: mockedViewport.center,
     });

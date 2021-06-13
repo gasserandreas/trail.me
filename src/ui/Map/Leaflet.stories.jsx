@@ -14,11 +14,7 @@ const FullSize = (story) => {
     display: 'block',
   };
 
-  return (
-    <div style={styles}>
-      {story()}
-    </div>
-  );
+  return <div style={styles}>{story()}</div>;
 };
 
 export default {
@@ -27,9 +23,7 @@ export default {
   decorators: [FullSize],
 };
 
-export const LeafletMap = () => (
-  <SimpleExample onViewportChanged={action('onViewportChanged')} />
-);
+export const LeafletMap = () => <SimpleExample onViewportChanged={action('onViewportChanged')} />;
 
 export const DrawLine = () => <DrawLineExample />;
 

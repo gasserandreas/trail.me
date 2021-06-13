@@ -4,9 +4,8 @@ import { Polyline as LPolyline } from 'react-leaflet';
 
 import { useTheme } from '@material-ui/core/styles';
 
-const Polyline = React.memo(({
-  startLatlng, endLatlng, selected, disabled, ...props
-}) => {
+// eslint-disable-next-line
+const Polyline = React.memo(({ startLatlng, endLatlng, selected, disabled, ...props }) => {
   const theme = useTheme();
   const { palette } = theme;
   const { primary } = palette;
@@ -28,10 +27,11 @@ const Polyline = React.memo(({
       weight={weight}
       positions={[
         [startLatlng.lat, startLatlng.lng],
-        [endLatlng.lat, endLatlng.lng]
+        [endLatlng.lat, endLatlng.lng],
       ]}
       color={color}
       fillOpacity={fillOpacity}
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
       fill
     />

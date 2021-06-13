@@ -4,10 +4,7 @@ import moment from 'moment';
 
 import { getDistanceForPoint, getPrevWaypoint } from './utils';
 
-import {
-  waypointsByIdSelector,
-  waypointsIdsSelector,
-} from '../route-edit/selectors';
+import { waypointsByIdSelector, waypointsIdsSelector } from '../route-edit/selectors';
 
 // action types
 const SET_PENDING = 'analytics/setPending';
@@ -107,11 +104,13 @@ export const calculateStats = () => (dispatch, getStore) => {
     });
   }
 
-  dispatch(setStats({
-    prevDistance,
-    height,
-    time: waypointTime,
-  }));
+  dispatch(
+    setStats({
+      prevDistance,
+      height,
+      time: waypointTime,
+    }),
+  );
 
   dispatch(setPending(false));
 };
@@ -139,10 +138,13 @@ const prevDistanceReducer = (state = {}, action) => {
   }
 };
 
-const heightReducer = (state = {
-  up: null,
-  down: null,
-}, action) => {
+const heightReducer = (
+  state = {
+    up: null,
+    down: null,
+  },
+  action,
+) => {
   const { type, payload } = action;
   switch (type) {
     case SET_STATS:
@@ -154,11 +156,14 @@ const heightReducer = (state = {
   }
 };
 
-const timeReducer = (state = {
-  start: null,
-  end: null,
-  total: null,
-}, action) => {
+const timeReducer = (
+  state = {
+    start: null,
+    end: null,
+    total: null,
+  },
+  action,
+) => {
   const { type, payload } = action;
   switch (type) {
     case SET_STATS:

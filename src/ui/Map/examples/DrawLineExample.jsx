@@ -1,6 +1,4 @@
-import React, {
-  useState, useEffect, useRef, useMemo
-} from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Marker, Popup, Polyline } from 'react-leaflet';
 
 import SwissGeoMap, { FRICK_VIEWPORT } from '../SwissGeoMap';
@@ -74,9 +72,7 @@ const DrawLineExample = () => {
 
   const circles = useMemo(() => {
     const { zoom } = viewport;
-    return coordinates.map((coordinate) => (
-      <Circle zoom={zoom} latlng={coordinate} />
-    ));
+    return coordinates.map((coordinate) => <Circle zoom={zoom} latlng={coordinate} />);
   }, [coordinates, viewport]);
 
   const marker = locationState.hasLocation ? (

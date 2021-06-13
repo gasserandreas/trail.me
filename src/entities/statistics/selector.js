@@ -11,9 +11,10 @@ export const statisticsDistancePrevByIdSelector = createSelector(
 
 export const statisticsDistanceSelector = createSelector(
   statisticsDistancePrevByIdSelector,
-  (prevById) => Object.values(prevById)
-    .filter((val) => val !== null)
-    .reduce((prev, cur) => prev + cur, 0),
+  (prevById) =>
+    Object.values(prevById)
+      .filter((val) => val !== null)
+      .reduce((prev, cur) => prev + cur, 0),
 );
 
 // export const statisticsNumberOfCoordinatesSelector = createSelector(
@@ -42,12 +43,11 @@ export const statisticsShouldBeShown = createSelector(
   statisticsDistancePrevByIdSelector,
   statisticsTimeSelector,
   statisticsHeightSelector,
-  (prevById, time, height) => (
-    Object.keys(prevById).length > 1
-    || time.start
-    || time.end
-    || time.total
-    || height.up
-    || time.down
-  )
+  (prevById, time, height) =>
+    Object.keys(prevById).length > 1 ||
+    time.start ||
+    time.end ||
+    time.total ||
+    height.up ||
+    time.down,
 );

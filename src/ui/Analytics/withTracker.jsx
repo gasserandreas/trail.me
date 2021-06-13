@@ -8,13 +8,16 @@ const gaId = 'UA-168721449-1';
 
 ReactGA.initialize(gaId);
 
-const withTracker = (WrappedComponent, options = {
-  anonymizeIp: true,
-}) => {
+const withTracker = (
+  WrappedComponent,
+  options = {
+    anonymizeIp: true,
+  },
+) => {
   const trackPage = (page) => {
     ReactGA.set({
       page,
-      ...options
+      ...options,
     });
     ReactGA.pageview(page);
   };
@@ -26,8 +29,10 @@ const withTracker = (WrappedComponent, options = {
       if (!isDev) {
         trackPage(props.location.pathname);
       }
+      // eslint-disable-next-line
     }, [props.location.pathname, isDev]);
 
+    // eslint-disable-next-line react/jsx-props-no-spreading
     return <WrappedComponent {...props} />;
   };
 

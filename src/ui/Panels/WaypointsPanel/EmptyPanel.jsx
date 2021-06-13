@@ -29,11 +29,7 @@ const EmptyPanel = () => {
     <Box className={classes.root}>
       {splitEnabled ? (
         <>
-          <Typography
-            variant="h3"
-            color="primary"
-            className={classes.heading}
-          >
+          <Typography variant="h3" color="primary" className={classes.heading}>
             Add new points in between
           </Typography>
           <Typography variant="body2">
@@ -42,11 +38,7 @@ const EmptyPanel = () => {
         </>
       ) : (
         <>
-          <Typography
-            variant="h3"
-            color="primary"
-            className={classes.heading}
-          >
+          <Typography variant="h3" color="primary" className={classes.heading}>
             Start your next Trail
           </Typography>
           <Typography variant="body2">

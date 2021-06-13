@@ -34,9 +34,8 @@ const Connected = ({ id }) => {
     return null;
   }
 
-  const {
-    startWaypointId, endWaypointId, startPosition, endPosition, selected, disabled
-  } = polyline;
+  const { startWaypointId, endWaypointId, startPosition, endPosition, selected, disabled } =
+    polyline;
 
   const handlePolylineClick = (e) => {
     e.originalEvent.stopPropagation();
@@ -66,7 +65,9 @@ const Connected = ({ id }) => {
       return;
     }
 
-    const { latlng: { lat, lng } } = e;
+    const {
+      latlng: { lat, lng },
+    } = e;
 
     const data = { lat, lng };
     dispatch(addWaypointBetween(data, startWaypointId, endWaypointId));

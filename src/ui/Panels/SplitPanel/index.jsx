@@ -41,6 +41,7 @@ const SplitPanel = (props) => {
   const disabledSave = false;
 
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <Panel {...props}>
       <PanelContent>
         <div className={classes.controls}>

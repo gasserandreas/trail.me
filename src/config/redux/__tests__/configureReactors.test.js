@@ -1,9 +1,4 @@
-import {
-  combineReducers,
-  createStore,
-  applyMiddleware,
-  compose,
-} from 'redux';
+import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
 import configureReactors from '../reactors/configureReactors';
@@ -104,32 +99,36 @@ const reducers = combineReducers({
  * This enhancer allows us to call redux-mock-store actions
  * on real redux store
  */
-const mockEnhancer = (createStoreMethod) => (...args) => {
-  const store = createStoreMethod(...args);
+const mockEnhancer =
+  (createStoreMethod) =>
+  (...args) => {
+    const store = createStoreMethod(...args);
 
-  // create new dispatch action to keep track of called actions
-  let calledActions = [];
-  const dispatch = (...dispatchArgs) => {
-    // get action from dispatch args
-    if (dispatchArgs.length > 0) {
-      const action = dispatchArgs[0];
-      // persist action
-      calledActions.push(action);
-    }
-    // dispatch action now
-    store.dispatch(...dispatchArgs);
-  };
+    // create new dispatch action to keep track of called actions
+    let calledActions = [];
+    const dispatch = (...dispatchArgs) => {
+      // get action from dispatch args
+      if (dispatchArgs.length > 0) {
+        const action = dispatchArgs[0];
+        // persist action
+        calledActions.push(action);
+      }
+      // dispatch action now
+      store.dispatch(...dispatchArgs);
+    };
 
-  return {
-    // destruct store object first
-    ...store,
-    // add modified dispatch method
-    dispatch,
-    // add additional redux-mock-store methods to store
-    getActions: () => calledActions,
-    clearActions: () => { calledActions = []; },
+    return {
+      // destruct store object first
+      ...store,
+      // add modified dispatch method
+      dispatch,
+      // add additional redux-mock-store methods to store
+      getActions: () => calledActions,
+      clearActions: () => {
+        calledActions = [];
+      },
+    };
   };
-};
 
 // create store
 const configureStore = (reactors, initialState = {}) => {
@@ -140,10 +139,7 @@ const configureStore = (reactors, initialState = {}) => {
   const store = createStore(
     reducers,
     initialState,
-    compose(
-      applyMiddleware(...middleware),
-      ...enhancers,
-    ),
+    compose(applyMiddleware(...middleware), ...enhancers),
   );
 
   // add reactors
@@ -190,10 +186,7 @@ it('should fire reactor one only once', (done) => {
   const store = configureStore([reactorOne]);
 
   const action = triggerReactorOne();
-  const expectedActions = [
-    action,
-    executeReactorOne(),
-  ];
+  const expectedActions = [action, executeReactorOne()];
 
   // set reactor trigger conditions
   store.dispatch(action);
@@ -210,11 +203,7 @@ it('should fire reactor two only', (done) => {
   const firstAction = triggerReactorOne();
   const secondAction = triggerReactorTwo();
 
-  const expectedActions = [
-    firstAction,
-    secondAction,
-    executeReactorTwo(),
-  ];
+  const expectedActions = [firstAction, secondAction, executeReactorTwo()];
 
   store.dispatch(firstAction);
   store.dispatch(secondAction);
@@ -230,12 +219,7 @@ it('should fire complexAction by reactor', (done) => {
 
   const action = triggerReactorTwo();
 
-  const expectedActions = [
-    action,
-    executeReactorTwo(),
-    myFirstAction(),
-    mySecondAction(),
-  ];
+  const expectedActions = [action, executeReactorTwo(), myFirstAction(), mySecondAction()];
 
   store.dispatch(action);
 

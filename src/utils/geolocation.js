@@ -10,7 +10,7 @@ export function getLocation() {
         },
         (error) => {
           reject(error);
-        }
+        },
       );
     } else {
       reject(new Error('Geolocation is not supported / enabled'));

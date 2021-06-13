@@ -43,7 +43,10 @@ const OptionButton = ({
   const anchorRef = useRef(null);
   const classes = useStyles({ size });
 
-  const filteredOptions = useMemo(() => options.filter(({ key }) => !hideOptionKeys.includes(key)), [options, hideOptionKeys]); // eslint-disable-line max-len
+  const filteredOptions = useMemo(
+    () => options.filter(({ key }) => !hideOptionKeys.includes(key)),
+    [options, hideOptionKeys],
+  ); // eslint-disable-line max-len
 
   const handleMenuItemClick = (event, index) => {
     setOpen(false);
@@ -91,12 +94,10 @@ const OptionButton = ({
         ref={anchorRef}
         className={className}
         aria-label="split button"
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...props}
       >
-        <Button
-          className={classes.baseButton}
-          onClick={handleClick}
-        >
+        <Button className={classes.baseButton} onClick={handleClick}>
           {baseOptionValue}
         </Button>
         <Button
@@ -115,6 +116,7 @@ const OptionButton = ({
       <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
         {({ TransitionProps, placement }) => (
           <Grow
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...TransitionProps}
             style={{
               transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
@@ -144,10 +146,12 @@ const OptionButton = ({
 };
 
 OptionButton.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  })).isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   baseOptionIndex: PropTypes.number.isRequired,
   hideOptionKeys: PropTypes.arrayOf(PropTypes.string),
   onClick: PropTypes.func,

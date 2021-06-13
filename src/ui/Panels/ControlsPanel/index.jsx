@@ -46,7 +46,7 @@ const useStyles = makeStyles(() => ({
   },
   buttonDelete: {
     color: '#000',
-  }
+  },
 }));
 
 const ControlsPanel = ({ ...props }) => {
@@ -102,29 +102,27 @@ const ControlsPanel = ({ ...props }) => {
   const title = (
     <span>
       Coordinats
-      {
-        splitEnabled && (<Typography variant="body2" display="inline"> [split mode enabled]</Typography>)
-      }
+      {splitEnabled && (
+        <Typography variant="body2" display="inline">
+          {' '}
+          [split mode enabled]
+        </Typography>
+      )}
     </span>
   );
 
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <Panel title={title} {...props}>
       <PanelContent>
         <div className={classes.controls}>
           <>
             {isMultiSelect ? (
-              <Button
-                onClick={handleOnCancelClick}
-                className={classes.button}
-              >
+              <Button onClick={handleOnCancelClick} className={classes.button}>
                 Cancel
               </Button>
             ) : (
-              <Button
-                onClick={handleOnSelectClick}
-                className={classes.button}
-              >
+              <Button onClick={handleOnSelectClick} className={classes.button}>
                 Select
               </Button>
             )}

@@ -14,11 +14,7 @@ export const AppContextProvider = ({ children, isDev }) => {
     isDev,
   };
 
-  return (
-    <AppContext.Provider value={contextController}>
-      {children}
-    </AppContext.Provider>
-  );
+  return <AppContext.Provider value={contextController}>{children}</AppContext.Provider>;
 };
 
 AppContextProvider.propTypes = {

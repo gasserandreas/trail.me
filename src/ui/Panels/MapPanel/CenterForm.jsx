@@ -25,21 +25,11 @@ const useStyles = makeStyles(() => ({
 }));
 
 const centerFormSchema = yup.object().shape({
-  lat: yup
-    .number()
-    .min(-90)
-    .max(90)
-    .required(),
-  lng: yup
-    .number()
-    .min(-180)
-    .max(180)
-    .required(),
+  lat: yup.number().min(-90).max(90).required(),
+  lng: yup.number().min(-180).max(180).required(),
 });
 
-const CenterForm = ({
-  center, onChange, onLocationClick, onLocationUpdate
-}) => {
+const CenterForm = ({ center, onChange, onLocationClick, onLocationUpdate }) => {
   const classes = useStyles();
   const [locationPending, setLocationPending] = useState(false);
   const [locationError, setLocationError] = useState(null);
@@ -52,13 +42,7 @@ const CenterForm = ({
     validationSchema: centerFormSchema,
   });
 
-  const {
-    errors,
-    values,
-    setValues,
-    handleBlur,
-    handleChange,
-  } = formik;
+  const { errors, values, setValues, handleBlur, handleChange } = formik;
 
   const handleOnBlur = (e) => {
     if (Object.keys(errors).length !== 0) return;
@@ -81,7 +65,9 @@ const CenterForm = ({
     try {
       setLocationPending(true);
       const location = await getLocation();
-      const { coords: { latitude, longitude } } = location;
+      const {
+        coords: { latitude, longitude },
+      } = location;
 
       setLocationPending(false);
 
@@ -143,12 +129,12 @@ const CenterForm = ({
             )}
           </Box>
         </Grid>
-        { (errors.lat || errors.lng) && (
+        {(errors.lat || errors.lng) && (
           <Grid item xs={12}>
             <Typography color="error">Invalid center object</Typography>
           </Grid>
         )}
-        { locationError && (
+        {locationError && (
           <Grid item xs={12}>
             <Typography color="error">{locationError.message}</Typography>
           </Grid>

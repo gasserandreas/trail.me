@@ -6,6 +6,4 @@ export default {
   component: FooterComponent,
 };
 
-export const Footer = () => (
-  <FooterComponent />
-);
+export const Footer = () => <FooterComponent />;

@@ -61,18 +61,20 @@ const splitCancel = createAction('route-edit/waypoint/split/cancel');
 /**
  * external (complex) redux actions
  */
-export const initNewRoute = (name, waypoints = []) => (dispatch) => {
-  const TOLERANCE = 0.00015;
-  const simplifiedWaypoints = simplify(waypoints, TOLERANCE, true);
+export const initNewRoute =
+  (name, waypoints = []) =>
+  (dispatch) => {
+    const TOLERANCE = 0.00015;
+    const simplifiedWaypoints = simplify(waypoints, TOLERANCE, true);
 
-  // set viewport to first waypoint
-  if (waypoints.length > 0) {
-    const { lat, lng } = waypoints[0];
-    dispatch(setViewportCoordinates([lat, lng]));
-  }
+    // set viewport to first waypoint
+    if (waypoints.length > 0) {
+      const { lat, lng } = waypoints[0];
+      dispatch(setViewportCoordinates([lat, lng]));
+    }
 
-  dispatch(initRoute(name, simplifiedWaypoints));
-};
+    dispatch(initRoute(name, simplifiedWaypoints));
+  };
 
 export const addWaypoint = (waypoint) => (dispatch) => {
   dispatch(add([createWaypoint(waypoint)]));
@@ -166,39 +168,42 @@ export const cancelSplit = () => (dispatch, getState) => {
 /**
  * byId redux tree
  */
-const waypointsByIdReducer = createReducer({}, {
-  [initRoute]: (_, action) => action.payload.waypoints.byId,
-  [add]: (state, action) => {
-    action.payload.forEach((waypoint) => {
-      const { id } = waypoint;
+const waypointsByIdReducer = createReducer(
+  {},
+  {
+    [initRoute]: (_, action) => action.payload.waypoints.byId,
+    [add]: (state, action) => {
+      action.payload.forEach((waypoint) => {
+        const { id } = waypoint;
+        state[id] = waypoint;
+      });
+    },
+    [addBetween]: (state, action) => {
+      const { id, waypoint } = action.payload;
       state[id] = waypoint;
-    });
+    },
+    [remove]: (state, action) => {
+      action.payload.forEach((id) => {
+        delete state[id];
+      });
+    },
+    [update]: (state, action) => {
+      action.payload.forEach((waypoint) => {
+        const { id } = waypoint;
+        state[id] = waypoint;
+      });
+    },
+    [splitCancel]: (state, action) => {
+      action.payload.forEach((waypointId) => {
+        delete state[waypointId];
+      });
+    },
   },
-  [addBetween]: (state, action) => {
-    const { id, waypoint } = action.payload;
-    state[id] = waypoint;
-  },
-  [remove]: (state, action) => {
-    action.payload.forEach((id) => {
-      delete state[id];
-    });
-  },
-  [update]: (state, action) => {
-    action.payload.forEach((waypoint) => {
-      const { id } = waypoint;
-      state[id] = waypoint;
-    });
-  },
-  [splitCancel]: (state, action) => {
-    action.payload.forEach((waypointId) => {
-      delete state[waypointId];
-    });
-  },
-});
+);
 
 /**
-* ids redux tree
-*/
+ * ids redux tree
+ */
 const waypointsIdsReducer = createReducer([], {
   [initRoute]: (_, action) => action.payload.waypoints.ids,
   [add]: (state, action) => [...state, ...action.payload.map((waypoint) => waypoint.id)],
@@ -219,71 +224,78 @@ const waypointsIdsReducer = createReducer([], {
 /**
  * meta redux tree
  */
-const waypointMetaReducer = createReducer({}, {
-  [initRoute]: (_, action) => action.payload.waypoints.ids.reduce((prev, cur) => ({
-    ...prev,
-    [cur]: createMetaObject(),
-  }), {}),
-  [add]: (state, action) => {
-    action.payload.forEach((waypoint) => {
-      state[waypoint.id] = createMetaObject();
-    });
-  },
-  [addBetween]: (state, action) => {
-    const { id } = action.payload;
-    state[id] = createMetaObject();
-  },
-  [remove]: (state, action) => {
-    const newState = { ...state };
-    action.payload.forEach((id) => {
-      delete newState[id];
-    });
-    return newState;
-  },
-  [select]: (state, action) => {
-    action.payload.forEach((waypointId) => {
-      const waypoint = state[waypointId];
-      waypoint.selected = true;
-    });
-  },
-  [deSelect]: (state, action) => {
-    action.payload.forEach((waypointId) => {
-      const waypoint = state[waypointId];
-      waypoint.selected = false;
-    });
-  },
-  [setSelect]: (state, action) => {
-    Object.keys(state).forEach((waypointId) => {
-      const waypoint = state[waypointId];
-      waypoint.selected = action.payload.includes(waypointId);
-    });
-  },
-  [splitStart]: (state) => {
-    Object.keys(state).forEach((waypointId) => {
-      const waypoint = state[waypointId];
-      waypoint.disabled = true;
-      waypoint.selected = false;
-    });
-  },
-  [splitConfirm]: (state) => {
-    Object.keys(state).forEach((waypointId) => {
-      const waypoint = state[waypointId];
-      waypoint.disabled = false;
-    });
-  },
-  [splitCancel]: (state, action) => {
-    // remove unused waypoints
-    action.payload.forEach((waypointId) => {
-      delete state[waypointId];
-    });
+const waypointMetaReducer = createReducer(
+  {},
+  {
+    [initRoute]: (_, action) =>
+      action.payload.waypoints.ids.reduce(
+        (prev, cur) => ({
+          ...prev,
+          [cur]: createMetaObject(),
+        }),
+        {},
+      ),
+    [add]: (state, action) => {
+      action.payload.forEach((waypoint) => {
+        state[waypoint.id] = createMetaObject();
+      });
+    },
+    [addBetween]: (state, action) => {
+      const { id } = action.payload;
+      state[id] = createMetaObject();
+    },
+    [remove]: (state, action) => {
+      const newState = { ...state };
+      action.payload.forEach((id) => {
+        delete newState[id];
+      });
+      return newState;
+    },
+    [select]: (state, action) => {
+      action.payload.forEach((waypointId) => {
+        const waypoint = state[waypointId];
+        waypoint.selected = true;
+      });
+    },
+    [deSelect]: (state, action) => {
+      action.payload.forEach((waypointId) => {
+        const waypoint = state[waypointId];
+        waypoint.selected = false;
+      });
+    },
+    [setSelect]: (state, action) => {
+      Object.keys(state).forEach((waypointId) => {
+        const waypoint = state[waypointId];
+        waypoint.selected = action.payload.includes(waypointId);
+      });
+    },
+    [splitStart]: (state) => {
+      Object.keys(state).forEach((waypointId) => {
+        const waypoint = state[waypointId];
+        waypoint.disabled = true;
+        waypoint.selected = false;
+      });
+    },
+    [splitConfirm]: (state) => {
+      Object.keys(state).forEach((waypointId) => {
+        const waypoint = state[waypointId];
+        waypoint.disabled = false;
+      });
+    },
+    [splitCancel]: (state, action) => {
+      // remove unused waypoints
+      action.payload.forEach((waypointId) => {
+        delete state[waypointId];
+      });
 
-    // reset meta state
-    Object.keys(state).forEach((waypointId) => {
-      const waypoint = state[waypointId];
-      waypoint.disabled = false;
-    });
+      // reset meta state
+      Object.keys(state).forEach((waypointId) => {
+        const waypoint = state[waypointId];
+        waypoint.disabled = false;
+      });
+    },
   },
-});
+);
 
 /**
  * split tree
@@ -303,12 +315,7 @@ const splitReducerInitialState = {
 
 const splitReducer = createReducer(splitReducerInitialState, {
   [splitStart]: (state, action) => {
-    const {
-      startId,
-      endId,
-      startIndex,
-      endIndex,
-    } = action.payload;
+    const { startId, endId, startIndex, endIndex } = action.payload;
 
     state.enabled = true;
 
@@ -357,8 +364,8 @@ const loadedRouteReducer = createReducer('', {
 });
 
 /**
-* route name tree
-*/
+ * route name tree
+ */
 const routeNameReducer = createReducer('', {
   [initRoute]: (_, action) => action.payload.name,
 });
@@ -385,7 +392,7 @@ export default combineReducers({
   route: routeReducer,
 });
 
-export const __testables__ = {
+export const TESTABLES = {
   initRoute,
   add,
   addBetween,

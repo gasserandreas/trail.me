@@ -9,11 +9,9 @@ const state = {
 };
 
 it('application/selectors: applicationUserSelector should return user from state', () => {
-  expect(selectors.applicationUserSelector(state))
-    .toEqual(state.application.user);
+  expect(selectors.applicationUserSelector(state)).toEqual(state.application.user);
 });
 
 it('application/selectors: applicationStatusSelector should return user from state', () => {
-  expect(selectors.applicationStatusSelector(state))
-    .toEqual(state.application.status);
+  expect(selectors.applicationStatusSelector(state)).toEqual(state.application.status);
 });

@@ -23,8 +23,9 @@ describe('utils/geolocation test suite', () => {
   });
 
   it('should return error promise', async () => {
-    global.navigator.geolocation.getCurrentPosition
-      .mockImplementationOnce((_, error) => error(mockedError));
+    global.navigator.geolocation.getCurrentPosition.mockImplementationOnce((_, error) =>
+      error(mockedError),
+    );
 
     try {
       await geolocation.getLocation();
@@ -36,11 +37,12 @@ describe('utils/geolocation test suite', () => {
   it('should return success promise', async () => {
     const mockedCoords = {
       latitude: 51.1,
-      longitude: 45.3
+      longitude: 45.3,
     };
 
-    global.navigator.geolocation.getCurrentPosition
-      .mockImplementationOnce((success) => success(mockedCoords));
+    global.navigator.geolocation.getCurrentPosition.mockImplementationOnce((success) =>
+      success(mockedCoords),
+    );
 
     const location = await geolocation.getLocation();
     expect(location).toEqual(mockedCoords);

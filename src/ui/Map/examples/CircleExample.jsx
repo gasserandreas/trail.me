@@ -17,17 +17,11 @@ const DrawLineExample = () => {
 
   const circles = useMemo(() => {
     const { zoom } = viewport;
-    return coordinates.map((coordinate) => (
-      <Circle zoom={zoom} latlng={coordinate} />
-    ));
+    return coordinates.map((coordinate) => <Circle zoom={zoom} latlng={coordinate} />);
   }, [coordinates, viewport]);
 
   return (
-    <SwissGeoMap
-      ref={mapRef}
-      onViewportChanged={onViewportChanged}
-      viewport={viewport}
-    >
+    <SwissGeoMap ref={mapRef} onViewportChanged={onViewportChanged} viewport={viewport}>
       {circles}
     </SwissGeoMap>
   );

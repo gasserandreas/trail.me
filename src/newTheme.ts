@@ -24,13 +24,6 @@ const customTheme = createMuiTheme({
     MuiButtonBase: {
       disableRipple: true,
     },
-    // MuiToggleButton: {
-    //   disableRipple: true,
-    // },
-    MuiTabs: {
-      textColor: 'primary',
-      indicatorColor: 'primary',
-    },
     MuiCheckbox: {
       color: 'primary',
     },
@@ -79,27 +72,11 @@ const customTheme = createMuiTheme({
         borderColor: colors.red.default,
       },
     },
-    MuiFab: {
-      root: {
-        textTransform: 'none',
-        '&:focus': {
-          outline: 0,
-        },
-      },
-    },
     MuiButtonBase: {
       root: {
         textTransform: 'none',
         '&:focus': {
           outline: 0,
-        },
-      },
-    },
-    MuiTab: {
-      root: {
-        textTransform: 'none',
-        '&$selected': {
-          fontWeight: 'bold',
         },
       },
     },
