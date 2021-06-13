@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     flexGrow: 0,
     flexShrink: 0,
-  }
+  },
 }));
 
 const NotFound = () => {
@@ -40,22 +40,13 @@ const NotFound = () => {
     <Page>
       <Box className={classes.content}>
         <Typography variant="h1" gutterBottom>
-          No page for
-          {' '}
-          <span className={classes.pathname}>{pathname}</span>
+          No page for <span className={classes.pathname}>{pathname}</span>
         </Typography>
         <Typography>
-          Sorry it seems you have found a death end.
-          {' '}
-          Please use this link to
-          {' '}
-          <Link
-            onClick={handleOnLinkClick}
-            to={INDEX}
-          >
+          Sorry it seems you have found a death end. Please use this link to{' '}
+          <Link onClick={handleOnLinkClick} to={INDEX}>
             go back
-          </Link>
-          {' '}
+          </Link>{' '}
           to start page.
         </Typography>
       </Box>

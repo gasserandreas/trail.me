@@ -3,18 +3,18 @@ import React, { FC, ReactNode } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 type SideDrawerProps = {
-  children: ReactNode,
-}
+  children: ReactNode;
+};
 
 const useStyles = makeStyles(() => ({
   drawer: {},
 }));
 
-const SideDrawer: FC<SideDrawerProps> = ({ children }) => {
+const SideDrawer: FC<SideDrawerProps> = ({ children, ...props }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.drawer}>
+    <div className={classes.drawer} {...props}>
       {children}
     </div>
   );
