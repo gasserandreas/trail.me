@@ -1,13 +1,12 @@
 import createGpx from 'gps-to-gpx';
 
-export const convertToGpxWaypoints = (waypoints) => waypoints.map(({
-  lat, lng, elevation, time
-}) => ({
-  latitude: lat,
-  longitude: lng,
-  elevation: elevation || 0,
-  time: time || '',
-}));
+export const convertToGpxWaypoints = (waypoints) =>
+  waypoints.map(({ lat, lng, elevation, time }) => ({
+    latitude: lat,
+    longitude: lng,
+    elevation: elevation || 0,
+    time: time || '',
+  }));
 
 export const convertToGpx = async (name, waypoints) => {
   const gpx = await createGpx(waypoints, {
@@ -15,7 +14,10 @@ export const convertToGpx = async (name, waypoints) => {
     startTime: '',
   });
 
-  const newGpx = gpx.replace('GPS to GPX (https://npm.im/gps-to-gpx)', 'trail.me');
+  const newGpx = gpx.replace(
+    'GPS to GPX (https://npm.im/gps-to-gpx)',
+    'trail.me'
+  );
 
   return newGpx;
 };
@@ -60,6 +62,6 @@ export const parseGpx = (text) => {
   };
 };
 
-export const __testables__ = {
+export const TESTABLES = {
   getValue,
 };

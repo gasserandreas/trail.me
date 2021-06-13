@@ -81,26 +81,26 @@ describe('utils/gpx test suite', () => {
     it('should return value', () => {
       const xml = parser.parseFromString(xmlProperty, 'text/xml');
 
-      expect(gpx.__testables__.getValue(xml, 'ele', 0))
+      expect(gpx.TESTABLES.getValue(xml, 'ele', 0))
         .toEqual('100');
 
-      expect(gpx.__testables__.getValue(xml, 'time', ''))
+      expect(gpx.TESTABLES.getValue(xml, 'time', ''))
         .toEqual('2020-08-07T07:36:55Z');
     });
 
     it('should return default value for missing properties', () => {
       const xml = parser.parseFromString(xmlPropertyWithoutEleTime, 'text/xml');
-      expect(gpx.__testables__.getValue(xml, 'ele', 0)).toEqual(0);
+      expect(gpx.TESTABLES.getValue(xml, 'ele', 0)).toEqual(0);
     });
 
     it('should return default value for empty properties', () => {
       const xml = parser.parseFromString(xmlPropertyEmptyEle, 'text/xml');
-      expect(gpx.__testables__.getValue(xml, 'ele', 0)).toEqual(0);
+      expect(gpx.TESTABLES.getValue(xml, 'ele', 0)).toEqual(0);
     });
 
     it('should return function default value', () => {
       const xml = parser.parseFromString(xmlPropertyWithoutEleTime, 'text/xml');
-      expect(gpx.__testables__.getValue(xml, 'ele')).toEqual('');
+      expect(gpx.TESTABLES.getValue(xml, 'ele')).toEqual('');
     });
   });
 
