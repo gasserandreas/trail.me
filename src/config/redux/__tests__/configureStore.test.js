@@ -49,9 +49,7 @@ describe('redux getMiddleware test suite', () => {
     const middleware = getMiddleware();
 
     // add your default middleware in right order
-    const expectedOrderedMiddleware = [
-      thunkMiddleware,
-    ];
+    const expectedOrderedMiddleware = [thunkMiddleware];
 
     // ensure number of middleware used
     expect(middleware.length).toEqual(expectedOrderedMiddleware.length);
@@ -85,8 +83,8 @@ describe('redux getComposeEnhancers test suite', () => {
   it('should return default compose if dev tool extension is not available', () => {
     // set extension
     const devTools = null;
-    const oldReduxDevtools = global['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__']; // eslint-disable-line dot-notation
-    global['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] = devTools; // eslint-disable-line dot-notation
+    const oldReduxDevtools = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__; // eslint-disable-line dot-notation
+    global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ = devTools; // eslint-disable-line dot-notation
 
     // set to dev
     process.env.NODE_ENV = 'development';
@@ -95,14 +93,14 @@ describe('redux getComposeEnhancers test suite', () => {
     expect(composedEnhancers).toEqual(compose);
 
     // restore old dev tools
-    global['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] = oldReduxDevtools; // eslint-disable-line dot-notation
+    global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ = oldReduxDevtools; // eslint-disable-line dot-notation
   });
 
   it('should use dev tool extension if available', () => {
     // set extension
     const devTools = () => ({});
-    const oldReduxDevtools = global['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__']; // eslint-disable-line dot-notation
-    global['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] = devTools; // eslint-disable-line dot-notation
+    const oldReduxDevtools = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__; // eslint-disable-line dot-notation
+    global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ = devTools; // eslint-disable-line dot-notation
 
     // set to dev
     process.env.NODE_ENV = 'development';
@@ -111,7 +109,7 @@ describe('redux getComposeEnhancers test suite', () => {
     expect(composedEnhancers).toEqual(devTools);
 
     // restore old dev tools
-    global['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] = oldReduxDevtools; // eslint-disable-line dot-notation
+    global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ = oldReduxDevtools; // eslint-disable-line dot-notation
   });
 });
 

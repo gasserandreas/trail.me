@@ -29,10 +29,7 @@ describe('application: simple action test suite', () => {
 
 describe('application: complex actions test suite', () => {
   it('should execute loadApplication', async () => {
-    const expectedActions = [
-      applicationWillLoad(),
-      applicationDidLoad(),
-    ];
+    const expectedActions = [applicationWillLoad(), applicationDidLoad()];
 
     // get store access
     const store = mockStore();
@@ -60,8 +57,8 @@ describe('application: reducers test suite', () => {
     expect(
       reducer(
         initialState, // use initial state
-        action // dispatch action
-      )
+        action, // dispatch action
+      ),
     ).toEqual({
       ...initialState,
       status: AppStatus.APPLICATION_DID_LOAD,

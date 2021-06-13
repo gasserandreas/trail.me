@@ -1,10 +1,10 @@
 import * as selectors from '../selectors';
 
-import { __testables__ } from '../index';
+import { TESTABLES } from '../index';
 
 const state = {
   map: {
-    viewport: __testables__.FRICK_VIEWPORT,
+    viewport: TESTABLES.FRICK_VIEWPORT,
     location: [],
   },
 };

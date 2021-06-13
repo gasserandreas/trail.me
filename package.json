@@ -50,20 +50,9 @@
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "format": "CI=true prettier --write src/**/*.ts{,x}",
-    "lint": "CI=true tsc --noEmit && eslint src/**/*.ts{,x}"
-  },
-  "eslintConfig": {
-    "extends": "react-app",
-    "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
-    ]
+    "format:old": "CI=true prettier --write src/**/*.js{,x}",
+    "format:old:2": "CI=true prettier --write src/**/*.jsx",
+    "lint": "tsc --noEmit && eslint --ext .js,.jsx,.ts,.tsx src --fix"
   },
   "browserslist": {
     "production": [

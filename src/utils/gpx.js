@@ -14,10 +14,7 @@ export const convertToGpx = async (name, waypoints) => {
     startTime: '',
   });
 
-  const newGpx = gpx.replace(
-    'GPS to GPX (https://npm.im/gps-to-gpx)',
-    'trail.me'
-  );
+  const newGpx = gpx.replace('GPS to GPX (https://npm.im/gps-to-gpx)', 'trail.me');
 
   return newGpx;
 };

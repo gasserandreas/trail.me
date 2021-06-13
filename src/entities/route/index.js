@@ -30,16 +30,19 @@ export const initNewRoute = createAction('route/init', () => ({
 /**
  * byId redux tree
  */
-const byIdReducer = createReducer({}, {
-  [initNewRoute]: (state, payload) => ({
-    ...state,
-    [payload.id]: payload,
-  }),
-});
+const byIdReducer = createReducer(
+  {},
+  {
+    [initNewRoute]: (state, payload) => ({
+      ...state,
+      [payload.id]: payload,
+    }),
+  },
+);
 
 /**
-* ids redux tree
-*/
+ * ids redux tree
+ */
 const idsReducer = createReducer([], {
   [initNewRoute]: (state, payload) => [...state, payload.id],
 });
@@ -49,6 +52,6 @@ export default combineReducers({
   ids: idsReducer,
 });
 
-export const __testables__ = {
+export const TESTABLES = {
   createWaypoints,
 };

@@ -13,12 +13,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Page = ({
-  children, className, hotKeys, ...props
-}) => {
+const Page = ({ children, className, hotKeys, ...props }) => {
   const classes = useStyles();
 
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <div className={clsx(classes.page, className)} {...hotKeys} {...props}>
       {children}
     </div>

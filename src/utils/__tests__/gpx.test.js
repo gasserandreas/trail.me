@@ -10,15 +10,14 @@ describe('utils/gpx test suite', () => {
     };
 
     it('should return converted waypoints array', () => {
-      expect(gpx.convertToGpxWaypoints([mockedWaypoint]))
-        .toEqual([
-          {
-            latitude: mockedWaypoint.lat,
-            longitude: mockedWaypoint.lng,
-            elevation: mockedWaypoint.elevation,
-            time: mockedWaypoint.time,
-          },
-        ]);
+      expect(gpx.convertToGpxWaypoints([mockedWaypoint])).toEqual([
+        {
+          latitude: mockedWaypoint.lat,
+          longitude: mockedWaypoint.lng,
+          elevation: mockedWaypoint.elevation,
+          time: mockedWaypoint.time,
+        },
+      ]);
     });
 
     it('should return converted waypoints array with default values', () => {
@@ -27,15 +26,14 @@ describe('utils/gpx test suite', () => {
         lng: mockedWaypoint.lng,
       };
 
-      expect(gpx.convertToGpxWaypoints([updatedMockedWaypoint]))
-        .toEqual([
-          {
-            latitude: updatedMockedWaypoint.lat,
-            longitude: updatedMockedWaypoint.lng,
-            elevation: 0,
-            time: '',
-          },
-        ]);
+      expect(gpx.convertToGpxWaypoints([updatedMockedWaypoint])).toEqual([
+        {
+          latitude: updatedMockedWaypoint.lat,
+          longitude: updatedMockedWaypoint.lng,
+          elevation: 0,
+          time: '',
+        },
+      ]);
     });
   });
 
@@ -81,11 +79,9 @@ describe('utils/gpx test suite', () => {
     it('should return value', () => {
       const xml = parser.parseFromString(xmlProperty, 'text/xml');
 
-      expect(gpx.TESTABLES.getValue(xml, 'ele', 0))
-        .toEqual('100');
+      expect(gpx.TESTABLES.getValue(xml, 'ele', 0)).toEqual('100');
 
-      expect(gpx.TESTABLES.getValue(xml, 'time', ''))
-        .toEqual('2020-08-07T07:36:55Z');
+      expect(gpx.TESTABLES.getValue(xml, 'time', '')).toEqual('2020-08-07T07:36:55Z');
     });
 
     it('should return default value for missing properties', () => {

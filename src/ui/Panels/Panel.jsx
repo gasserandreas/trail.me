@@ -33,6 +33,7 @@ const useStyles = makeStyles(() => ({
 export const PanelContent = ({ children, ...props }) => {
   const classes = useStyles();
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <div className={classes.spacing} {...props}>
       {children}
     </div>
@@ -43,19 +44,18 @@ PanelContent.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const Panel = ({
-  title, children, noSpacing, ...props
-}) => {
+const Panel = ({ title, children, noSpacing, ...props }) => {
   const classes = useStyles();
 
   const panelClassName = noSpacing ? classes.panel : clsx(classes.panel, classes.panelSpacing);
 
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <Box {...props} className={panelClassName}>
       {title && (
-      <Typography variant="h6" className={clsx(classes.spacing, classes.title)}>
-        {title}
-      </Typography>
+        <Typography variant="h6" className={clsx(classes.spacing, classes.title)}>
+          {title}
+        </Typography>
       )}
       {children}
     </Box>

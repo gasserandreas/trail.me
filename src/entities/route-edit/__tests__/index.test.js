@@ -21,7 +21,7 @@ import reducer, {
   startSplit,
   saveSplit,
   cancelSplit,
-  __testables__,
+  TESTABLES,
 } from '../index';
 
 import { createMetaObject, createWaypoint } from '../utils';
@@ -54,11 +54,9 @@ jest.mock('../simplifyPath', () => ({
 
 describe('entities/route-edit simple action test suite', () => {
   it('should create initReducer action', () => {
-    expect(__testables__.initRoute('mocked name', mockedWaypoints))
-      .toMatchSnapshot();
+    expect(TESTABLES.initRoute('mocked name', mockedWaypoints)).toMatchSnapshot();
 
-    expect(__testables__.initRoute(null, mockedWaypoints))
-      .toMatchSnapshot();
+    expect(TESTABLES.initRoute(null, mockedWaypoints)).toMatchSnapshot();
   });
 
   it('should create setActionType action', () => {
@@ -74,7 +72,7 @@ describe('entities/route-edit simple action test suite', () => {
   });
 
   it('should create add action', () => {
-    expect(__testables__.add(mockedWaypoints)).toMatchSnapshot();
+    expect(TESTABLES.add(mockedWaypoints)).toMatchSnapshot();
   });
 
   it('should create addBetween action', () => {
@@ -82,42 +80,42 @@ describe('entities/route-edit simple action test suite', () => {
       id: mockedWaypoints[0].id,
       waypoint: mockedWaypoints[0],
     };
-    expect(__testables__.addBetween(payload)).toMatchSnapshot();
+    expect(TESTABLES.addBetween(payload)).toMatchSnapshot();
   });
 
   it('should create remove action', () => {
-    expect(__testables__.remove(mockedWaypoints.map(({ id }) => id))).toMatchSnapshot();
+    expect(TESTABLES.remove(mockedWaypoints.map(({ id }) => id))).toMatchSnapshot();
   });
 
   it('should create update action', () => {
-    expect(__testables__.update(mockedWaypoints)).toMatchSnapshot();
+    expect(TESTABLES.update(mockedWaypoints)).toMatchSnapshot();
   });
 
   it('should create invert action', () => {
-    expect(__testables__.invert()).toMatchSnapshot();
+    expect(TESTABLES.invert()).toMatchSnapshot();
   });
 
   it('should create select action', () => {
-    expect(__testables__.select(mockedWaypoints.map(({ id }) => id))).toMatchSnapshot();
+    expect(TESTABLES.select(mockedWaypoints.map(({ id }) => id))).toMatchSnapshot();
   });
 
   it('should create deSelect action', () => {
-    expect(__testables__.deSelect(mockedWaypoints.map(({ id }) => id))).toMatchSnapshot();
+    expect(TESTABLES.deSelect(mockedWaypoints.map(({ id }) => id))).toMatchSnapshot();
   });
 
   it('should create setSelect action', () => {
-    expect(__testables__.setSelect(mockedWaypoints.map(({ id }) => id))).toMatchSnapshot();
+    expect(TESTABLES.setSelect(mockedWaypoints.map(({ id }) => id))).toMatchSnapshot();
   });
 
   it('should create splitStart action', () => {
-    expect(__testables__.splitStart(mockedWaypoints.map(({ id }) => id))).toMatchSnapshot();
+    expect(TESTABLES.splitStart(mockedWaypoints.map(({ id }) => id))).toMatchSnapshot();
   });
 
   it('should create splitConfirm action', () => {
-    expect(__testables__.splitConfirm(mockedWaypoints.map(({ id }) => id))).toMatchSnapshot();
+    expect(TESTABLES.splitConfirm(mockedWaypoints.map(({ id }) => id))).toMatchSnapshot();
   });
   it('should create splitCancel action', () => {
-    expect(__testables__.splitCancel(mockedWaypoints.map(({ id }) => id))).toMatchSnapshot();
+    expect(TESTABLES.splitCancel(mockedWaypoints.map(({ id }) => id))).toMatchSnapshot();
   });
 });
 
@@ -130,7 +128,7 @@ describe('entities/route-edit complex action test suite', () => {
     const { lat, lng } = mockedWaypoints[0];
     const expectedActions = [
       setViewportCoordinates([lat, lng]),
-      __testables__.initRoute(mockedName, simplifiedWaypoints),
+      TESTABLES.initRoute(mockedName, simplifiedWaypoints),
     ];
 
     // get store access
@@ -148,9 +146,7 @@ describe('entities/route-edit complex action test suite', () => {
   it('should execute initNewRoute with empty waypoints', () => {
     const mockedName = 'new route name';
     const waypoints = [];
-    const expectedActions = [
-      __testables__.initRoute(mockedName, waypoints),
-    ];
+    const expectedActions = [TESTABLES.initRoute(mockedName, waypoints)];
 
     // get store access
     const store = mockStore();
@@ -162,9 +158,7 @@ describe('entities/route-edit complex action test suite', () => {
   });
 
   it('should execute addWaypoint', () => {
-    const expectedActions = [
-      __testables__.add([createWaypoint(mockedWaypoints[0])]),
-    ];
+    const expectedActions = [TESTABLES.add([createWaypoint(mockedWaypoints[0])])];
 
     // get store access
     const store = mockStore();
@@ -177,9 +171,7 @@ describe('entities/route-edit complex action test suite', () => {
 
   it('should execute addWaypoints', () => {
     const expectedActions = [
-      __testables__.add(
-        mockedWaypoints.map((waypoint) => createWaypoint(waypoint))
-      ),
+      TESTABLES.add(mockedWaypoints.map((waypoint) => createWaypoint(waypoint))),
     ];
 
     // get store access
@@ -199,7 +191,7 @@ describe('entities/route-edit complex action test suite', () => {
     const newWaypoint = createWaypoint(data);
 
     const expectedActions = [
-      __testables__.addBetween({
+      TESTABLES.addBetween({
         id: newWaypoint.id,
         waypoint: newWaypoint,
         previousId,
@@ -219,9 +211,7 @@ describe('entities/route-edit complex action test suite', () => {
   it('should execute removeWaypoint', () => {
     const { id } = mockedWaypoints[0];
 
-    const expectedActions = [
-      __testables__.remove([id]),
-    ];
+    const expectedActions = [TESTABLES.remove([id])];
 
     // get store access
     const store = mockStore();
@@ -235,9 +225,7 @@ describe('entities/route-edit complex action test suite', () => {
   it('should execute removeWaypoints', () => {
     const ids = mockedWaypoints.map(({ id }) => id);
 
-    const expectedActions = [
-      __testables__.remove(ids),
-    ];
+    const expectedActions = [TESTABLES.remove(ids)];
 
     // get store access
     const store = mockStore();
@@ -249,9 +237,7 @@ describe('entities/route-edit complex action test suite', () => {
   });
 
   it('should execute invertWaypoints', () => {
-    const expectedActions = [
-      __testables__.invert(),
-    ];
+    const expectedActions = [TESTABLES.invert()];
 
     // get store access
     const store = mockStore();
@@ -270,10 +256,12 @@ describe('entities/route-edit complex action test suite', () => {
     };
 
     const expectedActions = [
-      __testables__.update([{
-        id,
-        ...latlng,
-      }]),
+      TESTABLES.update([
+        {
+          id,
+          ...latlng,
+        },
+      ]),
     ];
 
     // get store access
@@ -287,9 +275,7 @@ describe('entities/route-edit complex action test suite', () => {
 
   it('should execute selectWaypoints', () => {
     const ids = mockedWaypoints.map(({ id }) => id);
-    const expectedActions = [
-      __testables__.select(ids),
-    ];
+    const expectedActions = [TESTABLES.select(ids)];
 
     // get store access
     const store = mockStore();
@@ -302,9 +288,7 @@ describe('entities/route-edit complex action test suite', () => {
 
   it('should execute deSelectWaypoints', () => {
     const ids = mockedWaypoints.map(({ id }) => id);
-    const expectedActions = [
-      __testables__.deSelect(ids),
-    ];
+    const expectedActions = [TESTABLES.deSelect(ids)];
 
     // get store access
     const store = mockStore();
@@ -317,9 +301,7 @@ describe('entities/route-edit complex action test suite', () => {
 
   it('should execute setSelectedWaypoint', () => {
     const ids = mockedWaypoints.map(({ id }) => id);
-    const expectedActions = [
-      __testables__.setSelect(ids),
-    ];
+    const expectedActions = [TESTABLES.setSelect(ids)];
 
     // get store access
     const store = mockStore();
@@ -339,7 +321,7 @@ describe('entities/route-edit complex action test suite', () => {
     const endId = waypointIds[endIndex];
 
     const expectedActions = [
-      __testables__.splitStart({
+      TESTABLES.splitStart({
         startIndex,
         endIndex,
         startId,
@@ -376,7 +358,7 @@ describe('entities/route-edit complex action test suite', () => {
     };
 
     const expectedActions = [
-      __testables__.splitConfirm({
+      TESTABLES.splitConfirm({
         newIds,
         start,
         end,
@@ -408,9 +390,7 @@ describe('entities/route-edit complex action test suite', () => {
   it('should execute cancelSplit', () => {
     const newIds = [];
 
-    const expectedActions = [
-      __testables__.splitCancel(newIds),
-    ];
+    const expectedActions = [TESTABLES.splitCancel(newIds)];
 
     const state = {
       routeEdit: {
@@ -499,7 +479,7 @@ describe('entities/route-edit reducer test suite', () => {
   it('should handle route-edit/initNew', () => {
     const name = 'new route';
 
-    const action = __testables__.initRoute(name, mockedWaypoints);
+    const action = TESTABLES.initRoute(name, mockedWaypoints);
 
     expect(reducer(initialState, action)).toEqual({
       ...initialState,
@@ -510,23 +490,30 @@ describe('entities/route-edit reducer test suite', () => {
       },
       waypoints: {
         ...initialState.waypoints,
-        byId: mockedWaypoints.reduce((prev, cur) => ({
-          ...prev,
-          [cur.id]: cur,
-        }), {}),
-        ids: mockedWaypoints.map(({ id }) => id),
-        meta: mockedWaypoints.map(({ id }) => id)
-          .reduce((prev, cur) => ({
+        byId: mockedWaypoints.reduce(
+          (prev, cur) => ({
             ...prev,
-            [cur]: createMetaObject(),
-          }), {}),
+            [cur.id]: cur,
+          }),
+          {},
+        ),
+        ids: mockedWaypoints.map(({ id }) => id),
+        meta: mockedWaypoints
+          .map(({ id }) => id)
+          .reduce(
+            (prev, cur) => ({
+              ...prev,
+              [cur]: createMetaObject(),
+            }),
+            {},
+          ),
       },
     });
   });
 
   it('should handle route-edit/add', () => {
     const waypoint = mockedWaypoints[0];
-    const action = __testables__.add([waypoint]);
+    const action = TESTABLES.add([waypoint]);
 
     expect(reducer(initialState, action)).toEqual({
       ...initialState,
@@ -555,9 +542,9 @@ describe('entities/route-edit reducer test suite', () => {
       id: newId,
       waypoint: newWaypoint,
       previousId: mockedWaypoints[0].id,
-      nextId: mockedWaypoints[1].id
+      nextId: mockedWaypoints[1].id,
     };
-    const action = __testables__.addBetween(payload);
+    const action = TESTABLES.addBetween(payload);
 
     const updateInitialState = {
       ...initialState,
@@ -567,10 +554,7 @@ describe('entities/route-edit reducer test suite', () => {
           [mockedWaypoints[0].id]: mockedWaypoints[0],
           [mockedWaypoints[1].id]: mockedWaypoints[1],
         },
-        ids: [
-          mockedWaypoints[0].id,
-          mockedWaypoints[1].id,
-        ],
+        ids: [mockedWaypoints[0].id, mockedWaypoints[1].id],
         meta: {
           [mockedWaypoints[0].id]: createMetaObject(),
           [mockedWaypoints[1].id]: createMetaObject(),
@@ -586,11 +570,7 @@ describe('entities/route-edit reducer test suite', () => {
           ...updateInitialState.waypoints.byId,
           [newWaypoint.id]: newWaypoint,
         },
-        ids: [
-          mockedWaypoints[0].id,
-          newWaypoint.id,
-          mockedWaypoints[1].id,
-        ],
+        ids: [mockedWaypoints[0].id, newWaypoint.id, mockedWaypoints[1].id],
         meta: {
           ...updateInitialState.waypoints.meta,
           [newWaypoint.id]: createMetaObject(),
@@ -600,7 +580,7 @@ describe('entities/route-edit reducer test suite', () => {
   });
 
   it('should handle route-edit/remove', () => {
-    const action = __testables__.remove([mockedWaypoints[0].id]);
+    const action = TESTABLES.remove([mockedWaypoints[0].id]);
 
     const updatedInitialState = {
       ...initialState,
@@ -610,10 +590,7 @@ describe('entities/route-edit reducer test suite', () => {
           [mockedWaypoints[0].id]: mockedWaypoints[0],
           [mockedWaypoints[1].id]: mockedWaypoints[1],
         },
-        ids: [
-          mockedWaypoints[0].id,
-          mockedWaypoints[1].id,
-        ],
+        ids: [mockedWaypoints[0].id, mockedWaypoints[1].id],
         meta: {
           [mockedWaypoints[0].id]: createMetaObject(),
           [mockedWaypoints[1].id]: createMetaObject(),
@@ -642,7 +619,7 @@ describe('entities/route-edit reducer test suite', () => {
       lat: 1,
       lng: 1,
     };
-    const action = __testables__.update([payload]);
+    const action = TESTABLES.update([payload]);
 
     const updatedInitialState = {
       ...initialState,
@@ -652,10 +629,7 @@ describe('entities/route-edit reducer test suite', () => {
           [mockedWaypoints[0].id]: mockedWaypoints[0],
           [mockedWaypoints[1].id]: mockedWaypoints[1],
         },
-        ids: [
-          mockedWaypoints[0].id,
-          mockedWaypoints[1].id,
-        ],
+        ids: [mockedWaypoints[0].id, mockedWaypoints[1].id],
         meta: {
           [mockedWaypoints[0].id]: createMetaObject(),
           [mockedWaypoints[1].id]: createMetaObject(),
@@ -676,7 +650,7 @@ describe('entities/route-edit reducer test suite', () => {
   });
 
   it('should handle route-edit/invert', () => {
-    const action = __testables__.invert();
+    const action = TESTABLES.invert();
 
     const updatedInitialState = {
       ...initialState,
@@ -686,10 +660,7 @@ describe('entities/route-edit reducer test suite', () => {
           [mockedWaypoints[0].id]: mockedWaypoints[0],
           [mockedWaypoints[1].id]: mockedWaypoints[1],
         },
-        ids: [
-          mockedWaypoints[0].id,
-          mockedWaypoints[1].id,
-        ],
+        ids: [mockedWaypoints[0].id, mockedWaypoints[1].id],
         meta: {
           [mockedWaypoints[0].id]: createMetaObject(),
           [mockedWaypoints[1].id]: createMetaObject(),
@@ -701,10 +672,7 @@ describe('entities/route-edit reducer test suite', () => {
       ...updatedInitialState,
       waypoints: {
         ...updatedInitialState.waypoints,
-        ids: [
-          mockedWaypoints[1].id,
-          mockedWaypoints[0].id,
-        ],
+        ids: [mockedWaypoints[1].id, mockedWaypoints[0].id],
       },
     });
   });
@@ -718,10 +686,7 @@ describe('entities/route-edit reducer test suite', () => {
           [mockedWaypoints[0].id]: mockedWaypoints[0],
           [mockedWaypoints[1].id]: mockedWaypoints[1],
         },
-        ids: [
-          mockedWaypoints[0].id,
-          mockedWaypoints[1].id,
-        ],
+        ids: [mockedWaypoints[0].id, mockedWaypoints[1].id],
         meta: {
           [mockedWaypoints[0].id]: createMetaObject(),
           [mockedWaypoints[1].id]: createMetaObject(),
@@ -730,14 +695,13 @@ describe('entities/route-edit reducer test suite', () => {
     };
 
     const selectedId = mockedWaypoints[0].id;
-    const action = __testables__.select([selectedId]);
+    const action = TESTABLES.select([selectedId]);
 
     /**
      * non waypoint should be selected
      */
     expect(
-      Object.values(updatedInitialState.waypoints.meta)
-        .filter((item) => item.selected)
+      Object.values(updatedInitialState.waypoints.meta).filter((item) => item.selected),
     ).toEqual([]);
 
     /**
@@ -762,10 +726,7 @@ describe('entities/route-edit reducer test suite', () => {
           [mockedWaypoints[0].id]: mockedWaypoints[0],
           [mockedWaypoints[1].id]: mockedWaypoints[1],
         },
-        ids: [
-          mockedWaypoints[0].id,
-          mockedWaypoints[1].id,
-        ],
+        ids: [mockedWaypoints[0].id, mockedWaypoints[1].id],
         meta: {
           [mockedWaypoints[0].id]: {
             ...createMetaObject(),
@@ -777,7 +738,7 @@ describe('entities/route-edit reducer test suite', () => {
     };
 
     const deSelectId = mockedWaypoints[0].id;
-    const action = __testables__.deSelect([deSelectId]);
+    const action = TESTABLES.deSelect([deSelectId]);
 
     /**
      * only the deSelectId id should be selected
@@ -785,7 +746,7 @@ describe('entities/route-edit reducer test suite', () => {
     expect(
       Object.entries(updatedInitialState.waypoints.meta)
         .filter(([_, item]) => item.selected) // eslint-disable-line no-unused-vars
-        .map(([id]) => id)
+        .map(([id]) => id),
     ).toEqual([deSelectId]);
 
     /**
@@ -810,10 +771,7 @@ describe('entities/route-edit reducer test suite', () => {
           [mockedWaypoints[0].id]: mockedWaypoints[0],
           [mockedWaypoints[1].id]: mockedWaypoints[1],
         },
-        ids: [
-          mockedWaypoints[0].id,
-          mockedWaypoints[1].id,
-        ],
+        ids: [mockedWaypoints[0].id, mockedWaypoints[1].id],
         meta: {
           [mockedWaypoints[0].id]: createMetaObject(),
           [mockedWaypoints[1].id]: createMetaObject(),
@@ -822,14 +780,13 @@ describe('entities/route-edit reducer test suite', () => {
     };
 
     const selectedIds = [mockedWaypoints[0].id, mockedWaypoints[1].id];
-    const action = __testables__.setSelect(selectedIds);
+    const action = TESTABLES.setSelect(selectedIds);
 
     /**
      * non waypoint should be selected
      */
     expect(
-      Object.values(updatedInitialState.waypoints.meta)
-        .filter((item) => item.selected)
+      Object.values(updatedInitialState.waypoints.meta).filter((item) => item.selected),
     ).toEqual([]);
 
     /**
@@ -858,10 +815,7 @@ describe('entities/route-edit reducer test suite', () => {
           [mockedWaypoints[0].id]: mockedWaypoints[0],
           [mockedWaypoints[1].id]: mockedWaypoints[1],
         },
-        ids: [
-          mockedWaypoints[0].id,
-          mockedWaypoints[1].id,
-        ],
+        ids: [mockedWaypoints[0].id, mockedWaypoints[1].id],
         meta: {
           [mockedWaypoints[0].id]: createMetaObject(),
           [mockedWaypoints[1].id]: createMetaObject(),
@@ -869,7 +823,7 @@ describe('entities/route-edit reducer test suite', () => {
       },
     };
 
-    const splitStartAction = __testables__.splitStart({
+    const splitStartAction = TESTABLES.splitStart({
       startIndex: 0,
       endIndex: 1,
       startId: mockedWaypoints[0].id,
@@ -881,19 +835,18 @@ describe('entities/route-edit reducer test suite', () => {
         ...updatedInitialState,
         waypoints: {
           ...updatedInitialState.waypoints,
-          meta: Object.entries(updatedInitialState.waypoints.meta)
-            .reduce((prev, cur) => {
-              const [key, meta] = cur;
+          meta: Object.entries(updatedInitialState.waypoints.meta).reduce((prev, cur) => {
+            const [key, meta] = cur;
 
-              return {
-                ...prev,
-                [key]: {
-                  ...meta,
-                  disabled: true,
-                  selected: false,
-                },
-              };
-            }, {}),
+            return {
+              ...prev,
+              [key]: {
+                ...meta,
+                disabled: true,
+                selected: false,
+              },
+            };
+          }, {}),
           split: {
             newIds: [],
             enabled: true,
@@ -905,7 +858,7 @@ describe('entities/route-edit reducer test suite', () => {
               id: mockedWaypoints[1].id,
               index: 1,
             },
-          }
+          },
         },
       });
     });
@@ -935,16 +888,10 @@ describe('entities/route-edit reducer test suite', () => {
       /**
        * test add action
        */
-      const afterSplitAddState = reducer(
-        afterSplitStartState,
-        __testables__.add([newWaypoint])
-      );
+      const afterSplitAddState = reducer(afterSplitStartState, TESTABLES.add([newWaypoint]));
       expect(afterSplitAddState.waypoints.split).toEqual({
         ...afterSplitStartState.waypoints.split,
-        newIds: [
-          ...afterSplitStartState.waypoints.split.newIds,
-          newWaypoint.id,
-        ],
+        newIds: [...afterSplitStartState.waypoints.split.newIds, newWaypoint.id],
       });
 
       /**
@@ -952,14 +899,11 @@ describe('entities/route-edit reducer test suite', () => {
        */
       const afterSplitAddBetweenState = reducer(
         afterSplitAddState,
-        __testables__.addBetween(newWaypointBetween)
+        TESTABLES.addBetween(newWaypointBetween),
       );
       expect(afterSplitAddBetweenState.waypoints.split).toEqual({
         ...afterSplitAddState.waypoints.split,
-        newIds: [
-          ...afterSplitAddState.waypoints.split.newIds,
-          newWaypointBetween.id,
-        ],
+        newIds: [...afterSplitAddState.waypoints.split.newIds, newWaypointBetween.id],
       });
 
       /**
@@ -967,12 +911,13 @@ describe('entities/route-edit reducer test suite', () => {
        */
       const afterSplitRemoveState = reducer(
         afterSplitAddBetweenState,
-        __testables__.remove([newWaypoint.id]),
+        TESTABLES.remove([newWaypoint.id]),
       );
       expect(afterSplitRemoveState.waypoints.split).toEqual({
         ...afterSplitAddBetweenState.waypoints.split,
-        newIds: afterSplitAddBetweenState.waypoints.split.newIds
-          .filter((id) => id !== newWaypoint.id),
+        newIds: afterSplitAddBetweenState.waypoints.split.newIds.filter(
+          (id) => id !== newWaypoint.id,
+        ),
       });
     });
 
@@ -999,10 +944,7 @@ describe('entities/route-edit reducer test suite', () => {
       /**
        * test add action
        */
-      const afterSplitAddState = reducer(
-        initialState,
-        __testables__.add([newWaypoint])
-      );
+      const afterSplitAddState = reducer(initialState, TESTABLES.add([newWaypoint]));
       expect(afterSplitAddState.waypoints.split).toEqual({
         ...initialState.waypoints.split,
       });
@@ -1012,7 +954,7 @@ describe('entities/route-edit reducer test suite', () => {
        */
       const afterSplitAddBetweenState = reducer(
         afterSplitAddState,
-        __testables__.addBetween(newWaypointBetween)
+        TESTABLES.addBetween(newWaypointBetween),
       );
       expect(afterSplitAddBetweenState.waypoints.split).toEqual({
         ...afterSplitAddState.waypoints.split,
@@ -1023,7 +965,7 @@ describe('entities/route-edit reducer test suite', () => {
        */
       const afterSplitRemoveState = reducer(
         afterSplitAddBetweenState,
-        __testables__.remove([newWaypoint.id]),
+        TESTABLES.remove([newWaypoint.id]),
       );
       expect(afterSplitRemoveState.waypoints.split).toEqual({
         ...afterSplitAddBetweenState.waypoints.split,
@@ -1041,19 +983,13 @@ describe('entities/route-edit reducer test suite', () => {
         lng: 8.00028254,
       };
 
-      const afterSplitAddState = reducer(
-        afterSplitStartState,
-        __testables__.add([newWaypoint])
-      );
+      const afterSplitAddState = reducer(afterSplitStartState, TESTABLES.add([newWaypoint]));
       expect(afterSplitAddState.waypoints.split).toEqual({
         ...afterSplitStartState.waypoints.split,
-        newIds: [
-          ...afterSplitStartState.waypoints.split.newIds,
-          newWaypoint.id,
-        ],
+        newIds: [...afterSplitStartState.waypoints.split.newIds, newWaypoint.id],
       });
 
-      const action = __testables__.splitConfirm({
+      const action = TESTABLES.splitConfirm({
         newIds: afterSplitStartState.waypoints.split.newIds,
         start: afterSplitStartState.waypoints.split.start,
         end: afterSplitStartState.waypoints.split.end,
@@ -1078,7 +1014,7 @@ describe('entities/route-edit reducer test suite', () => {
         /**
          * split should be back on initial state
          */
-        split: __testables__.splitReducerInitialState,
+        split: TESTABLES.splitReducerInitialState,
       });
     });
 
@@ -1093,20 +1029,14 @@ describe('entities/route-edit reducer test suite', () => {
         lng: 8.00028254,
       };
 
-      const afterSplitAddState = reducer(
-        afterSplitStartState,
-        __testables__.add([newWaypoint])
-      );
+      const afterSplitAddState = reducer(afterSplitStartState, TESTABLES.add([newWaypoint]));
       expect(afterSplitAddState.waypoints.split).toEqual({
         ...afterSplitStartState.waypoints.split,
-        newIds: [
-          ...afterSplitStartState.waypoints.split.newIds,
-          newWaypoint.id,
-        ],
+        newIds: [...afterSplitStartState.waypoints.split.newIds, newWaypoint.id],
       });
 
       const { newIds } = afterSplitAddState.waypoints.split;
-      const action = __testables__.splitCancel(newIds);
+      const action = TESTABLES.splitCancel(newIds);
 
       const afterSplitCancelState = reducer(afterSplitAddState, action);
       expect(afterSplitCancelState.waypoints).toEqual({
@@ -1117,9 +1047,7 @@ describe('entities/route-edit reducer test suite', () => {
         byId: {
           ...afterSplitStartState.waypoints.byId,
         },
-        ids: [
-          ...afterSplitStartState.waypoints.ids,
-        ],
+        ids: [...afterSplitStartState.waypoints.ids],
         /**
          * ensure newly added waypoints are removed and
          * all other waypoints are no longer disabled
@@ -1139,7 +1067,7 @@ describe('entities/route-edit reducer test suite', () => {
         /**
          * split should be back on initial state
          */
-        split: __testables__.splitReducerInitialState,
+        split: TESTABLES.splitReducerInitialState,
       });
     });
   });

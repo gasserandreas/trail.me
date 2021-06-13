@@ -65,8 +65,10 @@ const Connected = ({ id }) => {
       return;
     }
 
-    const { target: { _latlng } } = e;
-    dispatch(moveWaypoint(id, _latlng));
+    const {
+      target: { _latlng: latlng },
+    } = e;
+    dispatch(moveWaypoint(id, latlng));
   };
 
   const eventHandlers = {

@@ -8,8 +8,4 @@ export default {
   component: DeleteButtonComponent,
 };
 
-export const DeleteButton = () => (
-  <DeleteButtonComponent
-    onClick={action('onClick')}
-  />
-);
+export const DeleteButton = () => <DeleteButtonComponent onClick={action('onClick')} />;

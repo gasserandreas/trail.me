@@ -10,9 +10,5 @@ export const ActionPanel = (story) => {
     margin: '0 auto',
   };
 
-  return (
-    <div style={styles}>
-      {story()}
-    </div>
-  );
+  return <div style={styles}>{story()}</div>;
 };

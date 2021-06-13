@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
@@ -22,7 +23,11 @@ import UploadOptions from '../../../constants/UploadOptions';
 import { parseGpx, convertToGpxWaypoints, convertToGpx } from '../../../utils/gpx';
 
 import { initNewRoute, addWaypoints } from '../../../entities/route-edit';
-import { waypointsSelector, waypointsIdsSelector, splitEnabledSelector } from '../../../entities/route-edit/selectors';
+import {
+  waypointsSelector,
+  waypointsIdsSelector,
+  splitEnabledSelector,
+} from '../../../entities/route-edit/selectors';
 
 const INITIAL_FILENAME = 'export';
 
@@ -51,9 +56,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const FilePanel = ({
-  ...props
-}) => {
+const FilePanel = ({ ...props }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -68,36 +71,39 @@ const FilePanel = ({
 
   const disabled = useMemo(() => splitEnabled, [splitEnabled]);
 
-  const handleOnDrop = useCallback((acceptedFiles) => {
-    if (acceptedFiles.length === 0) return;
+  const handleOnDrop = useCallback(
+    (acceptedFiles) => {
+      if (acceptedFiles.length === 0) return;
 
-    const file = acceptedFiles[0];
-    const reader = new FileReader();
+      const file = acceptedFiles[0];
+      const reader = new FileReader();
 
-    reader.onerror = () => setError(new Error('Could not download file.'));
-    reader.onload = (e) => {
-      /**
-       * parse text from upload
-       */
-      const text = e.target.result;
-      const result = parseGpx(text);
-      const { name, waypoints: parsedWaypoints } = result;
+      reader.onerror = () => setError(new Error('Could not download file.'));
+      reader.onload = (e) => {
+        /**
+         * parse text from upload
+         */
+        const text = e.target.result;
+        const result = parseGpx(text);
+        const { name, waypoints: parsedWaypoints } = result;
 
-      setFilename(name);
+        setFilename(name);
 
-      /**
-       * process uploaded data
-       */
-      if (uploadOption === UploadOptions.RESET_UPLOAD) {
-        // start new route
-        dispatch(initNewRoute(name, parsedWaypoints));
-      } else {
-        // add waypoints
-        dispatch(addWaypoints(parsedWaypoints));
-      }
-    };
-    reader.readAsText(file);
-  }, [uploadOption, dispatch]);
+        /**
+         * process uploaded data
+         */
+        if (uploadOption === UploadOptions.RESET_UPLOAD) {
+          // start new route
+          dispatch(initNewRoute(name, parsedWaypoints));
+        } else {
+          // add waypoints
+          dispatch(addWaypoints(parsedWaypoints));
+        }
+      };
+      reader.readAsText(file);
+    },
+    [uploadOption, dispatch],
+  );
 
   const handleOnDownloadClick = async () => {
     if (disabled) return;
@@ -132,12 +138,16 @@ const FilePanel = ({
   };
 
   const handleOnChangeFilename = (e) => {
-    const { target: { value } } = e;
+    const {
+      target: { value },
+    } = e;
     setFilename(value);
   };
 
   const handleOnChangeFiletype = (e) => {
-    const { target: { value } } = e;
+    const {
+      target: { value },
+    } = e;
     setFiletype(value);
   };
 
@@ -173,6 +183,7 @@ const FilePanel = ({
     open();
   };
 
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return (
     <>
       <input type="hidden" style={{ visability: 'none' }} id="filedownload" />
@@ -198,18 +209,23 @@ const FilePanel = ({
                 className={classes.select}
                 disabled={true || disabled} // TODO: enabled option button later to support different filetypes
               >
-                {Object.entries(MapFileType).map(([_, value]) => ( // eslint-disable-line no-unused-vars
-                  <MenuItem key={`filetype-${value}`} value={value}>
-                    {'.'}
-                    {value}
-                  </MenuItem>
-                ))}
+                {Object.entries(MapFileType).map(
+                  (
+                    [_, value], // eslint-disable-line @typescript-eslint/no-unused-vars
+                  ) => (
+                    <MenuItem key={`filetype-${value}`} value={value}>
+                      .{value}
+                    </MenuItem>
+                  ),
+                )}
               </Select>
             </Grid>
           </Grid>
         </div>
         <div className={clsx(classes.controls, classes.spacing)}>
-          <DeleteButton size="small" onClick={handleOnClickReset} disabled={disabled}>Reset</DeleteButton>
+          <DeleteButton size="small" onClick={handleOnClickReset} disabled={disabled}>
+            Reset
+          </DeleteButton>
           <div {...getRootProps()}>
             <input {...getInputProps()} />
             <OptionButton
@@ -236,9 +252,7 @@ const FilePanel = ({
           </Button>
         </div>
         <div className={classes.spacing}>
-          {error && (
-            <Typography color="error">{error.message}</Typography>
-          )}
+          {error && <Typography color="error">{error.message}</Typography>}
         </div>
       </Panel>
     </>

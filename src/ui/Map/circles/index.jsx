@@ -6,9 +6,8 @@ import { Marker } from 'react-leaflet';
 
 import { useTheme } from '@material-ui/core/styles';
 
-const Circle = React.memo(({
-  latlng, selected, disabled, ...props
-}) => {
+// eslint-disable-next-line
+const Circle = React.memo(({ latlng, selected, disabled, ...props }) => {
   const theme = useTheme();
   const { palette } = theme;
   const { primary } = palette;
@@ -25,24 +24,23 @@ const Circle = React.memo(({
   const radius = 26;
   const color = getColor(selected, disabled);
 
-  const circleIcon = useMemo(() => Leaflet.divIcon({
-    iconSize: [radius, radius],
-    iconAnchor: [radius / 2, radius / 2],
-    className: '',
-    // eslint-disable-next-line max-len
-    html: `<svg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='xMidYMid'>
+  const circleIcon = useMemo(
+    () =>
+      Leaflet.divIcon({
+        iconSize: [radius, radius],
+        iconAnchor: [radius / 2, radius / 2],
+        className: '',
+        // eslint-disable-next-line max-len
+        html: `<svg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='xMidYMid'>
           <circle cx='50' cy='50' r='40' fill='${color}' stroke='rgba(0,0,0,0.7)' stroke-width='5'></circle>
-        </svg>`
-  }), [radius, color]);
+        </svg>`,
+      }),
+    [radius, color],
+  );
 
   return (
-    <Marker
-      position={circleCenter}
-      icon={circleIcon}
-      draggable
-      zIndexOffset={50}
-      {...props}
-    />
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    <Marker position={circleCenter} icon={circleIcon} draggable zIndexOffset={50} {...props} />
   );
 });
 

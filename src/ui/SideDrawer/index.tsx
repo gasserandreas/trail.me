@@ -14,6 +14,7 @@ const SideDrawer: FC<SideDrawerProps> = ({ children, ...props }) => {
   const classes = useStyles();
 
   return (
+    // eslint-disable-next-line
     <div className={classes.drawer} {...props}>
       {children}
     </div>

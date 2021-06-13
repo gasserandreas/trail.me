@@ -21,13 +21,8 @@ const DeleteButton = ({ className, ...props }) => {
 
   const newClassName = clsx(classes.button, className);
 
-  return (
-    <Button
-      color="secondary"
-      className={newClassName}
-      {...props}
-    />
-  );
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <Button color="secondary" className={newClassName} {...props} />;
 };
 
 DeleteButton.propTypes = {

@@ -71,30 +71,34 @@ const WaypointListItem = ({
         )}
         <ListItemText
           inset={splitMode && !disabled}
-          primary={(
+          primary={
             <>
-              <Typography display="inline" variant="body2">Lat: </Typography>
-              <Typography display="inline" variant="body1">{shortenCoordinate(String(lat))}</Typography>
+              <Typography display="inline" variant="body2">
+                Lat:{' '}
+              </Typography>
+              <Typography display="inline" variant="body1">
+                {shortenCoordinate(String(lat))}
+              </Typography>
             </>
-          )}
+          }
           className={classes.listItemText}
         />
         <ListItemText
-          primary={(
+          primary={
             <>
-              <Typography display="inline" variant="body2">Long: </Typography>
-              <Typography display="inline" variant="body1">{shortenCoordinate(String(lng))}</Typography>
+              <Typography display="inline" variant="body2">
+                Long:{' '}
+              </Typography>
+              <Typography display="inline" variant="body1">
+                {shortenCoordinate(String(lng))}
+              </Typography>
             </>
-          )}
+          }
           className={classes.listItemText}
         />
-        {!selectable && (
-          <MoreVertIcon onClick={handleOnIconClick(id)} />
-        )}
+        {!selectable && <MoreVertIcon onClick={handleOnIconClick(id)} />}
       </ListItem>
-      {last && (
-        <Divider key={`coordinate-item-divider-${id}`} />
-      )}
+      {last && <Divider key={`coordinate-item-divider-${id}`} />}
     </span>
   );
 };

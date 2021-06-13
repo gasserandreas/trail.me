@@ -1,9 +1,6 @@
 import { useMemo } from 'react';
 
-export default function useSelectedCoordinatesMap(
-  waypoints,
-  selectedWaypoints
-) {
+export default function useSelectedCoordinatesMap(waypoints, selectedWaypoints) {
   // pre-calculate selected coordinates map
   return useMemo(
     () =>
@@ -16,6 +13,6 @@ export default function useSelectedCoordinatesMap(
           [id]: isSelected,
         };
       }, {}),
-    [waypoints, selectedWaypoints]
+    [waypoints, selectedWaypoints],
   );
 }

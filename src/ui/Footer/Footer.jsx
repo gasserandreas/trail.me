@@ -25,15 +25,12 @@ const Footer = ({ className }) => {
     <>
       <Typography variant="body2" className={clsx(classes.footer, className)}>
         <span>
-          Created by:
-          {' '}
-          <Link href="https://gasserandreas.com" target="_blank">Andreas Gasser</Link>
+          Created by:{' '}
+          <Link href="https://gasserandreas.com" target="_blank">
+            Andreas Gasser
+          </Link>
         </span>
-        <span className={classes.version}>
-          v.
-          {' '}
-          {version}
-        </span>
+        <span className={classes.version}>v. {version}</span>
       </Typography>
       <PrivacyModal />
     </>

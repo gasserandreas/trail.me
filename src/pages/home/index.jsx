@@ -19,8 +19,6 @@ import MapPanel from '../../ui/Panels/MapPanel';
 import SplitPanel from '../../ui/Panels/SplitPanel';
 import ConnectedMap from '../../ui/Map/ConnectedMap';
 
-import ConnectedStatistics from './ConnectedStatistics';
-
 import HotKeys from '../../constants/HotKeys';
 
 import { removeWaypoints } from '../../entities/route-edit';
@@ -97,8 +95,6 @@ const HomePage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  // const showStatistics = useSelector(statisticsShouldBeShown);
-  const showStatistics = false;
   const meta = useSelector(metaStateSelector);
   const splitEnabled = useSelector(splitEnabledSelector);
 
@@ -133,11 +129,6 @@ const HomePage = () => {
     <Page handlers={handlers}>
       <section className={classes.map}>
         <ConnectedMap />
-        {showStatistics && (
-          <div className={classes.statistics}>
-            <ConnectedStatistics />
-          </div>
-        )}
       </section>
       <Box className={classes.actionPanel}>
         <Typography className={classes.title} variant="h1" component="h1">

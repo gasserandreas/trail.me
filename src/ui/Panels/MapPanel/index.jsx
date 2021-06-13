@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -54,9 +55,10 @@ const MapPanel = ({ ...props }) => {
   const waypointIds = useSelector(waypointsIdsForListSelector);
 
   const center = useMemo(() => viewport.center, [viewport]);
-  const disabledOptionButton = useMemo(() => (
-    splitEnabled || waypointIds.length === 0
-  ), [splitEnabled, waypointIds]);
+  const disabledOptionButton = useMemo(
+    () => splitEnabled || waypointIds.length === 0,
+    [splitEnabled, waypointIds],
+  );
 
   const handleMapActionClick = (newActionType) => () => {
     dispatch(setActionType(newActionType));
@@ -78,17 +80,26 @@ const MapPanel = ({ ...props }) => {
     dispatch(setLocation(newCenter));
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const mapActionButtons = useMemo(() => Object.entries(MapActions).map(([_, value], i) => (
-    <Button
-      key={`mouse-action-button-${i}`}
-      variant={actionType === value ? 'contained' : 'outlined'}
-      selected={actionType === value}
-      onClick={handleMapActionClick(value)}
-    >
-      {value}
-    </Button>
-  )), [actionType]); // eslint-disable-line
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const mapActionButtons = useMemo(
+    () =>
+      Object.entries(MapActions).map(
+        (
+          [_, value], // eslint-disable-line @typescript-eslint/no-unused-vars
+          i,
+        ) => (
+          <Button
+            key={`mouse-action-button-${i}`} // eslint-disable-line react/no-array-index-key
+            variant={actionType === value ? 'contained' : 'outlined'}
+            selected={actionType === value}
+            onClick={handleMapActionClick(value)}
+          >
+            {value}
+          </Button>
+        ),
+      ),
+    [actionType], // eslint-disable-line react-hooks/exhaustive-deps
+  ); // eslint-disable-line
 
   const moreActionsOptions = [
     {
@@ -112,11 +123,7 @@ const MapPanel = ({ ...props }) => {
     <Panel title="Map Information" {...props}>
       <PanelContent>
         <div className={classes.rowSpacing}>
-          <Typography
-            variant="caption"
-            className={classes.section}
-            gutterBottom
-          >
+          <Typography variant="caption" className={classes.section} gutterBottom>
             Map center
           </Typography>
           <CenterForm
@@ -126,11 +133,7 @@ const MapPanel = ({ ...props }) => {
           />
         </div>
         <div className={classes.rowSpacing}>
-          <Typography
-            variant="caption"
-            className={classes.section}
-            gutterBottom
-          >
+          <Typography variant="caption" className={classes.section} gutterBottom>
             Map Actions
           </Typography>
           <Grid container spacing={2}>

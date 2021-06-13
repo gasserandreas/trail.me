@@ -30,10 +30,13 @@ const Layout = ({ children, ...props }) => {
   const classes = useStyles();
 
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <main className={classes.layout} {...props}>
       <Box className={classes.notSupported} justifyContent="space-between">
         <Box>
-          <Typography variant="h1" gutterBottom>Not supported</Typography>
+          <Typography variant="h1" gutterBottom>
+            Not supported
+          </Typography>
           <Typography>
             I am sorry, your device is not supported.
             <br />

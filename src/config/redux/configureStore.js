@@ -43,10 +43,7 @@ const configureStore = (initialState = {}) => {
   const store = createStore(
     rootReducer,
     initialState,
-    composeEnhancers(
-      applyMiddleware(...middleware),
-      ...enhancers
-    )
+    composeEnhancers(applyMiddleware(...middleware), ...enhancers),
   );
 
   // add reactors

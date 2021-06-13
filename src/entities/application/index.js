@@ -22,10 +22,10 @@ export const applicationDidLoad = () => ({
 });
 
 // complex actions
-export const loadApplication = () => (async (dispatch) => {
+export const loadApplication = () => async (dispatch) => {
   dispatch(applicationWillLoad());
   return dispatch(applicationDidLoad());
-});
+};
 
 // reducers
 const status = (state = AppStatus.INITIAL, action) => {

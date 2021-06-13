@@ -47,7 +47,7 @@ export default combineReducers({
   location,
 });
 
-export const __testables__ = {
+export const TESTABLES = {
   viewport,
   location,
   FRICK_VIEWPORT,

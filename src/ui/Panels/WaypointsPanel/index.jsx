@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  useMemo,
-  useCallback,
-} from 'react';
+import React, { useState, useRef, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch, batch } from 'react-redux';
 
@@ -28,7 +23,10 @@ import {
   setActionType,
 } from '../../../entities/route-edit';
 import {
-  multiSelectSelector, metaStateSelector, waypointsIdsForListSelector, waypointsByIdSelector
+  multiSelectSelector,
+  metaStateSelector,
+  waypointsIdsForListSelector,
+  waypointsByIdSelector,
 } from '../../../entities/route-edit/selectors';
 
 import { setViewportCoordinates } from '../../../entities/map';
@@ -54,9 +52,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const WaypointPanel = ({
-  parentHeight,
-}) => {
+const WaypointPanel = ({ parentHeight }) => {
   const classes = useStyles();
 
   const listRef = useRef();
@@ -79,11 +75,10 @@ const WaypointPanel = ({
   useMemo(() => {
     if (!isMultiSelect) {
       // get selected waypoint id
-      const selectedWaypoint = Object.entries(waypointMeta)
-        .find((arr) => {
-          const { selected } = arr[1];
-          return selected === true;
-        });
+      const selectedWaypoint = Object.entries(waypointMeta).find((arr) => {
+        const { selected } = arr[1];
+        return selected === true;
+      });
 
       if (selectedWaypoint) {
         // jump to point in list
@@ -170,7 +165,7 @@ const WaypointPanel = ({
         callback: handleSplitWaypoint,
         meta: {
           disabled: openedMenuId === waypointIds[waypointIds.length - 1],
-        }
+        },
       },
       {
         label: 'Delete',
@@ -200,7 +195,7 @@ const WaypointPanel = ({
       <WaypointListItem
         id={id}
         style={style}
-        last={index !== (waypointIds.length - 1)}
+        last={index !== waypointIds.length - 1}
         selectable={isMultiSelect}
         handleOnClick={handleOnClick}
         handleOnIconClick={handleOnIconClick}
@@ -224,9 +219,9 @@ const WaypointPanel = ({
 
   return (
     <>
-      { itemCount > 0 ? (
+      {itemCount > 0 ? (
         <List className={classes.list}>
-          { itemCount > 0 && <Divider />}
+          {itemCount > 0 && <Divider />}
           <Divider />
           <VariableSizeList
             ref={listRef}
@@ -238,7 +233,9 @@ const WaypointPanel = ({
           </VariableSizeList>
           <Divider />
         </List>
-      ) : <EmptyPanel />}
+      ) : (
+        <EmptyPanel />
+      )}
       <div style={anchorElStyles} ref={anchorEl} />
       <Menu
         id="waypoint-list-item-menu"

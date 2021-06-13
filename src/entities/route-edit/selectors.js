@@ -15,45 +15,28 @@ export const multiSelectSelector = createSelector(
 /**
  * waypoint selectors
  */
-const waypointsStateSelector = createSelector(
-  routeEditStateSelector,
-  ({ waypoints }) => waypoints,
-);
+const waypointsStateSelector = createSelector(routeEditStateSelector, ({ waypoints }) => waypoints);
 
-export const waypointsByIdSelector = createSelector(
-  waypointsStateSelector,
-  ({ byId }) => byId,
-);
+export const waypointsByIdSelector = createSelector(waypointsStateSelector, ({ byId }) => byId);
 
-export const waypointsIdsSelector = createSelector(
-  waypointsStateSelector,
-  ({ ids }) => ids,
-);
+export const waypointsIdsSelector = createSelector(waypointsStateSelector, ({ ids }) => ids);
 
-export const waypointsSelector = createSelector(
-  waypointsStateSelector,
-  ({ byId, ids }) => {
-    if (ids.length === 0) {
-      return [];
-    }
-
-    return ids.map((id) => byId[id])
-      .filter(Boolean);
+export const waypointsSelector = createSelector(waypointsStateSelector, ({ byId, ids }) => {
+  if (ids.length === 0) {
+    return [];
   }
-);
+
+  return ids.map((id) => byId[id]).filter(Boolean);
+});
 
 /**
  * meta selectors
  */
 
-export const metaStateSelector = createSelector(
-  waypointsStateSelector,
-  ({ meta }) => meta,
-);
+export const metaStateSelector = createSelector(waypointsStateSelector, ({ meta }) => meta);
 
-export const selectedWaypointIdsSelector = createSelector(
-  metaStateSelector,
-  (meta) => Object.entries(meta)
+export const selectedWaypointIdsSelector = createSelector(metaStateSelector, (meta) =>
+  Object.entries(meta)
     .map(([id, data]) => {
       const { selected } = data;
 
@@ -69,30 +52,15 @@ export const selectedWaypointIdsSelector = createSelector(
 /**
  * split selectors
  */
-export const splitStateSelector = createSelector(
-  waypointsStateSelector,
-  ({ split }) => split,
-);
+export const splitStateSelector = createSelector(waypointsStateSelector, ({ split }) => split);
 
-const splitStartSelector = createSelector(
-  splitStateSelector,
-  ({ start }) => start,
-);
+const splitStartSelector = createSelector(splitStateSelector, ({ start }) => start);
 
-const splitEndSelector = createSelector(
-  splitStateSelector,
-  ({ end }) => end,
-);
+const splitEndSelector = createSelector(splitStateSelector, ({ end }) => end);
 
-export const splitEnabledSelector = createSelector(
-  splitStateSelector,
-  ({ enabled }) => enabled,
-);
+export const splitEnabledSelector = createSelector(splitStateSelector, ({ enabled }) => enabled);
 
-const splitNewIdsSelector = createSelector(
-  splitStateSelector,
-  ({ newIds }) => newIds,
-);
+const splitNewIdsSelector = createSelector(splitStateSelector, ({ newIds }) => newIds);
 
 /**
  * combined selector
@@ -141,7 +109,7 @@ export const waypointsPolylinesByIdSelector = createSelector(
     });
 
     return polylinesById;
-  }
+  },
 );
 
 export const waypointsIdsForListSelector = createSelector(
@@ -157,7 +125,7 @@ export const waypointsIdsForListSelector = createSelector(
   },
 );
 
-export const __testables__ = {
+export const TESTABLES = {
   waypointsStateSelector,
   splitStartSelector,
   splitEndSelector,
