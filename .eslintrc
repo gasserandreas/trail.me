@@ -54,14 +54,15 @@
     "comma-dangle": "off",
     "react/jsx-props-no-spreading": "off",
     "react/no-array-index-key": "off",
-    "react/prop-types": 0,
+    "react/prop-types": "off",
     "linebreak-style": "off",
     "prettier/prettier": [
       "error",
       {
-        "endOfLine": "auto",
-        "singleQuote": true
-      }
+        // "endOfLine": "auto",
+        // "singleQuote": true
+      },
+      { "usePrettierrc": true }
     ]
   },
   "overrides": [

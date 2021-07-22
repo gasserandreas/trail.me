@@ -1,12 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC, ReactNode } from 'react';
 
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
-export const SPACING = '1rem';
+export const SPACING = 1;
 
 const useStyles = makeStyles(() => ({
   panel: {
@@ -15,8 +14,8 @@ const useStyles = makeStyles(() => ({
     flexFlow: 'column',
   },
   panelSpacing: {
-    paddingTop: SPACING / 2,
-    paddingBottom: SPACING / 2,
+    paddingTop: `${SPACING / 2}rem`,
+    paddingBottom: `${SPACING / 2}rem`,
   },
   spacing: {
     paddingLeft: SPACING,
@@ -30,7 +29,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const PanelContent = ({ children, ...props }) => {
+type PanelContentProps = {
+  children: ReactNode;
+};
+
+export const PanelContent: FC<PanelContentProps> = ({ children, ...props }) => {
   const classes = useStyles();
   return (
     <div className={classes.spacing} {...props}>
@@ -39,13 +42,13 @@ export const PanelContent = ({ children, ...props }) => {
   );
 };
 
-PanelContent.propTypes = {
-  children: PropTypes.node.isRequired,
+type PanelProps = {
+  title?: ReactNode;
+  noSpacing?: boolean;
+  children: ReactNode;
 };
 
-const Panel = ({
-  title, children, noSpacing, ...props
-}) => {
+const Panel: FC<PanelProps> = ({ title = null, children, noSpacing = false, ...props }) => {
   const classes = useStyles();
 
   const panelClassName = noSpacing ? classes.panel : clsx(classes.panel, classes.panelSpacing);
@@ -53,24 +56,13 @@ const Panel = ({
   return (
     <Box {...props} className={panelClassName}>
       {title && (
-      <Typography variant="h6" className={clsx(classes.spacing, classes.title)}>
-        {title}
-      </Typography>
+        <Typography variant="h6" className={clsx(classes.spacing, classes.title)}>
+          {title}
+        </Typography>
       )}
       {children}
     </Box>
   );
-};
-
-Panel.propTypes = {
-  title: PropTypes.node,
-  children: PropTypes.node.isRequired,
-  noSpacing: PropTypes.bool,
-};
-
-Panel.defaultProps = {
-  title: null,
-  noSpacing: false,
 };
 
 export default Panel;
