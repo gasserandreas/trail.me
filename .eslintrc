@@ -1,21 +1,39 @@
 {
-  "extends": ["airbnb"],
-  "ignorePatterns": ["!**/*", ".storybook/*"],
+  "extends": [
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:jest/recommended",
+    "plugin:prettier/recommended"
+  ],
   "globals": {
     "window": true,
     "fetch": true,
     "document": true,
     "navigator": true,
-    "FileReader": true,
-    "Blob": true,
-    "requestAnimationFrame": true,
-    "DOMParser": true
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
   },
-  "plugins": [
-    "react-hooks",
-    "babel"
-  ],
-  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "plugins": ["react", "@typescript-eslint", "jest"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020, // Allows for the parsing of modern ECMAScript features
+    "sourceType": "module", // Allows for the use of imports
+    "ecmaFeatures": {
+      "jsx": true // Allows for the parsing of JSX
+    },
+    "project": "./tsconfig.json"
+  },
+  "settings": {
+    "react": {
+      "version": "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
+    }
+  },
   "rules": {
     "react/jsx-no-bind": 0,
     "react/require-default-props": 1,
@@ -36,7 +54,16 @@
     "comma-dangle": "off",
     "react/jsx-props-no-spreading": "off",
     "react/no-array-index-key": "off",
-    "no-unused-vars": "warn"
+    "react/prop-types": "off",
+    "linebreak-style": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        // "endOfLine": "auto",
+        // "singleQuote": true
+      },
+      { "usePrettierrc": true }
+    ]
   },
   "overrides": [
     {
@@ -47,11 +74,18 @@
       }
     },
     {
-      "files": ["**/*.stories.jsx", ".storybook/**/*"],
+      "files": ["**/__tests__/**.test.ts", "**/_tests__/**.test.tsx"],
+      "parserOptions": {
+        "project": ["./tsconfig.json"]
+      }
+    },
+    {
+      "files": ["**/*.stories.tsx", ".storybook/**/*"],
       "rules": {
         "import/no-extraneous-dependencies": "off",
         "react/jsx-filename-extension": "off",
-        "import/no-named-as-default": "off"
+        "import/no-named-as-default": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off"
       }
     }
   ]
