@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CenterForm from './CenterForm';
 
 import Panel, { PanelContent, SPACING } from '../Panel';
-import OptionButton from '../../OptionButton/OptionButton';
+import OptionButton from '../../../ui/OptionButton/OptionButton';
 
 import MapActions from '../../../constants/MapActions';
 import CustomMapActions from '../../../constants/CustomMapActions';

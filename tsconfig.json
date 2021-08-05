@@ -23,6 +23,7 @@
   },
   "include": [
     "src",
-    "**/*.stories.tsx"
+    "**/*.stories.tsx",
+    "global.d.ts"
   ]
 }

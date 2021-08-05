@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import GpsFixedIcon from '@material-ui/icons/GpsFixed';
 
-import { FRICK_VIEWPORT } from '../../Map/SwissGeoMap';
+import { FRICK_VIEWPORT } from '../../../ui/Map/SwissGeoMap';
 import { getLocation } from '../../../utils/geolocation';
 
 const useStyles = makeStyles(() => ({

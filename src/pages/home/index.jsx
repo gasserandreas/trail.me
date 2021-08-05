@@ -11,12 +11,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Page from '../../ui/Layout/Page';
 import Footer from '../../ui/Footer/Footer';
 
-import Panel, { PanelContent } from '../../ui/Panels/Panel';
-import WaypointsPanel from '../../ui/Panels/WaypointsPanel';
-import FilePanel from '../../ui/Panels/FilePanel';
-import ControlsPanel from '../../ui/Panels/ControlsPanel';
-import MapPanel from '../../ui/Panels/MapPanel';
-import SplitPanel from '../../ui/Panels/SplitPanel';
+import Panel, { PanelContent } from '../../components/Panels/Panel';
+import WaypointsPanel from '../../components/Panels/WaypointsPanel';
+import FilePanel from '../../components/Panels/FilePanel';
+import ControlsPanel from '../../components/Panels/ControlsPanel';
+import MapPanel from '../../components/Panels/MapPanel';
+import SplitPanel from '../../components/Panels/SplitPanel';
 import ConnectedMap from '../../ui/Map/ConnectedMap';
 
 import ConnectedStatistics from './ConnectedStatistics';

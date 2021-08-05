@@ -7,6 +7,8 @@ import { addDecorator, addParameters } from '@storybook/react';
 import { create } from '@storybook/theming';
 import { withKnobs } from '@storybook/addon-knobs';
 
+import { Provider } from 'react-redux';
+
 import {
   ThemeProvider,
   createMuiTheme,
@@ -16,6 +18,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { name } from '../package.json';
 import trailMeTheme from '../src/newTheme';
 
+import configureStore from '../src/config/redux/configureStore';
+import devInitialReduxStore from '../src/ui/DevUtils/devInitialReduxStore';
+
+import { AppContextProvider } from '../src/config/AppContext';
+
 // import configureStore from '../src/config/redux/configureStore';
 // import devInitialReduxStore from '../src/ui/DevUtils/devInitialReduxStore';
 
@@ -24,11 +31,17 @@ const theme = createMuiTheme(trailMeTheme);
 addDecorator(withKnobs);
 
 addDecorator((story) => {
+  const isDev = true;
+  const store = configureStore(devInitialReduxStore);
   return (
     <ThemeProvider theme={theme}>
       {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
       <CssBaseline />
-        {story()}
+        <Provider store={store}>
+          <AppContextProvider isDev={isDev}>
+            {story()}
+          </AppContextProvider>
+        </Provider>
     </ThemeProvider>
   );
 });

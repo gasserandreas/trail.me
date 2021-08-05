@@ -15,8 +15,8 @@ import SystemUpdateIcon from '@material-ui/icons/SystemUpdate';
 import clsx from 'clsx';
 
 import Panel, { SPACING } from '../Panel';
-import DeleteButton from '../../DeleteButton/DeleteButton';
-import OptionButton from '../../OptionButton/OptionButton';
+import DeleteButton from '../../../ui/DeleteButton/DeleteButton';
+import OptionButton from '../../../ui/OptionButton/OptionButton';
 import MapFileType from '../../../constants/MapFileType';
 import UploadOptions from '../../../constants/UploadOptions';
 import { parseGpx, convertToGpxWaypoints, convertToGpx } from '../../../utils/gpx';

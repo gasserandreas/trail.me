@@ -1,6 +1,9 @@
 import { createSelector } from 'reselect';
 
-export const routeEditStateSelector = (state) => state.routeEdit;
+import RootState from '../../config/redux/rootType';
+import RouteEditState, { WaypointsState } from './types';
+
+export const routeEditStateSelector = (state: RootState): RouteEditState => state.routeEdit;
 
 export const actionTypeSelector = createSelector(
   routeEditStateSelector,
@@ -15,84 +18,63 @@ export const multiSelectSelector = createSelector(
 /**
  * waypoint selectors
  */
-const waypointsStateSelector = createSelector(
-  routeEditStateSelector,
-  ({ waypoints }) => waypoints,
-);
+const waypointsStateSelector = createSelector(routeEditStateSelector, ({ waypoints }) => waypoints);
 
-export const waypointsByIdSelector = createSelector(
-  waypointsStateSelector,
-  ({ byId }) => byId,
-);
+export const waypointsByIdSelector = createSelector(waypointsStateSelector, ({ byId }) => byId);
 
-export const waypointsIdsSelector = createSelector(
-  waypointsStateSelector,
-  ({ ids }) => ids,
-);
+export const waypointsIdsSelector = createSelector(waypointsStateSelector, ({ ids }) => ids);
 
-export const waypointsSelector = createSelector(
-  waypointsStateSelector,
-  ({ byId, ids }) => {
-    if (ids.length === 0) {
-      return [];
-    }
-
-    return ids.map((id) => byId[id])
-      .filter(Boolean);
+export const waypointsSelector = createSelector(waypointsStateSelector, ({ byId, ids }) => {
+  if (ids.length === 0) {
+    return [];
   }
-);
+
+  return ids.map((id: GUID) => byId[id]).filter(Boolean);
+});
 
 /**
  * meta selectors
  */
 
-export const metaStateSelector = createSelector(
-  waypointsStateSelector,
-  ({ meta }) => meta,
-);
+export const metaStateSelector = createSelector<
+  RootState,
+  WaypointsState,
+  Record<GUID, WaypointMeta>
+>(waypointsStateSelector, ({ meta }) => meta);
 
-export const selectedWaypointIdsSelector = createSelector(
+export const selectedWaypointIdsSelector = createSelector<
+  RootState,
+  Record<GUID, WaypointMeta>,
+  string[]
+>(
   metaStateSelector,
-  (meta) => Object.entries(meta)
-    .map(([id, data]) => {
-      const { selected } = data;
+  (meta) =>
+    Object.entries(meta)
+      .map((obj) => {
+        const [id, data] = obj;
+        const { selected } = data;
 
-      if (selected) {
-        return id;
-      }
+        if (selected) {
+          return id;
+        }
 
-      return undefined;
-    })
-    .filter(Boolean),
+        return undefined;
+      })
+      .filter((item) => item !== undefined) as string[],
 );
 
 /**
  * split selectors
  */
-export const splitStateSelector = createSelector(
-  waypointsStateSelector,
-  ({ split }) => split,
-);
+export const splitStateSelector = createSelector(waypointsStateSelector, ({ split }) => split);
 
-const splitStartSelector = createSelector(
-  splitStateSelector,
-  ({ start }) => start,
-);
+const splitStartSelector = createSelector(splitStateSelector, ({ start }) => start);
 
-const splitEndSelector = createSelector(
-  splitStateSelector,
-  ({ end }) => end,
-);
+const splitEndSelector = createSelector(splitStateSelector, ({ end }) => end);
 
-export const splitEnabledSelector = createSelector(
-  splitStateSelector,
-  ({ enabled }) => enabled,
-);
+export const splitEnabledSelector = createSelector(splitStateSelector, ({ enabled }) => enabled);
 
-const splitNewIdsSelector = createSelector(
-  splitStateSelector,
-  ({ newIds }) => newIds,
-);
+const splitNewIdsSelector = createSelector(splitStateSelector, ({ newIds }) => newIds);
 
 /**
  * combined selector
@@ -104,20 +86,20 @@ export const waypointsPolylinesByIdSelector = createSelector(
   ({ byId, ids, meta }, enabled, splitEnd) => {
     if (ids.length === 0 || ids.length === 1) return [];
 
-    const polylinesById = {};
+    const polylinesById: Record<GUID, Polyline> = {};
 
     const splitIndex = ids.indexOf(splitEnd.id);
     const firstIds = enabled ? [...ids.slice(0, splitIndex)] : ids;
     const secondIds = enabled ? [...ids.slice(splitIndex)] : [];
 
     [firstIds, secondIds].forEach((waypointIds) => {
-      let lastWaypoint = null;
+      let lastWaypoint: Waypoint | null = null;
 
       waypointIds.forEach((id) => {
         const coordinate = byId[id];
 
         if (lastWaypoint) {
-          const polyline = {
+          const polyline: Polyline = {
             startWaypointId: lastWaypoint.id,
             endWaypointId: id,
             startPosition: {
@@ -141,7 +123,7 @@ export const waypointsPolylinesByIdSelector = createSelector(
     });
 
     return polylinesById;
-  }
+  },
 );
 
 export const waypointsIdsForListSelector = createSelector(
@@ -157,6 +139,7 @@ export const waypointsIdsForListSelector = createSelector(
   },
 );
 
+/* eslint-disable @typescript-eslint/naming-convention */
 export const __testables__ = {
   waypointsStateSelector,
   splitStartSelector,

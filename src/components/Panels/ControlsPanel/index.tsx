@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Panel, { SPACING, PanelContent } from '../Panel';
-import DeleteButton from '../../DeleteButton/DeleteButton';
+import DeleteButton from '../../../ui/DeleteButton/DeleteButton';
 
 import {
   enableMultiSelect,
@@ -46,14 +46,16 @@ const useStyles = makeStyles(() => ({
   },
   buttonDelete: {
     color: '#000',
-  }
+  },
 }));
 
-const ControlsPanel = ({ ...props }) => {
+type ControlPanelType = Record<string, never>;
+
+const ControlsPanel: FC<ControlPanelType> = ({ ...props }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const selectedWaypointIds = useSelector(selectedWaypointIdsSelector);
+  const selectedWaypointIds: Array<GUID> = useSelector(selectedWaypointIdsSelector);
   const waypointsIds = useSelector(waypointsIdsForListSelector);
   const isMultiSelect = useSelector(multiSelectSelector);
   const splitEnabled = useSelector(splitEnabledSelector);
@@ -102,9 +104,12 @@ const ControlsPanel = ({ ...props }) => {
   const title = (
     <span>
       Coordinats
-      {
-        splitEnabled && (<Typography variant="body2" display="inline"> [split mode enabled]</Typography>)
-      }
+      {splitEnabled && (
+        <Typography variant="body2" display="inline">
+          {' '}
+          [split mode enabled]
+        </Typography>
+      )}
     </span>
   );
 
@@ -114,17 +119,11 @@ const ControlsPanel = ({ ...props }) => {
         <div className={classes.controls}>
           <>
             {isMultiSelect ? (
-              <Button
-                onClick={handleOnCancelClick}
-                className={classes.button}
-              >
+              <Button onClick={handleOnCancelClick} className={classes.button}>
                 Cancel
               </Button>
             ) : (
-              <Button
-                onClick={handleOnSelectClick}
-                className={classes.button}
-              >
+              <Button onClick={handleOnSelectClick} className={classes.button}>
                 Select
               </Button>
             )}
@@ -143,9 +142,5 @@ const ControlsPanel = ({ ...props }) => {
     </Panel>
   );
 };
-
-ControlsPanel.propTypes = {};
-
-ControlsPanel.defaultProps = {};
 
 export default ControlsPanel;
