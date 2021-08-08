@@ -11,32 +11,31 @@ import { Provider } from 'react-redux';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import configureStore from './config/redux/configureStore';
-import bikeMeTheme from './theme';
+import store from './config/redux/configureStore';
+import trailMeTheme from './theme';
 import { AppContextProvider } from './config/AppContext';
-import devInitialReduxStore from './ui/DevUtils/devInitialReduxStore';
+import isDev from './utils/isDev';
+// import devInitialReduxStore from './ui/DevUtils/devInitialReduxStore';
 
-const theme = createMuiTheme(bikeMeTheme);
+// const theme = createMuiTheme(trailMeTheme);
 
-const isDev = process.env.NODE_ENV === 'development';
+// const isDev = process.env.NODE_ENV === 'development';
 
-let initialStore = {};
+// let initialStore = {};
 
-if (isDev) {
-  console.log(theme); // eslint-disable-line no-console
-  console.log('--- Init dev initial Redux store ---'); // eslint-disable-line no-console
-  initialStore = devInitialReduxStore;
+if (isDev()) {
+  console.log(trailMeTheme); // eslint-disable-line no-console
 }
 
 // create store object
-const store = configureStore(initialStore);
+// const store = configureStore(initialStore);
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={trailMeTheme}>
       <CssBaseline />
       <Provider store={store}>
-        <AppContextProvider isDev={isDev}>
+        <AppContextProvider isDev={isDev()}>
           <BrowserRouter>
             <App />
           </BrowserRouter>
@@ -44,7 +43,7 @@ ReactDOM.render(
       </Provider>
     </ThemeProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -19,14 +19,15 @@ const colors = {
   },
 };
 
+// const customTheme = createMuiTheme({
 const customTheme = createMuiTheme({
   props: {
     MuiButtonBase: {
       disableRipple: true,
     },
-    MuiToggleButton: {
-      disableRipple: true,
-    },
+    // MuiToggleButton: {
+    //   disableRipple: true,
+    // },
     MuiTabs: {
       textColor: 'primary',
       indicatorColor: 'primary',

@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Panel, { SPACING, PanelContent } from '../Panel';
-import DeleteButton from '../../../ui/DeleteButton/DeleteButton';
+import DeleteButton from '../../FormComponents/DeleteButton/DeleteButton';
 
 import {
   enableMultiSelect,

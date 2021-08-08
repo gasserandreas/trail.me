@@ -1,8 +1,7 @@
-import React, { useState, useRef, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { FC, useState, useRef, useMemo } from 'react';
 
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import ButtonGroup, { ButtonGroupProps } from '@material-ui/core/ButtonGroup';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -11,53 +10,77 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { makeStyles } from '@material-ui/styles';
+import { Theme, createStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
-  baseButton: {
-    paddingRight: theme.spacing(1),
-    paddingLeft: theme.spacing(1),
-  },
-  arrowButton: {
-    paddingRight: '0px',
-    paddingLeft: '0px',
-    minWidth: theme.spacing(4),
-  },
-  menuItem: (props) => ({
-    fontSize: props.size === 'small' ? '0.8rem' : '1rem',
+type UseStylesProps = {
+  size: string;
+};
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    baseButton: {
+      paddingRight: theme.spacing(1),
+      paddingLeft: theme.spacing(1),
+    },
+    arrowButton: {
+      paddingRight: '0px',
+      paddingLeft: '0px',
+      minWidth: theme.spacing(4),
+    },
+    menuItem: (props: UseStylesProps) => ({
+      fontSize: props.size === 'small' ? '0.8rem' : '1rem',
+    }),
   }),
-}));
+);
 
-const OptionButton = ({
+export type OptionButtonOptions = {
+  key: string;
+  value: string;
+};
+
+// type OptionButtonProps = ButtonGroupProps & {
+interface IOptionButtonProps extends ButtonGroupProps {
+  options: Array<OptionButtonOptions>;
+  baseOptionIndex: number;
+  hideOptionKeys?: string[];
+  disableButtonOnClick?: boolean;
+  onOptionClick: (event: React.MouseEvent, option: OptionButtonOptions) => void;
+}
+
+const OptionButton: FC<IOptionButtonProps> = ({
   options,
   baseOptionIndex,
-  color,
-  variant,
-  size,
-  onClick,
-  className,
-  hideOptionKeys,
-  disableButtonOnClick,
+  color = 'primary',
+  variant = 'contained',
+  size = 'medium',
+  onOptionClick = () => ({}),
+  className = '',
+  hideOptionKeys = [],
+  disableButtonOnClick = false,
   ...props
 }) => {
   const [open, setOpen] = useState(false);
-  const anchorRef = useRef(null);
+  const anchorRef = useRef<HTMLDivElement>(null);
   const classes = useStyles({ size });
 
-  const filteredOptions = useMemo(() => options.filter(({ key }) => !hideOptionKeys.includes(key)), [options, hideOptionKeys]); // eslint-disable-line max-len
+  const filteredOptions = useMemo(
+    () => options.filter(({ key }) => !hideOptionKeys.includes(key)),
+    [options, hideOptionKeys],
+  ); // eslint-disable-line max-len
 
-  const handleMenuItemClick = (event, index) => {
+  const handleMenuItemClick = (event: React.MouseEvent, index: number) => {
     setOpen(false);
 
     const option = filteredOptions[index];
-    onClick(event, option);
+    onOptionClick(event, option);
   };
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+  const handleClose = (event: React.MouseEvent<EventTarget>) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
       return;
     }
 
@@ -73,13 +96,13 @@ const OptionButton = ({
     return option.value || '';
   }, [options, baseOptionIndex]);
 
-  const handleClick = (event) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (disableButtonOnClick) {
       return;
     }
 
     const option = filteredOptions[baseOptionIndex];
-    onClick(event, option);
+    onOptionClick(event, option);
   };
 
   return (
@@ -93,10 +116,7 @@ const OptionButton = ({
         aria-label="split button"
         {...props}
       >
-        <Button
-          className={classes.baseButton}
-          onClick={handleClick}
-        >
+        <Button className={classes.baseButton} onClick={handleClick}>
           {baseOptionValue}
         </Button>
         <Button
@@ -128,7 +148,7 @@ const OptionButton = ({
                       key={key}
                       onClick={(event) => handleMenuItemClick(event, index)}
                       className={classes.menuItem}
-                      dense={variant === 'small'}
+                      dense
                     >
                       {value}
                     </MenuItem>
@@ -141,31 +161,6 @@ const OptionButton = ({
       </Popper>
     </>
   );
-};
-
-OptionButton.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  })).isRequired,
-  baseOptionIndex: PropTypes.number.isRequired,
-  hideOptionKeys: PropTypes.arrayOf(PropTypes.string),
-  onClick: PropTypes.func,
-  color: PropTypes.string,
-  variant: PropTypes.string,
-  size: PropTypes.string,
-  className: PropTypes.string,
-  disableButtonOnClick: PropTypes.bool,
-};
-
-OptionButton.defaultProps = {
-  onClick: () => ({}),
-  color: 'primary',
-  variant: 'contained',
-  size: 'medium',
-  className: '',
-  hideOptionKeys: [],
-  disableButtonOnClick: false,
 };
 
 export default OptionButton;

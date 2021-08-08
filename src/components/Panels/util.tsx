@@ -1,18 +1,13 @@
 /* eslint-disable import/prefer-default-export */
-import React from 'react';
+import React, { ReactNode } from 'react';
 
-export const ActionPanel = (story) => {
+export const ActionPanel = (story: () => ReactNode) => {
   const styles = {
     width: '400px',
     backgroundColor: '#fff',
-    position: 'relative',
     display: 'block',
     margin: '0 auto',
   };
 
-  return (
-    <div style={styles}>
-      {story()}
-    </div>
-  );
+  return <div style={styles}>{story()}</div>;
 };

@@ -84,7 +84,7 @@ export const waypointsPolylinesByIdSelector = createSelector(
   splitEnabledSelector,
   splitEndSelector,
   ({ byId, ids, meta }, enabled, splitEnd) => {
-    if (ids.length === 0 || ids.length === 1) return [];
+    if (ids.length === 0 || ids.length === 1 || !splitEnd) return [];
 
     const polylinesById: Record<GUID, Polyline> = {};
 

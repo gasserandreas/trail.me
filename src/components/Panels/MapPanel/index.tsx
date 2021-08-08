@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Typography from '@material-ui/core/Typography';
@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CenterForm from './CenterForm';
 
 import Panel, { PanelContent, SPACING } from '../Panel';
-import OptionButton from '../../../ui/OptionButton/OptionButton';
+import OptionButton, { OptionButtonOptions } from '../../FormComponents/OptionButton/OptionButton';
 
 import MapActions from '../../../constants/MapActions';
 import CustomMapActions from '../../../constants/CustomMapActions';
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MapPanel = ({ ...props }) => {
+const MapPanel: FC = ({ ...props }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -54,15 +54,16 @@ const MapPanel = ({ ...props }) => {
   const waypointIds = useSelector(waypointsIdsForListSelector);
 
   const center = useMemo(() => viewport.center, [viewport]);
-  const disabledOptionButton = useMemo(() => (
-    splitEnabled || waypointIds.length === 0
-  ), [splitEnabled, waypointIds]);
+  const disabledOptionButton = useMemo(
+    () => splitEnabled || waypointIds.length === 0,
+    [splitEnabled, waypointIds],
+  );
 
-  const handleMapActionClick = (newActionType) => () => {
+  const handleMapActionClick = (newActionType: string) => () => {
     dispatch(setActionType(newActionType));
   };
 
-  const onCenterChange = (_, newCenter) => {
+  const handleCenterChange = (newCenter: number[]) => {
     const newViewport = {
       ...viewport,
       center: newCenter,
@@ -70,25 +71,32 @@ const MapPanel = ({ ...props }) => {
     dispatch(setViewport(newViewport));
   };
 
-  const handleOnLocationUpdate = (e, newCenter) => {
-    if (onCenterChange) {
-      onCenterChange(e, newCenter);
-    }
+  const onCenterChange = (e: React.FocusEvent<HTMLInputElement>, newCenter: number[]) => {
+    handleCenterChange(newCenter);
+  };
 
+  const handleOnLocationUpdate = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    newCenter: ViewPortCoordinates,
+  ) => {
+    handleCenterChange(newCenter);
     dispatch(setLocation(newCenter));
   };
 
   // eslint-disable-next-line no-unused-vars
-  const mapActionButtons = useMemo(() => Object.entries(MapActions).map(([_, value], i) => (
-    <Button
-      key={`mouse-action-button-${i}`}
-      variant={actionType === value ? 'contained' : 'outlined'}
-      selected={actionType === value}
-      onClick={handleMapActionClick(value)}
-    >
-      {value}
-    </Button>
-  )), [actionType]); // eslint-disable-line
+  const mapActionButtons = useMemo(
+    () =>
+      Object.entries(MapActions).map(([_, value], i) => (
+        <Button
+          key={`mouse-action-button-${i}`}
+          variant={actionType === value ? 'contained' : 'outlined'}
+          onClick={handleMapActionClick(value)}
+        >
+          {value}
+        </Button>
+      )),
+    [actionType],
+  ); // eslint-disable-line
 
   const moreActionsOptions = [
     {
@@ -101,7 +109,7 @@ const MapPanel = ({ ...props }) => {
     },
   ];
 
-  const handleOnMoreActionsClick = (e, value) => {
+  const handleOnMoreActionsClick = (event: React.MouseEvent, value: OptionButtonOptions) => {
     switch (value.key) {
       default:
         dispatch(invertWaypoints());
@@ -112,11 +120,7 @@ const MapPanel = ({ ...props }) => {
     <Panel title="Map Information" {...props}>
       <PanelContent>
         <div className={classes.rowSpacing}>
-          <Typography
-            variant="caption"
-            className={classes.section}
-            gutterBottom
-          >
+          <Typography variant="caption" className={classes.section} gutterBottom>
             Map center
           </Typography>
           <CenterForm
@@ -126,11 +130,7 @@ const MapPanel = ({ ...props }) => {
           />
         </div>
         <div className={classes.rowSpacing}>
-          <Typography
-            variant="caption"
-            className={classes.section}
-            gutterBottom
-          >
+          <Typography variant="caption" className={classes.section} gutterBottom>
             Map Actions
           </Typography>
           <Grid container spacing={2}>
@@ -152,8 +152,7 @@ const MapPanel = ({ ...props }) => {
                 color="default"
                 size="small"
                 variant="outlined"
-                onClick={handleOnMoreActionsClick}
-                className={classes.buttonMargin}
+                onOptionClick={handleOnMoreActionsClick}
                 hideOptionKeys={[CustomMapActions.MORE_ACTIONS]}
                 disableButtonOnClick
                 disabled={disabledOptionButton}

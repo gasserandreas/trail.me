@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
@@ -6,7 +6,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Panel, { PanelContent, SPACING } from '../Panel';
+import Panel, { PanelContent, SPACING, PanelContentProps } from '../Panel';
 
 import { cancelSplit, saveSplit } from '../../../entities/route-edit';
 
@@ -26,7 +26,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const SplitPanel = (props) => {
+const SplitPanel: FC<PanelContentProps> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 

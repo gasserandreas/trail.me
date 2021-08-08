@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo } from 'react';
+import React, { FC, useCallback, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 
@@ -15,14 +15,18 @@ import SystemUpdateIcon from '@material-ui/icons/SystemUpdate';
 import clsx from 'clsx';
 
 import Panel, { SPACING } from '../Panel';
-import DeleteButton from '../../../ui/DeleteButton/DeleteButton';
-import OptionButton from '../../../ui/OptionButton/OptionButton';
+import DeleteButton from '../../FormComponents/DeleteButton/DeleteButton';
+import OptionButton, { OptionButtonOptions } from '../../FormComponents/OptionButton/OptionButton';
 import MapFileType from '../../../constants/MapFileType';
 import UploadOptions from '../../../constants/UploadOptions';
 import { parseGpx, convertToGpxWaypoints, convertToGpx } from '../../../utils/gpx';
 
 import { initNewRoute, addWaypoints } from '../../../entities/route-edit';
-import { waypointsSelector, waypointsIdsSelector, splitEnabledSelector } from '../../../entities/route-edit/selectors';
+import {
+  waypointsSelector,
+  waypointsIdsSelector,
+  splitEnabledSelector,
+} from '../../../entities/route-edit/selectors';
 
 const INITIAL_FILENAME = 'export';
 
@@ -51,9 +55,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const FilePanel = ({
-  ...props
-}) => {
+const FilePanel: FC = ({ ...props }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -64,40 +66,47 @@ const FilePanel = ({
   const [uploadOption, setUploadOption] = useState(UploadOptions.RESET_UPLOAD);
   const [filename, setFilename] = useState(INITIAL_FILENAME);
   const [filetype, setFiletype] = useState(MapFileType.GPX);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<Error>();
 
   const disabled = useMemo(() => splitEnabled, [splitEnabled]);
 
-  const handleOnDrop = useCallback((acceptedFiles) => {
-    if (acceptedFiles.length === 0) return;
+  const handleOnDrop = useCallback(
+    (acceptedFiles) => {
+      if (acceptedFiles.length === 0) return;
 
-    const file = acceptedFiles[0];
-    const reader = new FileReader();
+      const file = acceptedFiles[0];
+      const reader = new FileReader();
 
-    reader.onerror = () => setError(new Error('Could not download file.'));
-    reader.onload = (e) => {
-      /**
-       * parse text from upload
-       */
-      const text = e.target.result;
-      const result = parseGpx(text);
-      const { name, waypoints: parsedWaypoints } = result;
+      reader.onerror = () => setError(new Error('Could not download file.'));
+      reader.onload = () => {
+        /**
+         * parse text from upload
+         */
+        const text = reader.result;
+        if (!text) {
+          return;
+        }
 
-      setFilename(name);
+        const result = parseGpx(text);
+        const { name, waypoints: parsedWaypoints } = result;
 
-      /**
-       * process uploaded data
-       */
-      if (uploadOption === UploadOptions.RESET_UPLOAD) {
-        // start new route
-        dispatch(initNewRoute(name, parsedWaypoints));
-      } else {
-        // add waypoints
-        dispatch(addWaypoints(parsedWaypoints));
-      }
-    };
-    reader.readAsText(file);
-  }, [uploadOption, dispatch]);
+        setFilename(name);
+
+        /**
+         * process uploaded data
+         */
+        if (uploadOption === UploadOptions.RESET_UPLOAD) {
+          // start new route
+          dispatch(initNewRoute(name, parsedWaypoints));
+        } else {
+          // add waypoints
+          dispatch(addWaypoints(parsedWaypoints));
+        }
+      };
+      reader.readAsText(file);
+    },
+    [uploadOption, dispatch],
+  );
 
   const handleOnDownloadClick = async () => {
     if (disabled) return;
@@ -131,19 +140,22 @@ const FilePanel = ({
     }, 500);
   };
 
-  const handleOnChangeFilename = (e) => {
-    const { target: { value } } = e;
+  const handleOnChangeFilename = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = e;
     setFilename(value);
   };
 
-  const handleOnChangeFiletype = (e) => {
-    const { target: { value } } = e;
+  const handleOnChangeFiletype = (e: React.ChangeEvent<{ value: unknown }>) => {
+    const value = e.target.value as string;
+
     setFiletype(value);
   };
 
   const handleOnClickReset = () => {
     setFilename(INITIAL_FILENAME);
-    dispatch(initNewRoute());
+    dispatch(initNewRoute('new route'));
   };
 
   const { getRootProps, getInputProps, open } = useDropzone({
@@ -163,9 +175,8 @@ const FilePanel = ({
     },
   ];
 
-  const handleOnUploadClick = (e, value) => {
+  const handleOnUploadClick = (event: React.MouseEvent, value: OptionButtonOptions) => {
     if (disabled) return;
-
     const { key } = value;
     setUploadOption(key);
 
@@ -175,7 +186,7 @@ const FilePanel = ({
 
   return (
     <>
-      <input type="hidden" style={{ visability: 'none' }} id="filedownload" />
+      <input type="hidden" style={{ visibility: 'hidden' }} id="filedownload" />
       <Panel {...props}>
         <div className={classes.spacing}>
           <Typography variant="caption" id="filename" gutterBottom>
@@ -198,18 +209,23 @@ const FilePanel = ({
                 className={classes.select}
                 disabled={true || disabled} // TODO: enabled option button later to support different filetypes
               >
-                {Object.entries(MapFileType).map(([_, value]) => ( // eslint-disable-line no-unused-vars
-                  <MenuItem key={`filetype-${value}`} value={value}>
-                    {'.'}
-                    {value}
-                  </MenuItem>
-                ))}
+                {Object.entries(MapFileType).map(
+                  (
+                    [_, value], // eslint-disable-line @typescript-eslint/no-unused-vars
+                  ) => (
+                    <MenuItem key={`filetype-${value}`} value={value}>
+                      .{value}
+                    </MenuItem>
+                  ),
+                )}
               </Select>
             </Grid>
           </Grid>
         </div>
         <div className={clsx(classes.controls, classes.spacing)}>
-          <DeleteButton size="small" onClick={handleOnClickReset} disabled={disabled}>Reset</DeleteButton>
+          <DeleteButton size="small" onClick={handleOnClickReset} disabled={disabled}>
+            Reset
+          </DeleteButton>
           <div {...getRootProps()}>
             <input {...getInputProps()} />
             <OptionButton
@@ -218,7 +234,7 @@ const FilePanel = ({
               color="default"
               size="small"
               variant="outlined"
-              onClick={handleOnUploadClick}
+              onOptionClick={handleOnUploadClick}
               className={classes.buttonMargin}
               disabled={disabled}
             />
@@ -236,17 +252,11 @@ const FilePanel = ({
           </Button>
         </div>
         <div className={classes.spacing}>
-          {error && (
-            <Typography color="error">{error.message}</Typography>
-          )}
+          {error && <Typography color="error">{error.message}</Typography>}
         </div>
       </Panel>
     </>
   );
 };
-
-FilePanel.propTypes = {};
-
-FilePanel.defaultProps = {};
 
 export default FilePanel;

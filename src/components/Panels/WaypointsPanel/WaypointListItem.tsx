@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { MouseEventHandler, FC } from 'react';
 import { useSelector } from 'react-redux';
 
 import ListItem from '@material-ui/core/ListItem';
@@ -25,12 +24,22 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const WaypointListItem = ({
+export type WaypointListItemType = {
+  id: string;
+  style: React.CSSProperties | undefined;
+  last?: boolean;
+  splitMode?: boolean;
+  selectable?: boolean;
+  handleOnClick: (id: string, event: React.MouseEvent<HTMLDivElement>) => void;
+  handleOnIconClick: (id: string, event: React.MouseEvent<HTMLSpanElement>) => void;
+};
+
+const WaypointListItem: FC<WaypointListItemType> = ({
   id,
   style,
-  last,
-  splitMode,
-  selectable,
+  last = false,
+  splitMode = false,
+  selectable = false,
   handleOnClick,
   handleOnIconClick,
 }) => {
@@ -55,7 +64,7 @@ const WaypointListItem = ({
         style={style}
         selected={selected}
         disabled={disabled}
-        onClick={handleOnClick(id)}
+        onClick={(event: React.MouseEvent<HTMLDivElement>) => handleOnClick(id, event)}
         dense
         button
       >
@@ -71,48 +80,43 @@ const WaypointListItem = ({
         )}
         <ListItemText
           inset={splitMode && !disabled}
-          primary={(
+          primary={
             <>
-              <Typography display="inline" variant="body2">Lat: </Typography>
-              <Typography display="inline" variant="body1">{shortenCoordinate(String(lat))}</Typography>
+              <Typography display="inline" variant="body2">
+                Lat:{' '}
+              </Typography>
+              <Typography display="inline" variant="body1">
+                {shortenCoordinate(String(lat))}
+              </Typography>
             </>
-          )}
+          }
           className={classes.listItemText}
         />
         <ListItemText
-          primary={(
+          primary={
             <>
-              <Typography display="inline" variant="body2">Long: </Typography>
-              <Typography display="inline" variant="body1">{shortenCoordinate(String(lng))}</Typography>
+              <Typography display="inline" variant="body2">
+                Long:{' '}
+              </Typography>
+              <Typography display="inline" variant="body1">
+                {shortenCoordinate(String(lng))}
+              </Typography>
             </>
-          )}
+          }
           className={classes.listItemText}
         />
         {!selectable && (
-          <MoreVertIcon onClick={handleOnIconClick(id)} />
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+          <span
+            onClick={(event: React.MouseEvent<HTMLSpanElement>) => handleOnIconClick(id, event)}
+          >
+            <MoreVertIcon />
+          </span>
         )}
       </ListItem>
-      {last && (
-        <Divider key={`coordinate-item-divider-${id}`} />
-      )}
+      {last && <Divider key={`coordinate-item-divider-${id}`} />}
     </span>
   );
 };
 
 export default WaypointListItem;
-
-WaypointListItem.propTypes = {
-  style: PropTypes.shape({}).isRequired,
-  id: PropTypes.string.isRequired,
-  splitMode: PropTypes.bool,
-  last: PropTypes.bool,
-  selectable: PropTypes.bool,
-  handleOnClick: PropTypes.func.isRequired,
-  handleOnIconClick: PropTypes.func.isRequired,
-};
-
-WaypointListItem.defaultProps = {
-  splitMode: false,
-  last: false,
-  selectable: false,
-};

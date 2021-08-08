@@ -1,13 +1,14 @@
 import React from 'react';
 
+import { Meta } from '@storybook/react';
 import Panel, { PanelContent } from './Panel';
 import { ActionPanel } from './util';
 
 export default {
-  title: 'Panels',
+  title: 'Panels/Simple Panel',
   component: Panel,
   decorators: [ActionPanel],
-};
+} as Meta;
 
 export const SimplePanel = () => (
   <Panel title="Your title">

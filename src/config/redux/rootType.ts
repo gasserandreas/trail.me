@@ -13,10 +13,10 @@ type RootState = {
     location: Array<number>;
   };
   routeEdit: RouteEditState;
-  route: {
-    id: GUID;
-    name: string;
-  };
+  // route: {
+  //   id: GUID;
+  //   name: string;
+  // };
   statistics: any;
 };
 

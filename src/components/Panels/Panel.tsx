@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-type PanelContentProps = {
+export type PanelContentProps = {
   children: ReactNode;
 };
 
@@ -42,7 +42,7 @@ export const PanelContent: FC<PanelContentProps> = ({ children, ...props }) => {
   );
 };
 
-type PanelProps = {
+export type PanelProps = {
   title?: ReactNode;
   noSpacing?: boolean;
   children: ReactNode;

@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { FC, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
-// import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import Grid from '@material-ui/core/Grid';
@@ -25,24 +23,29 @@ const useStyles = makeStyles(() => ({
 }));
 
 const centerFormSchema = yup.object().shape({
-  lat: yup
-    .number()
-    .min(-90)
-    .max(90)
-    .required(),
-  lng: yup
-    .number()
-    .min(-180)
-    .max(180)
-    .required(),
+  lat: yup.number().min(-90).max(90).required(),
+  lng: yup.number().min(-180).max(180).required(),
 });
 
-const CenterForm = ({
-  center, onChange, onLocationClick, onLocationUpdate
+type CenterFormProps = {
+  center: number[];
+  onChange: (event: React.FocusEvent<HTMLInputElement>, center: ViewPortCoordinates) => void;
+  onLocationUpdate: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    center: ViewPortCoordinates,
+  ) => void;
+  onLocationClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+};
+
+const CenterForm: FC<CenterFormProps> = ({
+  center,
+  onChange,
+  onLocationClick,
+  onLocationUpdate,
 }) => {
   const classes = useStyles();
   const [locationPending, setLocationPending] = useState(false);
-  const [locationError, setLocationError] = useState(null);
+  const [locationError, setLocationError] = useState<Error | null>(null);
 
   const formik = useFormik({
     initialValues: {
@@ -50,30 +53,25 @@ const CenterForm = ({
       lng: FRICK_VIEWPORT.center[1],
     },
     validationSchema: centerFormSchema,
+    onSubmit: () => {},
   });
 
-  const {
-    errors,
-    values,
-    setValues,
-    handleBlur,
-    handleChange,
-  } = formik;
+  const { errors, values, setValues, handleBlur, handleChange } = formik;
 
-  const handleOnBlur = (e) => {
+  const handleOnBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     if (Object.keys(errors).length !== 0) return;
 
     const { lat, lng } = values;
-    const newCenter = [Number(lat), Number(lng)];
+    const newCenter: ViewPortCoordinates = [Number(lat), Number(lng)];
 
-    onChange(e, newCenter);
+    onChange(event, newCenter);
 
-    handleBlur(e);
+    handleBlur(event);
   };
 
-  const handleOnLocationClick = async (e) => {
+  const handleOnLocationClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (onLocationClick) {
-      onLocationClick(e);
+      onLocationClick(event);
     }
 
     setLocationError(null);
@@ -81,13 +79,16 @@ const CenterForm = ({
     try {
       setLocationPending(true);
       const location = await getLocation();
-      const { coords: { latitude, longitude } } = location;
+      const {
+        coords: { latitude, longitude },
+      } = location;
 
       setLocationPending(false);
 
-      const newLocation = [latitude, longitude];
-      onLocationUpdate(e, newLocation);
-    } catch (error) {
+      const newLocation: ViewPortCoordinates = [latitude, longitude];
+      onLocationUpdate(event, newLocation);
+    } catch {
+      const error = new Error('Could not load Location');
       setLocationPending(false);
       setLocationError(error);
     }
@@ -133,7 +134,7 @@ const CenterForm = ({
               <CircularProgress size={24} />
             ) : (
               <IconButton
-                variant="contained"
+                // variant="contained"
                 color="primary"
                 size="small"
                 onClick={handleOnLocationClick}
@@ -143,12 +144,12 @@ const CenterForm = ({
             )}
           </Box>
         </Grid>
-        { (errors.lat || errors.lng) && (
+        {(errors.lat || errors.lng) && (
           <Grid item xs={12}>
             <Typography color="error">Invalid center object</Typography>
           </Grid>
         )}
-        { locationError && (
+        {locationError && (
           <Grid item xs={12}>
             <Typography color="error">{locationError.message}</Typography>
           </Grid>
@@ -156,17 +157,6 @@ const CenterForm = ({
       </Grid>
     </form>
   );
-};
-
-CenterForm.propTypes = {
-  center: PropTypes.arrayOf(PropTypes.number).isRequired,
-  onChange: PropTypes.func.isRequired,
-  onLocationClick: PropTypes.func,
-  onLocationUpdate: PropTypes.func.isRequired,
-};
-
-CenterForm.defaultProps = {
-  onLocationClick: () => {},
 };
 
 export default CenterForm;

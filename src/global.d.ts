@@ -14,7 +14,7 @@ type Waypoint = {
   lat: Latitude;
   lng: Longitude;
   time?: string;
-  elevation: string;
+  elevation?: string;
 };
 
 type WaypointMeta = {
@@ -24,11 +24,11 @@ type WaypointMeta = {
 
 type WaypointSplit = {
   enabled: boolean;
-  start: {
+  start?: {
     id: GUID;
     index: number;
   };
-  end: {
+  end?: {
     id: GUID;
     index: number;
   };
@@ -47,4 +47,11 @@ type Polyline = {
   endPosition: Position;
   selected: boolean;
   disabled: boolean;
+};
+
+type ViewPortCoordinates = [number, number];
+
+type ViewPort = {
+  center: ViewPortCoordinates;
+  zoom: number;
 };

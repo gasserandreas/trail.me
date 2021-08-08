@@ -9,25 +9,25 @@ import RouteEditState from '../../entities/route-edit/types';
 
 import statisticsReducer from '../../entities/statistics';
 
-export type RootState = {
-  appTime: number;
-  application: {
-    status: string;
-  };
-  map: {
-    viewport: {
-      center: Array<number>;
-      zoom: number;
-    };
-    location: Array<number>;
-  };
-  routeEdit: RouteEditState;
-  route: {
-    id: GUID;
-    name: string;
-  };
-  statistics: any;
-};
+// export type RootState = {
+//   appTime: number;
+//   application: {
+//     status: string;
+//   };
+//   map: {
+//     viewport: {
+//       center: Array<number>;
+//       zoom: number;
+//     };
+//     location: Array<number>;
+//   };
+//   routeEdit: RouteEditState;
+//   route: {
+//     id: GUID;
+//     name: string;
+//   };
+//   statistics: any;
+// };
 
 const reducers = combineReducers({
   appTime: Date.now,
@@ -37,5 +37,7 @@ const reducers = combineReducers({
   routeEdit: routeEditReducer,
   statistics: statisticsReducer,
 });
+
+export type RootState = ReturnType<typeof reducers>;
 
 export default reducers;

@@ -116,9 +116,11 @@ const HomePage = () => {
    * Get parent size and pass to virtualize list
    */
   const [waypointHeight, setWaypointHeight] = React.useState(null);
+  const [waypointWidth, setWaypointWidth] = React.useState(null);
   const waypointRef = useCallback((node) => {
     if (node !== null) {
       setWaypointHeight(node.getBoundingClientRect().height);
+      setWaypointWidth(node.getBoundingClientRect().width);
     }
   }, []);
 
@@ -153,7 +155,7 @@ const HomePage = () => {
           <ControlsPanel />
         </div>
         <div className={classes.coordinatePanel} ref={waypointRef}>
-          <WaypointsPanel parentHeight={waypointHeight} />
+          <WaypointsPanel parentHeight={waypointHeight} parentWidth={waypointWidth} />
         </div>
         {splitEnabled && (
           <div className={classes.splitPanel}>

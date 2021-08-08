@@ -9,8 +9,4 @@ export default {
   decorators: [ActionPanel],
 };
 
-export const SimpleCoordinatesPanel = () => (
-  <WaypointsPanel
-    parentHeight={350}
-  />
-);
+export const SimpleCoordinatesPanel = () => <WaypointsPanel parentHeight={350} parentWidth={200} />;
